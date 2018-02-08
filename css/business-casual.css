@@ -5,6 +5,7 @@ body {
   background-position: center;
   background-size: cover;
   color: white;
+  overflow-x: hidden;
 ,}
 
 h1,
@@ -326,4 +327,14 @@ p {
   .ww1,.ww2{
     display:block !important;
   }
+  .mobile-v1,.v2{
+    width: 100% !important;
+  }
+  .sz2{
+    font-size: 23px !important;
+  }
+  .navbar-brand{
+    font-family: 'Dancing Script', cursive;
+  }
+  
 }
