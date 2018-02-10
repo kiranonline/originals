@@ -168,6 +168,10 @@ $(document).ready(function(){
         total=applyPromo(total);
     });
 
+    $('#ad').click(function(){
+        $('#bbc').trigger("click");
+        $('#openad').trigger("click");
+    });
 
 
     
@@ -232,6 +236,12 @@ $(document).ready(function(){
         $('#notice').css({"display":"none"})
     });
 
+
+
+
+
+
+    
 });
 
 

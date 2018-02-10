@@ -688,6 +688,9 @@ ul.social-buttons {
 #Buy {
   overflow-y:scroll;
 }
+.adddd {
+  overflow-y:scroll;
+}
 .notice{
   position: fixed;
   top:10%;
@@ -764,7 +767,11 @@ ul.social-buttons {
     background-color: #f44336;
     color: white;
 }
-
+.mapph{
+  width:80%;
+  margin: 10px 10% auto 10%;
+  height: 500px;
+}
 
 
 
@@ -810,6 +817,10 @@ ul.social-buttons {
   }
   .imggm{
     width:70%;
+  }
+  .mapph{
+    width:100%;
+    height: 300px;
   }
  
   

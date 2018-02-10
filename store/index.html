@@ -400,16 +400,14 @@
 
                             <div class="container-fluid text-center">
                                 <div class="form-group text-center">
-                                    <input class="form-control input-lg" placeholder="Enter delevary address" id="inputlg" type="text">
-                                    <br>
-                                    <button type="button" class="btn btn-info" id="">DONE</button>
+                                    <button type="button" id="ad" class="btn btn-info" id="">Proceed to place order</button>
                                   </div>
                             </div>
                       </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default" id="bbc" data-dismiss="modal">Close</button>
           </div>
         </div>
         
@@ -418,7 +416,77 @@
 
 
 
+
+
+    <!--adress and payment-->
+     <!-- Modal -->
+      <div class="modal fade adddd" id="adress" role="dialog">
+        <div class="modal-dialog modal-lg">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Address</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              
+            </div>
+            <div class="modal-body">
+             
+
+          
+
+                  <div class="container-fluid text-center">
+                    <form>
+                      <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <input type="text" class="form-control" id="nnnn" placeholder="Name" required>
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            <input type="text" class="form-control"  placeholder="phone" required>
+                          </div>
+                          <br>
+                        
+
+
+                      <input type="text" id="txtSource" value="Kalyani Government Engineering college" style="display: none">
+
+                      <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                          <input class="form-control" type="text" id="txtDestination" placeholder="Enter delevary adress" required>
+                        </div>
+
+                        <input type="button" value="Get Route" id="mapp">
+
+                        <hr>
+                        <div id="dvDistance">
+                        </div>
+                        <div id="dvMap" class="mapph">
+                        </div>
+                                
+                        <br>
+                        <button type="button"  id="placeoo">Place Order</button>
+
+                        </form>
+                  </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div> 
+
+
+
     <div class="openbuy" id="byeopen" data-toggle="modal" data-target="#Buy"></div>
+    <div class="openad" id="openad" data-toggle="modal" data-target="#adress"></div>
 
 
 
@@ -440,6 +508,7 @@
     <script src="js/agency.js"></script>
     <script src="js/prop.js"></script>
     <script src="js/order.js"></script>
+    <script src="js/map.js"></script>
 
 
 
