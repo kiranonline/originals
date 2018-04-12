@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon class="hbutton" name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <span>
+          Login
+      </span>
+      
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="login-body">
+  <ion-card>
+    <ion-card-header>
+      Login Here
+    </ion-card-header>
+    <ion-card-content>
+        <ion-list>
+
+            <ion-item>
+              <ion-label floating>Phone Number</ion-label>
+              <ion-input type="text"></ion-input>
+            </ion-item>
+          
+            <ion-item>
+                <ion-label floating>Password</ion-label>
+                <ion-input type="password"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <button ion-button round full class="login-button">Login</button>
+            </ion-item>
+
+
+            <a href="#" class="forget-password">Forget Password</a>
+
+            <ion-item>
+              <div class="row">
+                <div class="col-md-6">
+                  <button ion-button full class="fb-login"><i class="fa fa-facebook facebook-login-icon"></i>&#160;Login with facebook</button>
+                </div>
+                <div class="col-md-6">
+                  <button ion-button full class="google-login"><i class="fa fa-google google-login-icon" aria-hidden="true"></i>&#160;Login with google</button>
+                </div>
+              </div>
+            </ion-item>
+
+            
+
+
+        </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
