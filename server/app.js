@@ -1,14 +1,14 @@
-var express = require('express');
-var path = require('path');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 
 
 
 //local routes files
-var store = require('./routes/store.js');
-var registeruser = require('./routes/registeruser.js');
+var store = require('./routes/api/store.js');
+var registeruser = require('./routes/api/registeruser.js');
 
 
 //setting up server
@@ -19,15 +19,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET,OPTIONS,POST,PUT,PATCH,DELETE");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With,X-Auth-Token, Content-Type, Accept, Authorization");
     next();
 
 });
 
 //all the routes
-app.use('/',store);
-app.use('/registeruser',registeruser);
+app.use('/api',store);
+app.use('/api/registeruser',registeruser);
 
 
 //error handling
