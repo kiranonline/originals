@@ -1,0 +1,28 @@
+{
+  "name": "original",
+  "version": "1.0.0",
+  "description": "This is the main server of The Originals",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "morgan": "^1.9.0",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.17.5",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/224alpha/original.git"
+  },
+  "author": "Kiran Kumar Das & Sourabh Bhattacharya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/224alpha/original/issues"
+  },
+  "homepage": "https://github.com/224alpha/original#readme"
+}
