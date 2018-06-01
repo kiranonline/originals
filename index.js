@@ -17,10 +17,10 @@ const morgan = require('morgan');
 //local routes
 //for admins
 var adminLogin = require('./routes/admin/adminlogin.js');
-var adminLogin = require('./routes/admin/adminregister.js');
+var adminRegister = require('./routes/admin/adminregister.js');
 //for users
-var store = require('./routes/user/userlogin.js');
-var store = require('./routes/user/userregister.js');
+var userLogin = require('./routes/user/userlogin.js');
+var userRegister = require('./routes/user/userregister.js');
 
 
 
@@ -28,7 +28,7 @@ var store = require('./routes/user/userregister.js');
 
 
 //setting up server
-const port=process.env.port || 8200;
+const port=process.env.port || 8100;
 var app = express();
 app.set('views',path.join(__dirname,'views'));
 app.engine('handlebars',exphbs());
@@ -47,6 +47,14 @@ app.use(express.static(path.join(__dirname,'assets')));
 
 
 
+//routes
+app.use('/',adminLogin);
+
+
+
+
+
+
 
 
 //error handling
@@ -55,6 +63,7 @@ app.use((req,res,next)=>{
     error.status=404;
     next(error);
 });
+
 app.use((error,req,res,next)=>{
     res.status(error.status || 500);
     res.json({
@@ -64,6 +73,9 @@ app.use((error,req,res,next)=>{
         } 
     });
 });
+
+
+
 
 
 

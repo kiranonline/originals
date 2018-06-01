@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>ORIGINALS-Admin Area</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/logos/logo_bottom.png" />
+  <!-- Bootstrap core CSS-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="/css/admin/adminreg.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container main-holder white z-depth-2">
+        <ul class="tabs purple darken-2">
+            <li class="tab col s3"><a class="white-text active" href="#login">login</a></li>
+            <li class="tab col s3"><a class="white-text" href="#register">register</a></li>
+        </ul>
+        <div id="login" class="col s12">
+            <form class="col s12" id="loginform" method="POST" action="/admin/login">
+                <div class="form-container form-holder">
+                     <img class="responsive-img login-logo" src="/logos/logo2.png">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="phone" name="phone" type="number" class="validate">
+                            <label for="phone">Phone Number</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" name="password" type="password" class="validate">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <br>
+             
+                        <button class="btn login waves-effect waves-light purple darken-2" type="submit" name="action">Login</button>
+                        <br>
+               
+                </div>
+            </form>
+        </div>
+        <div id="register" class="col s12">
+            <form id="registerform" method="POST" action="/admin/register" class="col s12">
+                <div class="form-container form-holder">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="first_name" name="first_name" type="text" class="validate">
+                            <label for="first_name">First Name</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="last_name" name="last_name" type="text" class="validate">
+                            <label for="last_name">Last Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email2" name="email2" type="email" class="validate">
+                            <label for="email2">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="phone2" name="phone2" type="number" class="validate">
+                            <label for="phone2">Phone Number</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="dob" name="dob" type="date" class="datepicker">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="address" name="address" type="text" class="validate">
+                            <label for="address">Address</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <select name="gender" id="gender">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="1">Male</option>
+                                <option value="2">Female</option>
+                            </select>
+                            <label>Gender</label>
+                        </div>
+                    </div>
+                      
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password2" name="password2" type="password" class="validate">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password2-confirm" name="password2-confirm" type="password" class="validate">
+                            <label for="password2_confirm">Password Confirmation</label>
+                        </div>
+                    </div>
+                  
+                        <button class="btn signup waves-effect waves-light purple darken-2" type="" name="action">Submit</button>
+                        <br>
+                        <br>
+                  
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
+<script src="/js/admin/adminreg.js"></script>
+</html>
