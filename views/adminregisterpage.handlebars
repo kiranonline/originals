@@ -22,6 +22,7 @@
             <li class="tab col s3"><a class="white-text active" href="#login">login</a></li>
             <li class="tab col s3"><a class="white-text" href="#register">register</a></li>
         </ul>
+  
         <div id="login" class="col s12">
             <form class="col s12" id="loginform" method="POST" action="/admin/login">
                 <div class="form-container form-holder">
@@ -46,6 +47,8 @@
                 </div>
             </form>
         </div>
+        
+        
         <div id="register" class="col s12">
             <form id="registerform" method="POST" action="/admin/register" class="col s12">
                 <div class="form-container form-holder">
@@ -74,6 +77,7 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="dob" name="dob" type="date" class="datepicker">
+                            <label id="dob-lebel" for="dob">Date of Birthday</label>
                         </div>
                     </div>
                     <div class="row">
@@ -83,16 +87,16 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="input-field col s12">
                             <select name="gender" id="gender">
-                                <option value="" disabled selected>Choose your option</option>
+                                <option value="">Choose your option</option>
                                 <option value="1">Male</option>
                                 <option value="2">Female</option>
                             </select>
                             <label>Gender</label>
                         </div>
-                    </div>
+                    </div>-->
                       
                     <div class="row">
                         <div class="input-field col s12">
@@ -100,10 +104,10 @@
                             <label for="password">Password</label>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="password2-confirm" name="password2-confirm" type="password" class="validate">
+                            <input id="password2_confirm" name="password2_confirm" type="password" class="validate">
                             <label for="password2_confirm">Password Confirmation</label>
                         </div>
                     </div>

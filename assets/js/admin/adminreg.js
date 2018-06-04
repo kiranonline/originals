@@ -56,7 +56,7 @@ $(function(){
             required:true,
             email:true,
         },
-        phone:{
+        phone2:{
             required: true,
             number:true,
             minlength:10,
@@ -65,26 +65,37 @@ $(function(){
         dob:{
             required: true
         },
+        address:{
+            required: true,
+            minlength:10
+        },
         password2: {
             required: true,
             minlength: 6
         },
         password2_confirm:{
             required: true,
-            minlength: 6,
             equalTo:'#password2'
+            
         }
     },
     //For custom messages
     messages: {
-        phone:{
+        phone2:{
             required: "Please enter your phone number",
             minlength: "Enter a valid phone number",
             maxlength: "Enter a valid phone number"
         },
-        password:{
+        password2_confirm:{
+            equalTo:'password and confirm do not match'
+        },
+        password2:{
             required: "Please enter your password",
             minlength: "Enter a valid password"
+        },
+
+        address:{
+            minlength:'address too short'
         }
     },
     errorElement : 'div',
@@ -99,5 +110,5 @@ $(function(){
  });
 
 
- 
+
 });

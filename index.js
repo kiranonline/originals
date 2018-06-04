@@ -1,8 +1,6 @@
 "use strict";
 
 
-
-
 //initilisisng dependencies
 const express = require('express');
 const path = require('path');
@@ -12,30 +10,43 @@ const morgan = require('morgan');
 
 
 
+//app initialization
+var app = express();
 
 
 //local routes
 //for admins
-var adminLogin = require('./routes/admin/adminlogin.js');
-var adminRegister = require('./routes/admin/adminregister.js');
+var adminRegister = require('./routes/admin/adminregister.js')
+var adminLogin = require('./routes/admin/adminlogin.js')
 //for users
-var userLogin = require('./routes/user/userlogin.js');
-var userRegister = require('./routes/user/userregister.js');
 
 
 
 
+
+//header limitations
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 
 //setting up server
-const port=process.env.port || 8100;
-var app = express();
+const port=process.env.port || 8300;
+
+
+//view engine
 app.set('views',path.join(__dirname,'views'));
 app.engine('handlebars',exphbs());
 app.set('view engine','handlebars');
+
+//for morgan
 app.use(morgan('dev'));
+
+//for body parser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:true}));
 
 
 
@@ -46,8 +57,8 @@ app.use(express.static(path.join(__dirname,'assets')));
 
 
 
-
-//routes
+//routes url
+app.use('/',adminRegister);
 app.use('/',adminLogin);
 
 
@@ -81,11 +92,14 @@ app.use((error,req,res,next)=>{
 
 
 
-
-
-
 //run server
 
-app.listen(port,function(){
-    console.log('Originals Server Started !',port);
+app.listen(port,function(err){
+    if(!err){
+        console.log('Originals Server Started !',port);
+    }
+    else{
+        console.log(err);
+    }
+    
 });

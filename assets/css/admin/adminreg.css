@@ -42,7 +42,10 @@ h5
 .login,.signup{
     width:80%;
     margin-left:10%;
+
 }
+
+
 
 @media(max-width:768px){
     .container{
@@ -52,5 +55,8 @@ h5
     .form-holder{
         margin-top: 40px;
     }
-
+    #login{
+        height:100%;
+            
+    }
 }
