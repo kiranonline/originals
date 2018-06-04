@@ -6,7 +6,9 @@ var mysql = require('mysql');
 //var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
 
 
-
+router.get('/login', function(req, res){
+    res.render('userregisterpage.handlebars');
+});
 
 
 

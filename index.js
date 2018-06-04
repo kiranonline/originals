@@ -16,10 +16,11 @@ var app = express();
 
 //local routes
 //for admins
-var adminRegister = require('./routes/admin/adminregister.js')
-var adminLogin = require('./routes/admin/adminlogin.js')
+var adminRegister = require('./routes/admin/adminregister.js');
+var adminLogin = require('./routes/admin/adminlogin.js');
+var userLogin = require('./routes/user/userlogin.js');
+var userRegister = require('./routes//user/userregister.js');
 //for users
-
 
 
 
@@ -60,7 +61,8 @@ app.use(express.static(path.join(__dirname,'assets')));
 //routes url
 app.use('/',adminRegister);
 app.use('/',adminLogin);
-
+app.use('/',userRegister);
+app.use('/',userLogin);
 
 
 
