@@ -7,6 +7,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const morgan = require('morgan');
+const expressValidator = require('express-validator');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 
 
@@ -48,6 +51,23 @@ app.use(morgan('dev'));
 //for body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+
+
+
+//cookie parsor
+app.use(expressValidator());
+app.use(cookieParser());
+
+
+
+//session
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }));
+
 
 
 

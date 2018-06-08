@@ -15,4 +15,14 @@ router.get('/admin/login',function(req,res){
 
 
 
+router.post('/admin/login',function(req,res){
+
+    //store the data got from frontend
+    var phone = req.body.phone;
+    var password = req.body.password;
+
+    
+});
+
+
 module.exports = router;
