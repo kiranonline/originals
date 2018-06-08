@@ -22,7 +22,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "sequelize": "^4.37.10"
+    "sequelize": "^4.37.10",
+    "validator": "^10.3.0"
   },
   "devDependencies": {},
   "scripts": {
