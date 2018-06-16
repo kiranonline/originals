@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
 
 
@@ -21,6 +22,7 @@ var app = express();
 //for admins
 var adminRegister = require('./routes/admin/adminregister.js');
 var adminLogin = require('./routes/admin/adminlogin.js');
+var adminDashboard = require('./routes/admin/admindashboardpage');
 var userLogin = require('./routes/user/userlogin.js');
 var userRegister = require('./routes//user/userregister.js');
 //for users
@@ -62,10 +64,29 @@ app.use(cookieParser());
 
 //session
 app.use(session({
+    key: 'session_originals',
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    store:new MySQLStore({
+        host:'localhost',
+        user:'root',
+        password:'',
+        database:'originals',
+        checkExpirationInterval: 900000,
+        expiration: 86400000,
+        createDatabaseTable: true,
+        connectionLimit: 1,
+        charset: 'utf8mb4_bin',
+        schema: {
+            tableName: 'sessions',
+            columnNames: {
+                session_id: 'session_id',
+                expires: 'expires',
+                data: 'data'
+            }
+        }
+    })
   }));
 
 
@@ -79,8 +100,9 @@ app.use(express.static(path.join(__dirname,'assets')));
 
 
 //routes url
-app.use('/',adminRegister);
-app.use('/',adminLogin);
+app.use('/admin',adminRegister);
+app.use('/admin',adminLogin);
+app.use('/admin',adminDashboard);
 app.use('/',userRegister);
 app.use('/',userLogin);
 
@@ -99,12 +121,7 @@ app.use((req,res,next)=>{
 
 app.use((error,req,res,next)=>{
     res.status(error.status || 500);
-    res.json({
-        error:{
-            status:error.status,
-            message:error.message
-        } 
-    });
+    res.render('404page.handlebars');
 });
 
 

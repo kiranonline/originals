@@ -11,11 +11,11 @@ var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
 
 
 
-router.get('/admin/register',function(req,res){
+router.get('/register',function(req,res){
     res.send('contact admin!');
 });
 
-router.post('/admin/register',function(req,res){
+router.post('/register',function(req,res){
     /*var data={
         phone:req.body.phone2,
         name:req.body.first_name+' '+req.body.last_name,

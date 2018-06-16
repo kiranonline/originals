@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>ORIGINALS-Admin Area</title>
+  <title>The Originals-Admin Login</title>
   <link rel="shortcut icon" type="image/x-icon" href="/logos/logo_bottom.png" />
   <!-- Bootstrap core CSS-->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" rel="stylesheet">
@@ -27,6 +27,7 @@
             <form class="col s12" id="loginform" method="POST" action="/admin/login">
                 <div class="form-container form-holder">
                      <img class="responsive-img login-logo" src="/logos/logo2.png">
+                    <p class="center-align" style="color:red">{{error}}</p>
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="phone" name="phone" type="number" class="validate">
