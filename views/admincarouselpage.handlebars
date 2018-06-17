@@ -276,6 +276,45 @@
         </div>
         <div class="card-body">
 
+
+            <div class="table-responsive">
+
+                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead>
+                        <tr>
+                            <th>SLIDER NAME</th>
+                            <th>SLIDER LINK</th>
+                            <th>CREATED BY</th>
+                            <th>CREATED ON</th>
+                            <th>OPERATIONS</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>SLIDER NAME</th>
+                            <th>SLIDER LINK</th>
+                            <th>CREATED BY</th>
+                            <th>CREATED ON</th>
+                            <th>OPERATIONS</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {{#each tabledata}}
+                            <tr>
+                                <td>{{this.poster_name}}</td>
+                                <td>{{this.poster_link}}</td>
+                                <td>{{this.created_by}}</td>
+                                <td>{{this.created_on}}</td> 
+                                <td class="text-center">
+                                    <i style="color:red" class="fa fa-trash" onclick="trash('{{this.poster_name}}')"></i>
+                                </td>                               
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                 </table>
+
+            </div>
+
           
 
 
@@ -335,10 +374,20 @@
     <!--alertyfy-->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
     <!-- Custom scripts for all pages-->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-    <script src="/js/admin/adminvalidators.js"></script>
     <script src="/js/admin/sb-admin.min.js"></script>
+
+
+    <script>
+        function trash(id){
+            alertify.confirm('Confirm Delete','Do you want to delete the slider named '+id,
+            function(){
+                window.location.replace("/admin/dashboard/carousel/del?name="+id);
+            }, 
+            function(){
+                
+            });
+        }   
+    </script>
     
 
 

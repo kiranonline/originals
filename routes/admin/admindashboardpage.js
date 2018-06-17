@@ -4,6 +4,7 @@ var router = express.Router();
 var path = require('path');
 var mysql = require('mysql');
 var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
+const fs =  require('fs');
 
 
 
@@ -78,14 +79,65 @@ router.post('/dashboard/carousel/new',function(req,res){
 
 //view all carousels
 router.get('/dashboard/carousel',function(req,res){
+    //validating loggedin
     if(!req.session.admin){
         res.redirect('/admin/login');
     }
     else{
-        console.log('dash');
-        console.log(req.session.admin);
-        res.render('admincarouselpage.handlebars',{ admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+        if(req.query.msg){
+            var msgS=true;
+            var msgH=req.query.msg;
+            var msgB='Slider Deleted Sucessfully';
+        }
+        else{
+            var msgS=false;
+            var msgH='';
+            var msgB=''
+        }
+        //fetching data from db
+        var q3="SELECT * FROM carousel_main";
+        conn.query(q3,function(err,result){
+            if(err) throw err;
+            res.render('admincarouselpage.handlebars',{ admindetails :req.session.admin,
+                                                        messageStatuse:msgS,
+                                                        messageTitle:msgH,
+                                                        messageBody:msgB,
+                                                        tabledata:result});
+            
+        });
+        
     }
+});
+
+
+
+
+//delete a slider
+router.get('/dashboard/carousel/del',function(req,res){
+    var slider_name=req.query.name;
+
+    //validating right name
+    var q1='SELECT * FROM carousel_main WHERE poster_name='+mysql.escape(slider_name);
+    conn.query(q1,function(err,result){
+        if (err) throw err;
+
+        if(result.length==1){
+            var q2='DELETE FROM carousel_main WHERE poster_name='+mysql.escape(slider_name);
+            conn.query(q2,function(err,result){
+                if(err) throw err;
+                fs.unlink(__dirname+'/../../assets/carousel_images/'+slider_name+'.jpg',function(){
+                    res.redirect('/admin/dashboard/carousel/?msg=Deleted');
+                });
+                
+
+            });
+        }
+        else{
+            res.redirect('/admin/dashboard/carousel');
+        }
+
+    });
+    
 });
 
 
