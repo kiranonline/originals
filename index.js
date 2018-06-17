@@ -11,6 +11,8 @@ const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const fileUpload = require('express-fileupload');
+const fs =  require('fs');
 
 
 
@@ -59,6 +61,11 @@ app.use(bodyParser.urlencoded({extended:true}));
 //cookie parsor
 app.use(expressValidator());
 app.use(cookieParser());
+
+
+
+//seting up file uploader
+app.use(fileUpload());
 
 
 
