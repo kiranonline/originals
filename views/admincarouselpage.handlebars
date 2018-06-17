@@ -19,6 +19,7 @@
 <!-- Default theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
   <!-- Custom styles for this template-->
+  <link href="/css/admin/dataTables.bootstrap4.css" rel="stylesheet">
   <link href="/css/admin/sb-admin.min.css" rel="stylesheet">
 </head>
 
@@ -371,6 +372,9 @@
     <script src="/js/admin/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="/js/admin/jquery.easing.min.js"></script>
+    <!--tables-->
+     <script src="/js/admin/jquery.dataTables.js"></script>
+      <script src="/js/admin/dataTables.bootstrap4.js"></script>
     <!--alertyfy-->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
     <!-- Custom scripts for all pages-->
@@ -387,6 +391,10 @@
                 
             });
         }   
+
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
     </script>
     
 
