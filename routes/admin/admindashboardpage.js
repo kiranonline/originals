@@ -23,14 +23,12 @@ router.get('/dashboard',function(req,res){
 
 
 
-//create new carousel
+//create new slider
 router.get('/dashboard/carousel/new',function(req,res){
     if(!req.session.admin){
         res.redirect('/admin/login');
     }
     else{
-        console.log('dash');
-        console.log(req.session.admin);
         res.render('adminnewcarouselpage.handlebars',{ admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
     }
 });
@@ -77,7 +75,7 @@ router.post('/dashboard/carousel/new',function(req,res){
 
 
 
-//view all carousels
+//view all sliders
 router.get('/dashboard/carousel',function(req,res){
     //validating loggedin
     if(!req.session.admin){
@@ -114,31 +112,60 @@ router.get('/dashboard/carousel',function(req,res){
 
 //delete a slider
 router.get('/dashboard/carousel/del',function(req,res){
-    var slider_name=req.query.name;
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        var slider_name=req.query.name;
 
-    //validating right name
-    var q1='SELECT * FROM carousel_main WHERE poster_name='+mysql.escape(slider_name);
-    conn.query(q1,function(err,result){
-        if (err) throw err;
+        //validating right name
+        var q1='SELECT * FROM carousel_main WHERE poster_name='+mysql.escape(slider_name);
+        conn.query(q1,function(err,result){
+            if (err) throw err;
 
-        if(result.length==1){
-            var q2='DELETE FROM carousel_main WHERE poster_name='+mysql.escape(slider_name);
-            conn.query(q2,function(err,result){
-                if(err) throw err;
-                fs.unlink(__dirname+'/../../assets/carousel_images/'+slider_name+'.jpg',function(){
-                    res.redirect('/admin/dashboard/carousel/?msg=Deleted');
+            if(result.length==1){
+                var q2='DELETE FROM carousel_main WHERE poster_name='+mysql.escape(slider_name);
+                conn.query(q2,function(err,result){
+                    if(err) throw err;
+                    fs.unlink(__dirname+'/../../assets/carousel_images/'+slider_name+'.jpg',function(){
+                        res.redirect('/admin/dashboard/carousel/?msg=Deleted');
+                    });
+                    
+
                 });
-                
+            }
+            else{
+                res.redirect('/admin/dashboard/carousel');
+            }
 
-            });
-        }
-        else{
-            res.redirect('/admin/dashboard/carousel');
-        }
-
-    });
+        });
+    }
     
 });
+
+
+//view item category - GENDER (level2)
+router.get('/dashboard/item/category/level2',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        //fetching data from db
+        var q3="SELECT * FROM item_category_level2";
+        conn.query(q3,function(err,result){
+            if(err) throw err;
+            res.render('admincategorylevel2page.handlebars',{ admindetails :req.session.admin,
+                                                              messageStatuse:false,
+                                                              messageTitle:'',
+                                                              messageBody:'',
+                                                              tabledata:result});
+            
+        });
+    }
+
+});
+
+
 
 
 
