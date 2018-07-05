@@ -58,6 +58,37 @@ $(function(){
      
 
 
+//for category1
+
+$("#newsizeform").validate({
+        
+    rules: {
+        cat_name:{
+            required: true,
+            minlength:4
+        },
+        
+    },
+    //For custom messages
+    messages: {
+        cat_name:{
+            required: "Please enter a name",
+        }
+    },
+    errorElement : 'div',
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    }
+
+ });
+
+
+
 
 
 });

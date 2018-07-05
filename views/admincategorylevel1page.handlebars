@@ -258,7 +258,7 @@
         <li class="breadcrumb-item">
           <a href="/admin/dashboard">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Item Category - Level 2 (GENDER)</li>
+        <li class="breadcrumb-item active">Item Category - Level 1 (Sizes)</li>
       </ol>
         
 
@@ -267,7 +267,7 @@
         <div class="card-header">
           <i class="fa fa-table"></i>
            View all category
-           
+           <a href="/admin/dashboard/item/category/level1/new" class="btn btn-success" style="float:right">+ Add New</a>           
         </div>
         <div class="card-body">
 
@@ -279,6 +279,7 @@
                         <tr>
                             <th>CATEGORY ID</th>
                             <th>CATEGORY NAME</th>
+                            <th>SIZES</th>
                             <th>CREATED BY</th>
                             <th>CREATED ON</th>
                             <th>NUMBER</th>
@@ -288,6 +289,7 @@
                         <tr>
                             <th>CATEGORY ID</th>
                             <th>CATEGORY NAME</th>
+                            <th>SIZES</th>
                             <th>CREATED BY</th>
                             <th>CREATED ON</th>
                             <th>NUMBER</th>
@@ -298,6 +300,7 @@
                             <tr>
                                 <td>{{this.id}}</td>
                                 <td>{{this.name}}</td>
+                                <td>{{this.size}}</td>
                                 <td>{{this.created_by}}</td>
                                 <td>{{this.created_on}}</td> 
                                 <td></td>                              

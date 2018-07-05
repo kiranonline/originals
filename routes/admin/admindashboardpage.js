@@ -169,6 +169,136 @@ router.get('/dashboard/item/category/level2',function(req,res){
 
 
 
+//view item category - size (level1)
+router.get('/dashboard/item/category/level1',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        //fetching data from db
+        var q3="SELECT * FROM item_category_level1";
+        conn.query(q3,function(err,result){
+            if(err) throw err;
+            res.render('admincategorylevel1page.handlebars',{ admindetails :req.session.admin,
+                                                              messageStatuse:false,
+                                                              messageTitle:'',
+                                                              messageBody:'',
+                                                              tabledata:result});
+            
+        });
+    }
+
+});
+
+
+//create new category - size (level1)
+
+router.get('/dashboard/item/category/level1/new',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        res.render('adminnewcategorylevel1page.handlebars',{ admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+    }
+});
+
+
+
+router.post('/dashboard/item/category/level1/new',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        var name=req.body.cat_name;
+        var sizes=(req.body);
+        delete sizes.cat_name;
+        sizes=JSON.stringify(sizes);
+        var id='cat-level1-'+name.slice(0,2)+'-'+(Math.floor(Math.random()*(999999-100000+1)+100000));
+        var q1='SELECT * FROM item_category_level1 WHERE id='+mysql.escape(id);
+        conn.query(q1,function(err,result){
+            if (err) throw err;
+            if(result.length==0){
+                q2='INSERT INTO item_category_level1(id,name,size,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(sizes)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
+                conn.query(q2,function(err,result){
+                    if (err) throw err;
+                    res.render('adminnewcategorylevel1page.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                });
+            }
+            else{
+                res.render('adminnewcategorylevel1page.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
+            }
+
+        });
+        
+
+    }
+});
+
+
+
+
+
+
+
+//create new category - events (level3)
+//create new slider
+router.get('/dashboard/item/category/level3/new',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        res.render('adminnewcategorylevel3page.handlebars',{ admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+    }
+});
+
+//view item category - event (level3)
+router.get('/dashboard/item/category/level3',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        //fetching data from db
+        var q3="SELECT * FROM item_category_level3";
+        conn.query(q3,function(err,result){
+            if(err) throw err;
+            res.render('admincategorylevel3page.handlebars',{ admindetails :req.session.admin,
+                                                              messageStatuse:false,
+                                                              messageTitle:'',
+                                                              messageBody:'',
+                                                              tabledata:result});
+            
+        });
+    }
+
+});
+
+//create new event category
+router.post('/dashboard/item/category/level3/new',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        var name=req.body.cat_name;
+        var id='cat-level3-'+name.slice(0,2)+'-'+(Math.floor(Math.random()*(999999-100000+1)+100000));
+        var q1='SELECT * FROM item_category_level3 WHERE id='+mysql.escape(id);
+        conn.query(q1,function(err,result){
+            if (err) throw err;
+            if(result.length==0){
+                q2='INSERT INTO item_category_level3(id,name,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
+                conn.query(q2,function(err,result){
+                    if (err) throw err;
+                    res.render('adminnewcategorylevel3page.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                });
+            }
+            else{
+                res.render('adminnewcategorylevel3page.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
+            }
+
+        });
+        
+
+    }
+});
 
 
 
