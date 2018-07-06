@@ -16,7 +16,7 @@ router.get('/dashboard',function(req,res){
     else{
         console.log('dash');
         console.log(req.session.admin);
-        res.render('admindashboardpage.handlebars',{ admindetails :req.session.admin, });
+        res.render('admindashboardpage.handlebars',{ layout: false,admindetails :req.session.admin, });
     }
 });
 
@@ -29,7 +29,7 @@ router.get('/dashboard/carousel/new',function(req,res){
         res.redirect('/admin/login');
     }
     else{
-        res.render('adminnewcarouselpage.handlebars',{ admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+        res.render('adminnewcarouselpage.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
     }
 });
 
@@ -57,13 +57,13 @@ router.post('/dashboard/carousel/new',function(req,res){
                     let q2='INSERT INTO carousel_main(poster_name,poster_image_name,poster_link,created_on,created_by) VALUES('+mysql.escape(slider_name)+','+mysql.escape(slider_image_name)+','+mysql.escape(slider_link)+','+mysql.escape(slider_created_on)+','+mysql.escape(slider_created_by)+')';
                     conn.query(q2,function(err,result){
                         if(err) throw err;
-                        res.render('adminnewcarouselpage.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'Successfull',messageBody:'File Uploaded Successfully.'});
+                        res.render('adminnewcarouselpage.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Successfull',messageBody:'File Uploaded Successfully.'});
                     });
                     
                 });
             }
             else{
-                res.render('adminnewcarouselpage.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'Failed',messageBody:'Slider Name already present.'});
+                res.render('adminnewcarouselpage.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Failed',messageBody:'Slider Name already present.'});
             }
 
         });
@@ -96,7 +96,7 @@ router.get('/dashboard/carousel',function(req,res){
         var q3="SELECT * FROM carousel_main";
         conn.query(q3,function(err,result){
             if(err) throw err;
-            res.render('admincarouselpage.handlebars',{ admindetails :req.session.admin,
+            res.render('admincarouselpage.handlebars',{ layout: false,admindetails :req.session.admin,
                                                         messageStatuse:msgS,
                                                         messageTitle:msgH,
                                                         messageBody:msgB,
@@ -154,7 +154,8 @@ router.get('/dashboard/item/category/level2',function(req,res){
         var q3="SELECT * FROM item_category_level2";
         conn.query(q3,function(err,result){
             if(err) throw err;
-            res.render('admincategorylevel2page.handlebars',{ admindetails :req.session.admin,
+            res.render('admincategorylevel2page.handlebars',{ layout: false,
+                                                              admindetails :req.session.admin,
                                                               messageStatuse:false,
                                                               messageTitle:'',
                                                               messageBody:'',
@@ -179,7 +180,8 @@ router.get('/dashboard/item/category/level1',function(req,res){
         var q3="SELECT * FROM item_category_level1";
         conn.query(q3,function(err,result){
             if(err) throw err;
-            res.render('admincategorylevel1page.handlebars',{ admindetails :req.session.admin,
+            res.render('admincategorylevel1page.handlebars',{ layout: false,
+                                                              admindetails :req.session.admin,
                                                               messageStatuse:false,
                                                               messageTitle:'',
                                                               messageBody:'',
@@ -198,7 +200,7 @@ router.get('/dashboard/item/category/level1/new',function(req,res){
         res.redirect('/admin/login');
     }
     else{
-        res.render('adminnewcategorylevel1page.handlebars',{ admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+        res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
     }
 });
 
@@ -221,11 +223,11 @@ router.post('/dashboard/item/category/level1/new',function(req,res){
                 q2='INSERT INTO item_category_level1(id,name,size,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(sizes)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
                 conn.query(q2,function(err,result){
                     if (err) throw err;
-                    res.render('adminnewcategorylevel1page.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                    res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
                 });
             }
             else{
-                res.render('adminnewcategorylevel1page.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
+                res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
             }
 
         });
@@ -247,7 +249,7 @@ router.get('/dashboard/item/category/level3/new',function(req,res){
         res.redirect('/admin/login');
     }
     else{
-        res.render('adminnewcategorylevel3page.handlebars',{ admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+        res.render('adminnewcategorylevel3page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
     }
 });
 
@@ -261,7 +263,8 @@ router.get('/dashboard/item/category/level3',function(req,res){
         var q3="SELECT * FROM item_category_level3";
         conn.query(q3,function(err,result){
             if(err) throw err;
-            res.render('admincategorylevel3page.handlebars',{ admindetails :req.session.admin,
+            res.render('admincategorylevel3page.handlebars',{ layout: false,
+                                                              admindetails :req.session.admin,
                                                               messageStatuse:false,
                                                               messageTitle:'',
                                                               messageBody:'',
@@ -287,11 +290,11 @@ router.post('/dashboard/item/category/level3/new',function(req,res){
                 q2='INSERT INTO item_category_level3(id,name,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
                 conn.query(q2,function(err,result){
                     if (err) throw err;
-                    res.render('adminnewcategorylevel3page.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                    res.render('adminnewcategorylevel3page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
                 });
             }
             else{
-                res.render('adminnewcategorylevel3page.handlebars',{ admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
+                res.render('adminnewcategorylevel3page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
             }
 
         });
@@ -311,6 +314,83 @@ router.post('/dashboard/item/category/level3/new',function(req,res){
 
 
 
+//create new category - Item Type (level4)
+//create new slider
+router.get('/dashboard/item/category/level4/new',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        res.render('adminnewcategorylevel4page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+    }
+});
+
+//view item category - Item Type (level4)
+router.get('/dashboard/item/category/level4',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        //fetching data from db
+        var q3="SELECT * FROM item_category_level4";
+        conn.query(q3,function(err,result){
+            if(err) throw err;
+            res.render('admincategorylevel4page.handlebars',{ layout: false,
+                                                              admindetails :req.session.admin,
+                                                              messageStatuse:false,
+                                                              messageTitle:'',
+                                                              messageBody:'',
+                                                              tabledata:result});
+            
+        });
+    }
+
+});
+
+//create new event category
+router.post('/dashboard/item/category/level4/new',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        var name=req.body.cat_name;
+        var id='cat-level3-'+name.slice(0,2)+'-'+(Math.floor(Math.random()*(999999-100000+1)+100000));
+        var q1='SELECT * FROM item_category_level4 WHERE id='+mysql.escape(id);
+        conn.query(q1,function(err,result){
+            if (err) throw err;
+            if(result.length==0){
+                q2='INSERT INTO item_category_level4(id,name,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
+                conn.query(q2,function(err,result){
+                    if (err) throw err;
+                    res.render('adminnewcategorylevel4page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                });
+            }
+            else{
+                res.render('adminnewcategorylevel4page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
+            }
+
+        });
+        
+
+    }
+});
+
+
+
+
+
+
+
+
+//edit color schema and theme of website
+router.get('/dashboard/website/theme',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        res.render('adminnewcategorylevel4page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+    }
+});
 
 
 module.exports = router;

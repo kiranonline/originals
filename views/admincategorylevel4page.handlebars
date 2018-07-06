@@ -256,12 +256,9 @@
 
             <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="/admin/dashboard">Dashboard / </a>
+          <a href="/admin/dashboard">Dashboard</a>
         </li>
-        <li>
-          <a href="/admin/dashboard/item/category/level1"> Item Category - Level 3 (Events) </a>
-        </li>
-        <li class="breadcrumb-item active"> / Create New</li>
+        <li class="breadcrumb-item active">Item Category - Level 4 (Item Type))</li>
       </ol>
         
 
@@ -269,33 +266,47 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i>
-           Add new Size List
-           <a href="/admin/dashboard/item/category/level3" class="btn btn-success" style="float:right">View All</a>           
+           View all category
+           <a href="/admin/dashboard/item/category/level4/new" class="btn btn-success" style="float:right">+ Add New</a>           
         </div>
         <div class="card-body">
 
 
+            <div class="table-responsive">
 
+                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead>
+                        <tr>
+                            <th>CATEGORY ID</th>
+                            <th>CATEGORY NAME</th>
+                            <th>CREATED BY</th>
+                            <th>CREATED ON</th>
+                            <th>NUMBER</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>CATEGORY ID</th>
+                            <th>CATEGORY NAME</th>
+                            <th>CREATED BY</th>
+                            <th>CREATED ON</th>
+                            <th>NUMBER</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {{#each tabledata}}
+                            <tr>
+                                <td>{{this.id}}</td>
+                                <td>{{this.name}}</td>
+                                <td>{{this.created_by}}</td>
+                                <td>{{this.created_on}}</td> 
+                                <td></td>                              
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                 </table>
 
-          <form class="form-container" id="newsizeform" action="/admin/dashboard/item/category/level3/new" method="POST">
-
-              <div class="form-group">
-                  <label>Event Name:</label>
-                      <input type="text" class="form-control" id="cat_name" name="cat_name" placeholder="Event Name">
-              </div>
-
-
-              <div class="form-group text-center">
-                  <input type="submit" class="btn btn-primary" value="create">
-              </div>
-
-          </form>
-
-
-
-
-
-         
+            </div>
 
           
 
@@ -350,16 +361,21 @@
     <script src="/js/admin/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="/js/admin/jquery.easing.min.js"></script>
+    <!--tables-->
+     <script src="/js/admin/jquery.dataTables.js"></script>
+      <script src="/js/admin/dataTables.bootstrap4.js"></script>
+    <!--alertyfy-->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
     <!-- Custom scripts for all pages-->
-        <!-- Custom scripts for all pages-->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-    <script src="/js/admin/adminvalidators.js"></script>
     <script src="/js/admin/sb-admin.min.js"></script>
 
-  
+    <script>
+         $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
 
+        
+    </script>
   </div>
 
   <!--messages-->

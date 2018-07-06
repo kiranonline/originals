@@ -46,7 +46,7 @@ const port=process.env.port || 8300;
 
 //view engine
 app.set('views',path.join(__dirname,'views'));
-app.engine('handlebars',exphbs());
+app.engine('handlebars',exphbs({extname:'handlebars', defaultLayout:'../main.handlebars'}));
 app.set('view engine','handlebars');
 
 //for morgan
