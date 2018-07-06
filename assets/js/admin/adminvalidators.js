@@ -91,4 +91,62 @@ $("#newsizeform").validate({
 
 
 
+ //for website theme
+
+ $("#themechangeform").validate({
+        
+    rules: {
+        primary_colour_1:{
+            required: true
+        },
+        primary_colour_2:{
+            required: true
+        },
+        secondary_colour_1:{
+            required: true
+        },
+        secondary_colour_2:{
+            required: true
+        },
+        image:{
+            required: true,
+            extension: "jpg|jpeg"
+        }
+    },
+    //For custom messages
+    messages: {
+        primary_colour_1:{
+            required: "Please enter a color code"
+        },
+        primary_colour_2:{
+            required: "Please enter a color code"
+        },
+        secondary_colour_1:{
+            required: "Please enter a color code"
+        },
+        secondary_colour_2:{
+            required: "Please enter a color code"
+        },
+        image:{
+            required: "Please select an image",
+            extension:"This should be jpeg or jpg"
+        }
+    },
+    errorElement : 'div',
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    }
+
+ });
+ 
+
+
+
+
+
 });

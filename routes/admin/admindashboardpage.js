@@ -379,18 +379,100 @@ router.post('/dashboard/item/category/level4/new',function(req,res){
 
 
 
-
-
-
 //edit color schema and theme of website
 router.get('/dashboard/website/theme',function(req,res){
     if(!req.session.admin){
         res.redirect('/admin/login');
     }
     else{
-        res.render('adminnewcategorylevel4page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+        if(req.query.msg){
+            var msgS=true;
+            var msgH=req.query.msg;
+            var msgB='Updated Successfully';
+        }
+        else{
+            var msgS=false;
+            var msgH='';
+            var msgB=''
+        }
+        fs.readFile(path.join(__dirname,'/../../dependencies/website.theme'), function(err, text) {
+            if (err) throw err;
+            var data = JSON.parse(text.toString());
+            res.render('adminwebsitetheme.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:msgS,messageTitle:msgH,messageBody:msgB,data:data });
+          });
+        
     }
 });
+
+
+
+
+
+router.post('/dashboard/website/theme',function(req,res){
+    
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{  
+        let primary_colour_1 = req.body.primary_colour_1;
+        let primary_colour_2 = req.body.primary_colour_2;
+        let secondary_colour_1 = req.body.secondary_colour_1;
+        let secondary_colour_2 = req.body.secondary_colour_2;
+        let image_name='main.jpg';
+        let image = req.files.image;
+
+        let created_on = new Date();
+        let created_by = req.session.admin.name;
+
+        var theme = {
+            primary_colour_1    : primary_colour_1,
+            primary_colour_2    : primary_colour_2,
+            secondary_colour_1  : secondary_colour_1,
+            secondary_colour_2  : secondary_colour_2,
+            created_by          : created_by,
+            created_on          : created_on,
+            image_link          : '/theme_images/main.jpg'
+        }
+
+        fs.writeFile(path.join(__dirname,'/../../dependencies/website.theme'),JSON.stringify(theme),function(err,data){
+            if (err) throw err;
+            image.mv(__dirname+'/../../assets/theme_images/'+image_name,function(err){ 
+                if (err) throw err;
+                res.redirect('/admin/dashboard/website/theme/?msg=Theme Updated');
+                //res.redirect('/admin/dashboard/website/theme/?msg=updated');
+            });
+        });
+
+
+
+        
+        
+        
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 module.exports = router;
