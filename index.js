@@ -26,8 +26,10 @@ var adminRegister = require('./routes/admin/adminregister.js');
 var adminLogin = require('./routes/admin/adminlogin.js');
 var adminDashboard = require('./routes/admin/admindashboardpage');
 var userLogin = require('./routes/user/userlogin.js');
-var userRegister = require('./routes//user/userregister.js');
+var userRegister = require('./routes/user/userregister.js');
 //for users
+//store
+var store = require('./routes/website/store.js');
 
 
 
@@ -110,6 +112,7 @@ app.use(express.static(path.join(__dirname,'assets')));
 app.use('/admin',adminRegister);
 app.use('/admin',adminLogin);
 app.use('/admin',adminDashboard);
+app.use('/',store);
 app.use('/',userRegister);
 app.use('/',userLogin);
 

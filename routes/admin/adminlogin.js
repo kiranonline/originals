@@ -12,7 +12,7 @@ var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
 
 router.get('/login',function(req,res){
     if(!req.session.admin){
-        res.render('adminloginpage.handlebars',{error:''});
+        res.render('adminloginpage.handlebars',{ layout: false,error:''});
     }
     else{
         res.redirect('/admin/dashboard');
@@ -33,7 +33,7 @@ router.post('/login',function(req,res){
     //set error variable
     var errors = req.validationErrors();
     if(errors){
-        res.render('adminregisterpage.handlebars',{error:'Incorrect Details !'});
+        res.render('adminregisterpage.handlebars',{layout: false,error:'Incorrect Details !'});
      }
      else{
 
@@ -54,7 +54,7 @@ router.post('/login',function(req,res){
                 res.redirect('/admin/dashboard');
             }
             else{
-                res.render('adminregisterpage.handlebars',{error:'Incorrect Details !'});
+                res.render('adminregisterpage.handlebars',{layout: false,error:'Incorrect Details !'});
             }
         });
 

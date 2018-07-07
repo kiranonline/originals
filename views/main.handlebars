@@ -1,0 +1,83 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="/css/defaultpage/materialize.min.css">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <link rel="shortcut icon" type="image/x-icon" href="/logos/logo_bottom.png" />
+        <title>The Originals</title>
+        <style>
+            /*    Declaring theme colours   */
+            :root {
+                --main-primary-1   : {{ theme.primary_colour_1 }}   ; 
+                --main-primary-2   : {{ theme.primary_colour_2 }}   ; 
+                --main-secondary-1 : {{ theme.secondary_colour_1 }} ;
+                --main-secondary-2 : {{ theme.secondary_colour_2 }} ;       
+            }
+        </style>
+        <link rel="stylesheet" href="/css/defaultpage/main.css">
+    </head>
+    <body>
+
+
+        <!--nav bar-->
+            <div class="navbar-fixed" id="nav-bar-controller">
+              <nav class="nav-extended">
+                <div class="nav-wrapper" id="nav-part-1">
+                    <ul id="nav-mobile" class="nav-item-list left">
+                        <li><a href="#"><i class="material-icons right">menu</i></a></li>
+                        <li><span class="wesite-title">Originals</span></li>
+                    </ul>
+                    <ul class="hide-on-med-and-down">
+                        <li class="input-field search-bar">
+                            <input type="search" class="search-input autocomplete" id="autocomplete-input" placeholder="Search..">
+                        </li>
+                    </ul>                        
+                    <ul id="nav-mobile" class="nav-item-list right">
+                         <li><a href="#"><i class="material-icons left">account_balance_wallet</i></a></li>
+                        <li><a href="#"><i class="material-icons left">shopping_cart</i></a></li>
+                        <li><a href="#"><i class="material-icons left">face</i></a></li>
+                    </ul>
+                </div>
+                <div class="nav-content hidden" id="mobile-search">
+                    <div class="search-bar-container">
+                        <div class="input-field search-bar-mobile">
+                            <input type="search" class="search-input autocomplete" id="autocomplete-input" placeholder="Search..">
+                        </div>
+                    </div>                    
+                </div>
+              </nav>
+            </div>
+
+          
+
+
+
+
+
+          
+
+
+    
+
+        {{{body}}}
+
+
+
+
+
+
+
+      <!--JavaScript at end of body for optimized loading-->
+    <script src="/js/admin/jquery.min.js"></script>
+    <script src="/js/defaultpage/materialize.min.js"></script>
+    <script src="/js/defaultpage/main.js"></script>
+    </body>
+  </html>
+        
