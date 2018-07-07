@@ -39,7 +39,7 @@ router.post('/dashboard/carousel/new',function(req,res){
     }
     else{
         let slider_name = req.body.slider_name;
-        let slider_image_name=slider_name+'.jpg';
+        let slider_image_name='/carousel_images/'+slider_name+'.jpg';
         let slider_link = req.body.slider_link;
         let slider_image = req.files.slider_image;
         let slider_created_on = new Date();
@@ -54,7 +54,7 @@ router.post('/dashboard/carousel/new',function(req,res){
                 slider_image.mv(__dirname+'/../../assets/carousel_images/'+slider_name+'.jpg',function(err){
                     if(err) throw err;
                     //inserting data in table
-                    let q2='INSERT INTO carousel_main(poster_name,poster_image_name,poster_link,created_on,created_by) VALUES('+mysql.escape(slider_name)+','+mysql.escape(slider_image_name)+','+mysql.escape(slider_link)+','+mysql.escape(slider_created_on)+','+mysql.escape(slider_created_by)+')';
+                    let q2='INSERT INTO carousel_main(poster_name,poster_image_link,poster_link,created_on,created_by) VALUES('+mysql.escape(slider_name)+','+mysql.escape(slider_image_name)+','+mysql.escape(slider_link)+','+mysql.escape(slider_created_on)+','+mysql.escape(slider_created_by)+')';
                     conn.query(q2,function(err,result){
                         if(err) throw err;
                         res.render('adminnewcarouselpage.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Successfull',messageBody:'File Uploaded Successfully.'});

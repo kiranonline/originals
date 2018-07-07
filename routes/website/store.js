@@ -8,13 +8,18 @@ const fs =  require('fs');
 
 
 
-//homepage
+//fetching homepage
 router.get('/',function(req,res){
 
     fs.readFile(path.join(__dirname,'/../../dependencies/website.theme'), function(err, text) {
         if (err) throw err;
         var theme_data = JSON.parse(text.toString());
-        res.render('homepage.handlebars',{theme:theme_data});
+        var q1="SELECT * FROM carousel_main";
+        conn.query(q1,function(err,result){
+            if (err) throw err;
+            var carousel_data = result;
+            res.render('homepage.handlebars',{theme:theme_data,carousel:carousel_data});
+        });
       });
     
 
