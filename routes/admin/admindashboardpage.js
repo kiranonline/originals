@@ -200,7 +200,13 @@ router.get('/dashboard/item/category/level1/new',function(req,res){
         res.redirect('/admin/login');
     }
     else{
-        res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'' });
+        var q1="SELECT * FROM item_category_level4";
+        conn.query(q1,function(err,result){
+            if(err) throw err;
+            var for_item = result; 
+            res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'',for:for_item });
+        });
+        
     }
 });
 
@@ -212,25 +218,41 @@ router.post('/dashboard/item/category/level1/new',function(req,res){
     }
     else{
         var name=req.body.cat_name;
+        var this_is_for=req.body.cat_for;
         var sizes=(req.body);
         delete sizes.cat_name;
+        delete sizes.cat_for;;
         sizes=JSON.stringify(sizes);
-        var id='cat-level1-'+name.slice(0,2)+'-'+(Math.floor(Math.random()*(999999-100000+1)+100000));
-        var q1='SELECT * FROM item_category_level1 WHERE id='+mysql.escape(id);
-        conn.query(q1,function(err,result){
-            if (err) throw err;
-            if(result.length==0){
-                q2='INSERT INTO item_category_level1(id,name,size,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(sizes)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
-                conn.query(q2,function(err,result){
+        var q2='SELECT * FROM item_category_level4 WHERE name='+mysql.escape(this_is_for);
+        conn.query(q2,function(err,result){
+            if(err) throw err;
+            if(result.length==1){
+                var for_item_id=result[0].id;
+                var id='cat-level1-'+name.slice(0,2)+'-'+(Math.floor(Math.random()*(999999-100000+1)+100000));
+                var q1='SELECT * FROM item_category_level1 WHERE id='+mysql.escape(id);
+                conn.query(q1,function(err,result){
                     if (err) throw err;
-                    res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                    if(result.length==0){
+                        q2='INSERT INTO item_category_level1(id,name,size,for_item,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(sizes)+','+mysql.escape(for_item_id)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
+                        conn.query(q2,function(err,result){
+                            if (err) throw err;
+                            res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                        });
+                    }
+                    else{
+                        res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
+                    }
+
                 });
             }
             else{
-                res.render('adminnewcategorylevel1page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
+                req.session.destroy(function(err){
+                    if(err) throw err;
+                    res.redirect('/admin/login');
+                });
             }
-
         });
+        
         
 
     }
@@ -385,20 +407,10 @@ router.get('/dashboard/website/theme',function(req,res){
         res.redirect('/admin/login');
     }
     else{
-        if(req.query.msg){
-            var msgS=true;
-            var msgH=req.query.msg;
-            var msgB='Updated Successfully';
-        }
-        else{
-            var msgS=false;
-            var msgH='';
-            var msgB=''
-        }
         fs.readFile(path.join(__dirname,'/../../dependencies/website.theme'), function(err, text) {
             if (err) throw err;
             var data = JSON.parse(text.toString());
-            res.render('adminwebsitetheme.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:msgS,messageTitle:msgH,messageBody:msgB,data:data });
+            res.render('adminwebsitetheme.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'',data:data });
           });
         
     }
@@ -429,8 +441,8 @@ router.post('/dashboard/website/theme',function(req,res){
             primary_colour_2    : primary_colour_2,
             secondary_colour_1  : secondary_colour_1,
             secondary_colour_2  : secondary_colour_2,
-            created_by          : created_by,
-            created_on          : created_on,
+            updated_by          : created_by,
+            updated_on          : created_on,
             image_link          : '/theme_images/main.jpg'
         }
 
@@ -438,7 +450,7 @@ router.post('/dashboard/website/theme',function(req,res){
             if (err) throw err;
             image.mv(__dirname+'/../../assets/theme_images/'+image_name,function(err){ 
                 if (err) throw err;
-                res.redirect('/admin/dashboard/website/theme/?msg=Theme Updated');
+                res.render('adminwebsitetheme.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Theme Updated',messageBody:'Theme updated successfully !',data:data });
                 //res.redirect('/admin/dashboard/website/theme/?msg=updated');
             });
         });

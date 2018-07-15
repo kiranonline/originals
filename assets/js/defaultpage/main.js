@@ -14,7 +14,7 @@ $( document ).ready(function() {
 
 
 
-      //side nav bar on phone
+      //side nav bar 
       function toggleClassMenu() {
             myMenu.classList.add("menu--animatable");	
                 if(!myMenu.classList.contains("menu--visible")) {		
@@ -38,11 +38,36 @@ $( document ).ready(function() {
 
         //carousel
         $('.home-page-carousel').slick({
-            infinite:true,
-            autoplay:true,
-            autoplaySpeed: 3000,
-            cssEase: 'linear',
+            slide: 'a',
+            autoplay: true,
+            prevArrow: $('.left-side'),
+            nextArrow: $('.right-side'),
+            appendDots: $('.crausel-slide-controls'),
+            dots: true,
+            dotsClass: 'crausel-custom-dots',
+            customPaging: function (slider, i) {
+                var slideNumber = (i + 1),
+                    totalSlides = slider.slideCount;
+                return '<a class="dot" role="button" title="' + slideNumber + ' of ' + totalSlides + '"><span class="string">' + slideNumber + '/' + totalSlides + '</span></a>';
+            }
         });
+
+
+
+
+
+        if($(window).width() > 992){
+
+            //fetch image size and set the button to the middle of carousel
+            $('.carousel-image').on('load',function(){
+                var slider_height = $('.carousel-image').first().height()/2;
+                $('.slider-button-container').css({"top":slider_height});
+            });
+
+
+        }
+        
+        
 
 
 
@@ -59,18 +84,12 @@ $( document ).ready(function() {
       //media query
       if($(window).width() <= 992){
           
-        //enable search bar inmobile view 
-        $('#mobile-search').removeClass('hidden');
 
         //enable nav scroll on mobile
         $('#nav-bar-controller').removeClass('navbar-fixed');
 
-        //enable menu icon
-        $('.menu-icon').removeClass('hidden');
+
         
-        
-        //disable website icon in phone
-        $('.main-logo').addClass('hidden'); 
 
         
 

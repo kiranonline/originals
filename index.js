@@ -13,6 +13,7 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const fileUpload = require('express-fileupload');
 const fs =  require('fs');
+const flash = require('express-flash');
 
 
 
@@ -62,7 +63,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 //cookie parsor
 app.use(expressValidator());
-app.use(cookieParser());
+app.use(cookieParser('secret'));
 
 
 
@@ -76,16 +77,19 @@ app.use(session({
     key: 'session_originals',
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    unset: 'destroy',
     store:new MySQLStore({
         host:'localhost',
         user:'root',
         password:'',
         database:'originals',
-        checkExpirationInterval: 900000,
-        expiration: 86400000,
+        clearExpired: true,
+        checkExpirationInterval: 6000,
+        expiration: 3600000,
         createDatabaseTable: true,
         connectionLimit: 1,
+        endConnectionOnClose: true,
         charset: 'utf8mb4_bin',
         schema: {
             tableName: 'sessions',
@@ -98,11 +102,18 @@ app.use(session({
     })
   }));
 
+  
+
+  //flash message
+  app.use(flash());
+
 
 
 
 //static folder
-app.use(express.static(path.join(__dirname,'assets')));
+app.use(express.static(path.join(__dirname,'assets'),{
+    
+}));
 
 
 

@@ -8,10 +8,12 @@ nav{
     background: var(--main-primary-1);
  }
  .main-logo{
+     display: block;
     margin:15px auto -10px 30px; 
     width:30px;     
  }
  .wesite-title{
+    font-family: 'Comfortaa', cursive !important;
      font-size: 25px !important;
      margin-left: 15px !important;
  }
@@ -32,12 +34,103 @@ nav{
     -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2) !important;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2) !important;
 }
+#mobile-search{
+    display: none;
+}
 .hidden{
     display: none !important;
 }
 .fixed{
     position: fixed !important;
 }
+
+
+
+
+
+/*-------------------------side nav bar--------------------*/
+
+    .menu {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 150;
+    }
+
+    .menu--visible {
+        pointer-events: auto;
+    }
+
+    .app-menu {
+        background-color: #fff;
+        color: #fff;
+        position: relative;
+        max-width: 400px;
+        width: 90%;
+        height: 100%;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+        -webkit-transform: translateX(-103%);
+        transform: translateX(-103%);
+        display: flex;
+        flex-direction: column;
+        will-change: transform;
+        z-index: 160;
+        pointer-events: auto;            
+    }
+
+    .menu--visible .app-menu {
+        -webkit-transform: none;
+        transform: none;
+    }
+
+    .menu--animatable .app-menu {
+        transition: all 130ms ease-in;
+    }
+
+    .menu--visible.menu--animatable  .app-menu {
+        transition: all 330ms ease-out;
+    }
+
+    .menu:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        opacity: 0;
+        will-change: opacity;
+        pointer-events: none;
+        transition: opacity 0.3s cubic-bezier(0,0,0.3,1);
+    }
+
+    .menu--visible.menu:after {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .app-menu {
+        width: 300px;
+        height: 100% !important;
+        box-shadow: none;
+        background-color: #ddd;
+    }
+    
+    .menu:after {
+        width:100% !important;
+        height: 100% !important;
+    }
+
+
+
+
+
+
 
 /*-----------carousel image-----------------------*/
 .container-fluid{
@@ -47,6 +140,91 @@ nav{
 }
 .carousel-image{
     width:100% !important;
+}
+.crausel-slide-controls{
+    width:100% !important;
+    position: relative;
+    top:-60px;
+}
+.crausel-slide-controls .crausel-custom-dots{
+   text-align: center;
+}
+.crausel-slide-controls .crausel-custom-dots li{
+    margin: 0 0 0 .4em;
+    display: inline-block;
+    list-style: none;
+}
+.crausel-slide-controls .crausel-custom-dots .dot{
+    display: block;
+    width: 10px;
+    height: 10px;
+    text-decoration: none;
+    background-color: LightGray;
+    border: 1.5px solid DimGray;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.crausel-slide-controls .crausel-custom-dots .dot .string {
+    position: absolute;
+    left: -99999px;
+    line-height: 0;
+    opacity: 0;
+}
+.crausel-slide-controls .crausel-custom-dots .slick-active .dot{
+    background-color: var(--main-primary-1);
+}
+.crausel-slide-controls .crausel-custom-dots .dot:hover,
+.crausel-slide-controls .crausel-custom-dots .slick-active .dot:hover{
+    background-color: var(--main-primary-1);
+}
+
+
+
+
+
+
+
+/*--------------------carousel button---------------*/
+.center{
+    margin:0 !important;
+    padding:0 !important;
+    text-align: center !important;
+}
+.slider-button-container{
+    width:50px;
+    height:120px;
+    position: absolute;
+    cursor: pointer;
+}
+.left-side{
+    left:0px;
+}
+.right-side{
+    right:0px;
+}
+.slider-button-icon{
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+}
+
+
+
+
+
+
+
+/*-------footer copyright container-------------*/
+.footer-copyright-container{
+    width:100% !important;
+    background: var(--main-primary-1);
+}
+.footer-copyright-wrapper{
+    padding:20px;
+    color:white;
+    background: rgba(0,0,0,0.6) !important;
 }
 
 
@@ -86,6 +264,9 @@ nav{
         font-size: 20px;
         margin-left: 0px !important;
      }
+     .main-logo{
+         display: none;
+     }
      .search-bar-container{
          width:100% !important;
      }
@@ -93,6 +274,9 @@ nav{
         height:64px !important;
         width: 100% !important;
         
+    }
+    #mobile-search{
+        display:block;
     }
     #mobile-search,.search-bar-container,.search-bar-mobile{
         width:100% !important;
@@ -102,84 +286,12 @@ nav{
        margin-left: 3% !important;
     }
 
+    /*-------slider button-----------*/
+    .slider-button-container{
+        display: none !important;
+    }
 
 
-    /*--side nav bar for mobile----*/
-        .menu {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100% !important;
-            height: 100% !important;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 150;
-        }
-
-        .menu--visible {
-            pointer-events: auto;
-        }
-
-        .app-menu {
-            background-color: #fff;
-            color: #fff;
-            position: relative;
-            max-width: 400px;
-            width: 90%;
-            height: 100%;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-            -webkit-transform: translateX(-103%);
-            transform: translateX(-103%);
-            display: flex;
-            flex-direction: column;
-            will-change: transform;
-            z-index: 160;
-            pointer-events: auto;            
-        }
-
-        .menu--visible .app-menu {
-            -webkit-transform: none;
-            transform: none;
-        }
-
-        .menu--animatable .app-menu {
-            transition: all 130ms ease-in;
-        }
-
-        .menu--visible.menu--animatable  .app-menu {
-            transition: all 330ms ease-out;
-        }
-
-        .menu:after {
-            content: '';
-            display: block;
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.4);
-            opacity: 0;
-            will-change: opacity;
-            pointer-events: none;
-            transition: opacity 0.3s cubic-bezier(0,0,0.3,1);
-        }
-
-        .menu--visible.menu:after {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .app-menu {
-            width: 300px;
-            height: 100% !important;
-            box-shadow: none;
-            background-color: #ddd;
-        }
-        
-        .menu:after {
-            width:100% !important;
-            height: 100% !important;
-        }
         
 
   }
