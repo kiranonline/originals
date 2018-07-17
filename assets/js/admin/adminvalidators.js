@@ -58,6 +58,9 @@ $(function(){
      
 
 
+
+
+
 //for category1
 
 $("#newsizeform").validate({
@@ -67,12 +70,18 @@ $("#newsizeform").validate({
             required: true,
             minlength:4
         },
+        for_type:{
+            required:true
+        }
         
     },
     //For custom messages
     messages: {
         cat_name:{
             required: "Please enter a name",
+        },
+        for_type:{
+            required:'This field is empty, Create item type first'
         }
     },
     errorElement : 'div',

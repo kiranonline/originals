@@ -14,6 +14,7 @@ const MySQLStore = require('express-mysql-session')(session);
 const fileUpload = require('express-fileupload');
 const fs =  require('fs');
 const flash = require('express-flash');
+var uniqid = require('uniqid');
 
 
 

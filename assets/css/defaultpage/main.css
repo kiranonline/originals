@@ -198,9 +198,11 @@ nav{
 }
 .left-side{
     left:0px;
+    border-radius:0px 50% 50% 0px;
 }
 .right-side{
     right:0px;
+    border-radius: 50% 0px 0px 50%;
 }
 .slider-button-icon{
     position: absolute !important;

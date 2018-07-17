@@ -1,3 +1,5 @@
+"use strict";
+
 
 var express = require('express');
 var router = express.Router();
@@ -5,6 +7,7 @@ var path = require('path');
 var mysql = require('mysql');
 var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
 const fs =  require('fs');
+var uniqid = require('uniqid');
 
 
 
@@ -144,6 +147,15 @@ router.get('/dashboard/carousel/del',function(req,res){
 });
 
 
+
+
+
+
+
+
+
+
+
 //view item category - GENDER (level2)
 router.get('/dashboard/item/category/level2',function(req,res){
     if(!req.session.admin){
@@ -165,6 +177,13 @@ router.get('/dashboard/item/category/level2',function(req,res){
     }
 
 });
+
+
+
+
+
+
+
 
 
 
@@ -228,7 +247,7 @@ router.post('/dashboard/item/category/level1/new',function(req,res){
             if(err) throw err;
             if(result.length==1){
                 var for_item_id=result[0].id;
-                var id='cat-level1-'+name.slice(0,2)+'-'+(Math.floor(Math.random()*(999999-100000+1)+100000));
+                var id=uniqid('cat-level1-');
                 var q1='SELECT * FROM item_category_level1 WHERE id='+mysql.escape(id);
                 conn.query(q1,function(err,result){
                     if (err) throw err;
@@ -257,6 +276,10 @@ router.post('/dashboard/item/category/level1/new',function(req,res){
 
     }
 });
+
+
+
+
 
 
 
@@ -304,7 +327,7 @@ router.post('/dashboard/item/category/level3/new',function(req,res){
     }
     else{
         var name=req.body.cat_name;
-        var id='cat-level3-'+name.slice(0,2)+'-'+(Math.floor(Math.random()*(999999-100000+1)+100000));
+        var id=uniqid('cat-level3-');
         var q1='SELECT * FROM item_category_level3 WHERE id='+mysql.escape(id);
         conn.query(q1,function(err,result){
             if (err) throw err;
@@ -376,7 +399,7 @@ router.post('/dashboard/item/category/level4/new',function(req,res){
     }
     else{
         var name=req.body.cat_name;
-        var id='cat-level3-'+name.slice(0,2)+'-'+(Math.floor(Math.random()*(999999-100000+1)+100000));
+        var id=uniqid('cat-level4-');
         var q1='SELECT * FROM item_category_level4 WHERE id='+mysql.escape(id);
         conn.query(q1,function(err,result){
             if (err) throw err;
@@ -396,6 +419,11 @@ router.post('/dashboard/item/category/level4/new',function(req,res){
 
     }
 });
+
+
+
+
+
 
 
 
@@ -450,8 +478,8 @@ router.post('/dashboard/website/theme',function(req,res){
             if (err) throw err;
             image.mv(__dirname+'/../../assets/theme_images/'+image_name,function(err){ 
                 if (err) throw err;
-                res.render('adminwebsitetheme.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Theme Updated',messageBody:'Theme updated successfully !',data:data });
-                //res.redirect('/admin/dashboard/website/theme/?msg=updated');
+                //res.render('adminwebsitetheme.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Theme Updated',messageBody:'Theme updated successfully !',data:data });
+                res.redirect('/admin/dashboard/website/theme/?msg=updated');
             });
         });
 
