@@ -11,13 +11,17 @@ const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
-
+var file_upload=require('express-fileupload');
+var uniqid = require('uniqid');
+var trim = require('trim');
 
 
 //app initialization
 var app = express();
 
 
+
+app.use(file_upload());
 //local routes
 //for admins
 var adminRegister = require('./routes/admin/adminregister.js');
