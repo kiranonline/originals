@@ -29,10 +29,10 @@ var adminLogin = require('./routes/admin/adminlogin.js');
 var adminDashboard = require('./routes/admin/admindashboardpage');
 var userLogin = require('./routes/user/userlogin.js');
 var userRegister = require('./routes//user/userregister.js');
-//for users
 
 
 
+var calculateDistance=require('./routes/user/calculateDist.js');
 
 //header limitations
 app.use(function(req, res, next) {
@@ -109,6 +109,7 @@ app.use('/admin',adminLogin);
 app.use('/admin',adminDashboard);
 app.use('/',userRegister);
 app.use('/',userLogin);
+app.use('/',calculateDistance);
 
 
 
