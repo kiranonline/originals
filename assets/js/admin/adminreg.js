@@ -1,6 +1,8 @@
 $(function(){
 
-
+    $("#login-modal").click(()=>{
+       $("#func").toggle();
+    });
     $("#loginform").validate({
 
     rules: {
