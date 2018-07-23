@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>ORIGINALS-Verification</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/logos/logo_bottom.png" />
+  <!-- Bootstrap core CSS-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="/css/admin/adminreg.css" rel="stylesheet">
+
+  <style>
+      #button1 , #button2 {
+        display: inline-block;
+        }
+  </style>
+</head>
+<body>
+    
+    <div class="container main-holder white z-depth-2">
+        <ul class="tabs orange darken-2">
+            <li class="tab col s3"><a class="white-text active" href="#login">Verify</a></li>
+        </ul>
+        <div id="verify" class="col s12">
+            <form class="col s12" id="verificationform">
+                <div class="form-container form-holder">
+                     <img class="responsive-img login-logo" src="/logos/logo2.png">
+                     <p class='center-align' style="color: orange">Verification email has been sent to {{email}}</p>
+                    
+                    <br>
+                    <div class='container-fluid'>
+                        
+                        <button class="btn login waves-effect waves-light orange darken-2" type="button" id='button2' onclick="myFunction()">Resend email</button>
+                        <br>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </body>
+<script>function myFunction() {location.reload(true);}</script>    
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+</html>

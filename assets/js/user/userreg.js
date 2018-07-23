@@ -119,6 +119,13 @@ $(function(){
 $(document).ready(function(){
 
 
+    
+    $('.login-page-tabs').tabs();
+
+
+    $('#dob').datepicker({format:'dd-mm-yyyy',minDate:new Date(1920,01,01),maxDate:new Date()});
+
+
 
 
 });
