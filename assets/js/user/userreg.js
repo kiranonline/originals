@@ -62,8 +62,10 @@ $(function(){
             minlength:10,
             maxlength:10
         },
-        dob:{
-            required: true
+        age:{
+            required: true,
+            minlength:2,
+            maxlength:2 
         },
         address:{
             required: true,
@@ -126,7 +128,7 @@ $(document).ready(function(){
     $('#dob').datepicker({format:'dd-mm-yyyy',minDate:new Date(1920,01,01),maxDate:new Date()});
 
 
-
+    $('select').formSelect();
 
 });
        
