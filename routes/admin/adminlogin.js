@@ -12,7 +12,7 @@ var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
 
 router.get('/login',function(req,res){
     if(!req.session.admin){
-        res.render('adminloginpage.handlebars',{ layout: false,error:''});
+        res.render('adminloginpage.handlebars',{ layout: false,error:'',csrf:req.csrfToken()});
     }
     else{
         res.redirect('/admin/dashboard');

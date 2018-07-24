@@ -15,12 +15,36 @@ const fileUpload = require('express-fileupload');
 const fs =  require('fs');
 const flash = require('express-flash');
 var uniqid = require('uniqid');
-
-
+var passport = require('passport');
+var csurf = require('csurf');
+var helmet = require('helmet');
+var cookieSession = require('cookie-session');
+const csp = require('express-csp-header');
 
 //app initialization
 var app = express();
 
+/////
+var ExpressBrute = require('express-brute');
+var SequelizeStore = require('express-brute-sequelize');
+var Sequelize = require('sequelize');
+ 
+var sequelize = new Sequelize('originals', 'root', '', {
+  host: "localhost",
+  dialect: "mysql",
+  logging: false
+});
+ 
+new SequelizeStore(sequelize, 'bruteStore', {}, function(store) {
+    var bruteforce = new ExpressBrute(store);
+    app.get('/',
+        bruteforce.prevent, // error 403 if too many requests for this route in short time
+        function(req, res, next){
+            res.send('Success!');
+        }
+    );
+});
+////////
 
 //local routes
 //for admins
@@ -37,11 +61,48 @@ var store = require('./routes/website/store.js');
 
 
 //header limitations
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+
+//helmet
+
+app.use(helmet());
+app.use(helmet({
+    frameguard: {
+      action: 'deny'
+    }
+  }));
+app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
+
+// Feature Policy
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Feature-Policy","geolocation '*'; midi 'none'; notifications '*'; push '*'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment '*'")
     next();
 });
+
+// CSP
+app.use(csp({
+    policies: {
+        'default-src': [csp.SELF],
+        'script-src': [csp.SELF, csp.NONCE,'cdnjs.cloudflare.com'],
+        'style-src': [csp.SELF, csp.NONCE,'fonts.googleapis.com','cdnjs.cloudflare.com','stackpath.bootstrapcdn.com'],
+        'img-src': [csp.SELF, csp.NONCE],
+        'font-src':[csp.NONCE,csp.SELF,'fonts.gstatic.com'],
+        // 'block-all-mixed-content': true
+    }
+}));
+
+
+//Rate limiter
+
+
+//csrf token
+var csrf = csurf({ cookie: true })
+
+
 
 
 //setting up server
@@ -80,6 +141,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     unset: 'destroy',
+    cookie: {
+        secure: true,
+        httpOnly: true
+    },
     store:new MySQLStore({
         host:'localhost',
         user:'root',
@@ -117,7 +182,7 @@ app.use(express.static(path.join(__dirname,'assets'),{
 }));
 
 
-
+app.use(csrf);
 
 
 //routes url
@@ -129,6 +194,12 @@ app.use('/',userRegister);
 app.use('/',userLogin);
 
 
+
+// passport
+
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport); 
 
 
 
@@ -151,8 +222,6 @@ app.use((error,req,res,next)=>{
 
 
 
-
-
 //run server
 
 app.listen(port,function(err){
@@ -161,6 +230,5 @@ app.listen(port,function(err){
     }
     else{
         console.log(err);
-    }
-    
+    }    
 });

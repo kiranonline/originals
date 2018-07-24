@@ -18,7 +18,7 @@ router.get('/',function(req,res){
         conn.query(q1,function(err,result){
             if (err) throw err;
             var carousel_data = result;
-            res.render('homepage.handlebars',{theme:theme_data,carousel:carousel_data});
+            res.render('homepage.handlebars',{theme:theme_data,carousel:carousel_data,nonce:req.nonce});
         });
       });
     
