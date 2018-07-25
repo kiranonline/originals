@@ -17,8 +17,21 @@ const flash = require('express-flash');
 var uniqid = require('uniqid');
 var passport = require('passport');
 var LocalStrategy     = require('passport-local').Strategy;
+var csurf = require('csurf');
+var helmet = require('helmet');
+const csp = require('express-csp-header');
 
+// Brute Force protection
+var ExpressBrute = require('express-brute');
+var SequelizeStore = require('express-brute-sequelize');
+var Sequelize = require('sequelize');
 
+var sequelize = new Sequelize('originals', 'root', '', {
+    host: "localhost",
+    dialect: "mysql",
+    logging: false
+  });
+  
 
 //app initialization
 var app = express();
@@ -39,12 +52,39 @@ var store = require('./routes/website/store.js');
 
 
 //header limitations
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+
+//helmet
+
+app.use(helmet());
+app.use(helmet({
+    frameguard: {
+      action: 'deny'
+    }
+  }));
+app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
+
+// Feature Policy
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Feature-Policy","geolocation '*'; midi 'none'; notifications '*'; push '*'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment '*'")
     next();
 });
 
+// CSP
+app.use(csp({
+    policies: {
+        'default-src': [csp.SELF],
+        'script-src': [csp.SELF, csp.NONCE,'cdnjs.cloudflare.com'],
+        'style-src': [csp.SELF, csp.NONCE,'fonts.googleapis.com','cdnjs.cloudflare.com','stackpath.bootstrapcdn.com'],
+        'img-src': [csp.SELF, csp.NONCE],
+        'font-src':[csp.NONCE,csp.SELF,'fonts.gstatic.com'],
+        // 'block-all-mixed-content': true
+    }
+}));
 
 //setting up server
 const port=process.env.port || 8300;
@@ -82,6 +122,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     unset: 'destroy',
+    cookie: {
+        secure: true,
+        httpOnly: true
+    },
     store:new MySQLStore({
         host:'localhost',
         user:'root',
