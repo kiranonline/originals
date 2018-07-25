@@ -8,6 +8,7 @@ var mysql = require('mysql');
 var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
 const fs =  require('fs');
 var uniqid = require('uniqid');
+var trim = require('trim');
 
 
 
@@ -400,15 +401,22 @@ router.post('/dashboard/item/category/level4/new',function(req,res){
     else{
         var name=req.body.cat_name;
         var id=uniqid('cat-level4-');
-        var q1='SELECT * FROM item_category_level4 WHERE id='+mysql.escape(id);
+        var q1='SELECT * FROM item_category_level4 WHERE id='+mysql.escape(id)+' OR name='+mysql.escape(name);
         conn.query(q1,function(err,result){
             if (err) throw err;
             if(result.length==0){
-                q2='INSERT INTO item_category_level4(id,name,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
-                conn.query(q2,function(err,result){
-                    if (err) throw err;
-                    res.render('adminnewcategorylevel4page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                console.log(result);
+                fs.mkdir('assets/uploads/'+name,function(err){
+                    if(err) throw err;
+                    else{
+                        var q2='INSERT INTO item_category_level4(id,name,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
+                        conn.query(q2,function(err,result){
+                            if (err) throw err;
+                            res.render('adminnewcategorylevel4page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                        });
+                    }
                 });
+                
             }
             else{
                 res.render('adminnewcategorylevel4page.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue' });
@@ -490,6 +498,216 @@ router.post('/dashboard/website/theme',function(req,res){
         
     }
 });
+
+
+
+
+
+
+
+
+
+
+//get the listed item page
+//show items
+router.get('/dashboard/item',function(req,res){
+
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{  
+        var query="SELECT * FROM items";
+	    conn.query(query,function(err,result){
+		    console.log(result);
+		    res.render('adminitems.handlebars',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'',items:result});
+	    });
+
+    }
+	
+	
+	
+	
+});
+
+
+
+
+
+
+
+//get the add new item page
+router.get('/dashboard/item/new',function(req,res){
+
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{ 
+
+        //res.render('adminItemUpload.handlebars');
+	    var query1="SELECT id,name FROM item_category_level4;";
+	
+	    var  query2="SELECT id,name FROM item_category_level3;";
+	    console.log("add item page");
+	    conn.query(query1, function (err4, result4) {
+				if (err4) throw err4;
+				    conn.query(query2, function (err3, result3) {
+				        if (err3) throw err3;
+				        res.render('adminnewitempage.handlebars',{layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'',category4:result4,category3:result3});
+				
+		            });
+				
+	    });
+
+    }
+	
+
+
+	
+});
+
+
+
+
+
+
+
+//get the sizes
+//get item sizes
+router.post('/dashboard/category1',function(req,res){
+    console.log(req.body.category4);
+	var query ="SELECT id,name,size FROM item_category_level1 WHERE for_item="+mysql.escape(req.body.category4.split(",")[0]);
+	console.log(query);
+	conn.query(query,function(err,result)
+	{
+		if(err) throw err;
+		var r=JSON.parse(JSON.stringify(result));
+        console.log(r);
+		res.send(r);
+	});
+});
+
+
+
+
+
+
+
+
+//save new item
+router.post('/dashboard/item/new',function(req,res){
+    if(!req.session.admin){
+       res.redirect('/admin/login');
+   }
+   else{
+       var name=req.body.name;
+       var price=req.body.price;
+       var id=uniqid('item-'); 	
+       var size_id=req.body.size.split(",")[0];
+       var size_name=req.body.size.split(",")[1];
+       var gender=req.body.gender;
+       var event_type_id=req.body.event_type.split(",")[0];
+       var event_type_name=req.body.event_type.split(",")[1];
+       var item_type_id=req.body.item_type.split(",")[0];
+       var item_type_name=req.body.item_type.split(",")[1];
+       var added_by=req.session.admin.name;
+       var added_on=new Date();
+       var tags=req.body.tags;
+    
+    
+       var str=tags.replace(/  +/g,' ');
+       console.log(str);
+
+       var check_query="SELECT * FROM items WHERE id="+mysql.escape(id);
+       conn.query(check_query,function(err,result_checked){
+            if(err) throw err;
+            else{
+                if(result_checked.length==0){
+                    fs.mkdir('assets/uploads/'+item_type_name+"/"+id,function(err){
+                        if (err) {
+                            //console.log("cant create directory");
+                           return console.error(err);
+                        }
+                 
+                        console.log("Directory created successfully!");
+                        for(var i=0;i<req.files.file.length;i++)
+                        {
+                            console.log(req.files.file[i].name);
+                            var file=req.files.file[i];
+                            file.mv('././assets/uploads/'+item_type_name+"/"+id+"/"+req.files.file[i].name,function(err){
+                                if(err) throw err
+                                console.log("file moved ");                                 
+                            });
+                        }
+                         
+                        var query ="INSERT INTO items (id,name,price,size_id,size_name,gender,event_id,event_name,type_id,type_name,tags,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+",'"+str+"','"+added_by+"','"+added_on+"')";
+                        console.log(query); 
+                        conn.query(query,function(err,result){
+                            if(err) throw err;
+                            console.log("Item added to the database");
+                            var query1="SELECT name FROM item_category_level4;";
+                        
+                            var  query2="SELECT name FROM item_category_level3;";
+                            console.log("add item page");
+                            conn.query(query1, function (err4, result4) {
+                                        if (err4) throw err4;
+                                        conn.query(query2, function (err3, result3) {
+                                           if (err3) throw err3;
+                                           console.log("exiting");
+                                           res.render('adminnewitempage.handlebars',{layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Success',messageBody:'Item Created',category4:result4,category3:result3});
+                                        
+                                });
+                                        
+                            });
+                        });
+                     });
+                }
+                else{
+                    var query1="SELECT name FROM item_category_level4;";
+                                 
+                    var  query2="SELECT name FROM item_category_level3;";
+                    console.log("add item page");
+                    conn.query(query1, function (err4, result4) {
+                                if (err4) throw err4;
+                                conn.query(query2, function (err3, result3) {
+                                   if (err3) throw err3;
+                                   res.render('adminnewitempage.handlebars',{layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Error',messageBody:'Technical issue',category4:result4,category3:result3});
+                                
+                        });
+                                
+                    });
+                }
+            }
+       });
+      
+    
+       
+       
+   
+   
+    }
+   
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

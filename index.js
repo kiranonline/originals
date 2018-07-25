@@ -15,6 +15,8 @@ const fileUpload = require('express-fileupload');
 const fs =  require('fs');
 const flash = require('express-flash');
 var uniqid = require('uniqid');
+var passport = require('passport');
+var LocalStrategy     = require('passport-local').Strategy;
 
 
 
@@ -105,6 +107,11 @@ app.use(session({
 
   
 
+  //
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+
   //flash message
   app.use(flash());
 
@@ -128,7 +135,10 @@ app.use('/',store);
 app.use('/',userRegister);
 app.use('/',userLogin);
 
-
+app.get('/logout', function(req, res) {
+    req.logout(); 
+    res.send("Logged out");
+});
 
 
 
@@ -143,7 +153,7 @@ app.use((req,res,next)=>{
 
 app.use((error,req,res,next)=>{
     res.status(error.status || 500);
-    res.render('404page.handlebars');
+    res.render('404page.handlebars',{layout:false});
 });
 
 

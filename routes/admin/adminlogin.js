@@ -65,17 +65,7 @@ router.post('/login',function(req,res){
 });
 
 
-router.get('/logout',function(req,res){
-    if(!req.session.admin){
-        res.redirect('/admin/login');
-    }
-    else{
-        req.session.destroy(function(err){
-            if(err) throw err;
-            res.redirect('/admin/login');
-        });
-    }
-});
+
 
 
 module.exports = router;
