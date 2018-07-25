@@ -2,31 +2,35 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>The Originals-Admin Login</title>
-  <link rel="shortcut icon" type="image/x-icon" href="/logos/logo_bottom.png" />
-  <!-- Bootstrap core CSS-->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" rel="stylesheet">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <!-- Custom styles for this template-->
-  <link href="/css/admin/adminreg.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>The Originals-Admin Login</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/logos/logo_bottom.png" />
+    <!-- Bootstrap core CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="/css/admin/adminreg.css" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="container main-holder white z-depth-2">
         <ul class="tabs purple darken-2">
-            <li class="tab col s3"><a class="white-text active" href="#login">login</a></li>
+            <li class="tab col s3">
+                <a class="white-text active" href="#login">login</a>
+            </li>
             <!--<li class="tab col s3"><a class="white-text" href="#register">register</a></li>-->
         </ul>
-  
+
         <div id="login" class="col s12">
             <form class="col s12" id="loginform" method="POST" action="/admin/login">
+                <input type="hidden" name="_csrf" value="{{csrf}}">
                 <div class="form-container form-holder">
-                     <img class="responsive-img login-logo" src="/logos/logo2.png">
+                    <img class="responsive-img login-logo" src="/logos/logo2.png">
                     <p class="center-align" style="color:red">{{error}}</p>
                     <div class="row">
                         <div class="input-field col s12">
@@ -41,15 +45,15 @@
                         </div>
                     </div>
                     <br>
-             
-                        <button class="btn login waves-effect waves-light purple darken-2" type="submit" name="action">Login</button>
-                        <br>
-               
+
+                    <button class="btn login waves-effect waves-light purple darken-2" type="submit" name="action">Login</button>
+                    <br>
+
                 </div>
             </form>
         </div>
-        
-        
+
+
 
     </div>
 </body>
@@ -57,4 +61,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
 <script src="/js/admin/adminreg.js"></script>
+
 </html>

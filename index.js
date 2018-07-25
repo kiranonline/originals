@@ -86,6 +86,9 @@ app.use(csp({
     }
 }));
 
+
+
+
 //setting up server
 const port=process.env.port || 8300;
 
@@ -108,6 +111,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(expressValidator());
 app.use(cookieParser('secret'));
 
+
+var csrf = csurf({ cookie: true });
+app.use(csrf);
 
 
 //seting up file uploader
@@ -149,7 +155,6 @@ app.use(session({
     })
   }));
 
-  
 
   //
     app.use(passport.initialize());
@@ -167,8 +172,7 @@ app.use(express.static(path.join(__dirname,'assets'),{
     
 }));
 
-
-
+//CSRF 
 
 
 //routes url
