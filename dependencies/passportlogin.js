@@ -22,7 +22,7 @@ passport.use('local', new LocalStrategy({
     
         conn.query("SELECT * FROM userlist WHERE phone = ?", [phone], function(err, rows){
   
-            console.log(err); console.log(rows);
+            console.log(err);
   
           if (err) return done(req.flash('message',err));
   
