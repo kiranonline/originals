@@ -130,7 +130,7 @@ app.use(session({
     unset: 'destroy',
     cookie: {
         secure: true,
-        httpOnly: true
+        httpOnly: false
     },
     store:new MySQLStore({
         host:'localhost',
@@ -161,8 +161,8 @@ app.use(session({
     app.use(passport.session());
 
 
-  //flash message
-  app.use(flash());
+    //flash message
+    app.use(flash());
 
 
 
