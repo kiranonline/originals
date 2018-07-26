@@ -27,7 +27,10 @@ router.get('/',function(req,res){
 
 
 
+        });
 
+    });
+});
 
 
 
@@ -106,7 +109,7 @@ router.get("/item/:itemId",function(req,res){
 
 
 
-//
+
 
 
 
