@@ -6,7 +6,15 @@ html{position:relative;min-height:100%}body{overflow-x:hidden}body.sticky-footer
 .error{
     color:red !important;
 }
-
+#exampleAcordion{
+    overflow-y:scroll;
+}
+.txt{
+    color:white;
+}
+#imageres{
+    width:20%;
+}
 @media(max-width:765px){
     .form-container{
         width:90%;

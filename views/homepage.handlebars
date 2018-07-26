@@ -42,7 +42,8 @@
         </ul>
   
         <div id="login" class="col s12">
-            <form class="col s12" id="loginform" method="POST" action="/admin/login">
+            <form class="col s12" id="loginform" method="POST" action="/login">
+                <input type="hidden" name="_csrf" value="{{csrf}}">
                 <div class="form-container form-holder">
                      <img class="responsive-img login-logo" src="/logos/logo2.png">
                     <p class="center-align" style="color:red">{{error}}</p>

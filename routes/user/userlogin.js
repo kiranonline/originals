@@ -16,7 +16,7 @@ var passport = require(path.join(__dirname,'/../../dependencies/passportlogin.js
 
 router.get('/login', function(req, res){
     if(!req.isAuthenticated()){
-        res.render('user/userlogin.handlebars',{layout:false});
+        res.render('user/userlogin.handlebars',{layout:false,csrf:req.csrfToken()});
     } else{
         res.send("You are logged in");
 
