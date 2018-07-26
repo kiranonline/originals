@@ -81,7 +81,7 @@ app.use(csp({
         'script-src': [csp.SELF, csp.NONCE,'cdnjs.cloudflare.com'],
         'style-src': [csp.SELF, csp.NONCE,'fonts.googleapis.com','cdnjs.cloudflare.com','stackpath.bootstrapcdn.com'],
         'img-src': [csp.SELF, csp.NONCE],
-        'font-src':[csp.NONCE,csp.SELF,'fonts.gstatic.com'],
+        'font-src':[csp.NONCE,csp.SELF,'fonts.gstatic.com','cdnjs.cloudflare.com'],
         // 'block-all-mixed-content': true
     }
 }));
@@ -129,7 +129,7 @@ app.use(session({
     saveUninitialized: false,
     unset: 'destroy',
     cookie: {
-        secure: true,
+        // secure: true,
         httpOnly: true
     },
     store:new MySQLStore({
