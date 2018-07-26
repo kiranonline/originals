@@ -50,6 +50,7 @@ router.post('/login',function(req,res){
             if(result.length==1){
                 //sessions
                 req.session.admin=result[0];
+                console.log(req.session.admin);
                 res.redirect('/admin/dashboard');
             }
             else{
