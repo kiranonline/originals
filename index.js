@@ -161,8 +161,8 @@ app.use(session({
     app.use(passport.session());
 
 
-  //flash message
-  app.use(flash());
+    //flash message
+    app.use(flash());
 
 
 

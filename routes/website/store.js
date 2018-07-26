@@ -24,12 +24,6 @@ router.get('/',function(req,res){
                 var carousel_data = result;
                 res.render('homepage.handlebars',{theme:theme_data,carousel:carousel_data,nonc:req.nonc,csrf:req.csrfToken()});
             }
-            
-
-        });
-      });
-
-});
 
 
 
