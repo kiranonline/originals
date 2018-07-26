@@ -16,20 +16,9 @@ router.get('/',function(req,res){
         var theme_data = JSON.parse(text.toString());
         var q1="SELECT * FROM carousel_main";
         conn.query(q1,function(err,result){
-<<<<<<< HEAD
-            if (err) {
-                console.log(err);
-            }
-            else{
-                var carousel_data = result;
-                res.render('homepage.handlebars',{theme:theme_data,carousel:carousel_data,nonc:req.nonc});
-            }
-            
-=======
             if (err) throw err;
             var carousel_data = result;
             res.render('homepage.handlebars',{theme:theme_data,carousel:carousel_data,nonce:req.nonce,csrf:req.csrfToken()});
->>>>>>> b1ee28d5704ed7146f43343f321750e012bbe9e6
         });
       });
 
