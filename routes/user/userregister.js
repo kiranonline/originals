@@ -4,13 +4,14 @@ var router = express.Router();
 var path = require('path');
 var mysql = require('mysql');
 var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
+var sendEmail = require(path.join(__dirname,'/../../dependencies/email.js'));
 var md5 = require('md5');
 var nodemailer = require('nodemailer');
 const expressValidator = require('express-validator');
 
 //render registration form
 router.get('/register', function(req, res){
-    res.render('user/userregisterpage.handlebars',{layout:false,error: '',form:'reg'});
+    res.render('user/userregisterpage.handlebars',{layout:false,error: '',form:'reg',csrf:req.csrfToken()});
 });
 
 
@@ -44,6 +45,7 @@ router.post('/register', function(req, res){
       res.render('user/userregisterpage.handlebars', {layout:false,error : 'Invalid entries!'});
    }
    else{
+       console.log('Got it');
     //check whether user phone or email already registered on userlist
 
     var q3 = 'select * from userlist where phone =' + mysql.escape(phone) + ' or email=' +mysql.escape(email);
@@ -85,39 +87,8 @@ router.post('/register', function(req, res){
                             console.log("1 record inserted");
                             
 
-                            //creation of transporter for email verificaton mail
-                            const transporter = nodemailer.createTransport({
-                                host: 'smtp.zoho.com',
-                                port: 587,
-                                auth: {
-                                    user: 'admin@the-originals.in',
-                                    pass: '.chinmaya123'
-                                },
-                                tls: {
-                                    rejectUnauthorized: false
-                                }
-                            });
-
-                            
-                            
-
-                            //initialising email contents
-                            let mailOptions = {
-                                from: 'admin@the-originals.in', // sender address
-                                to: email, // list of receivers
-                                subject: 'Originals', // Subject line
-                                html: 'Hola, ' + f_name + "!<br>Click on the link below to validate your Originals account.<br>Confirmation Link: " + link // html body
-                            };
-
-                            //sending the mail
-                            console.log('created');
-                            transporter.sendMail(mailOptions, (error, info) => {
-                                if(error) {
-                                    return console.log(error);
-                                }
-                                console.log('Message sent');
-                                console.log(info);
-                            });
+                            sendEmail(name,email,link);
+                        
                             
                             //rendering the page for resending verification mail if not yet recieved
                             res.render('user/verification.handlebars', {layout:false,email : email});
@@ -147,34 +118,7 @@ router.post('/register', function(req, res){
                                 console.log("1 record inserted");
                                 
     
-                                //send email
-                                const transporter = nodemailer.createTransport({
-                                    host: 'smtp.zoho.com',
-                                    port: 587,
-                                    auth: {
-                                        user: 'admin@the-originals.in',
-                                        pass: '.chinmaya123'
-                                    },
-                                    tls: {
-                                        rejectUnauthorized: false
-                                    }
-                                });
-    
-    
-                                let mailOptions = {
-                                    from: 'admin@the-originals.in', // sender address
-                                    to: email, // list of receivers
-                                    subject: 'Originals', // Subject line
-                                    html: 'Hola, ' + f_name + "!<br>Click on the link below to validate your Originals account.<br>Confirmation Link: " + link // html body
-                                };
-                                console.log('created');
-                                transporter.sendMail(mailOptions, (error, info) => {
-                                    if(error) {
-                                        return console.log(error);
-                                    }
-                                    console.log('Message sent');
-                                    console.log(info);
-                                });
+                                sendEmail(name,email,link);
                                 
                                 res.render('user/verification.handlebars', {layout:false,email : email});
                             }
