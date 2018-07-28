@@ -37,13 +37,15 @@ router.get('/',function(req,res){
 
 
 
+
+
 //fetch item
 router.get("/item/:itemId",function(req,res){
     var itemId = req.params.itemId;
     var q1 = "SELECT * FROM items WHERE id="+mysql.escape(itemId);
     conn.query(q1,function(err,result){
         if(err){
-            console.log(err)
+            console.log(err);
         }
         else{
             if(result.length==1){

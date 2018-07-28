@@ -12,7 +12,7 @@ var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
 
 router.get('/login',function(req,res){
     if(!req.session.admin){
-        res.render('adminloginpage.handlebars',{ layout: false,error:'',csrf:req.csrfToken()});
+        res.render('admin/adminloginpage',{ layout: false,error:'',csrf:req.csrfToken()});
     }
     else{
         res.redirect('/admin/dashboard');
@@ -32,7 +32,7 @@ router.post('/login',function(req,res){
     //set error variable
     var errors = req.validationErrors();
     if(errors){
-        res.render('adminregisterpage.handlebars',{layout: false,error:'Incorrect Details !'});
+        res.render('admin/adminregisterpage',{layout: false,error:'Incorrect Details !',csrf:req.csrfToken()});
      }
      else{
 
@@ -45,7 +45,7 @@ router.post('/login',function(req,res){
         var q1='SELECT * FROM adminlist WHERE phone='+mysql.escape(phone)+'and password='+mysql.escape(hashedpassword);
         conn.query(q1,function(err,result){
 
-            if (err) throw err;
+            if (err) { console.log(err) };
 
             if(result.length==1){
                 //sessions
@@ -54,7 +54,8 @@ router.post('/login',function(req,res){
                 res.redirect('/admin/dashboard');
             }
             else{
-                res.render('adminregisterpage.handlebars',{layout: false,error:'Incorrect Details !'});
+                console.log("Hey admin ! Incorrect details");
+                res.render('admin/adminregisterpage',{layout: false,error:'Incorrect Details !',csrf:req.csrfToken()});
             }
         });
 

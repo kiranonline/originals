@@ -75,7 +75,7 @@ app.use(function(req, res, next) {
 });
 
 // CSP
-app.use(csp({
+/*app.use(csp({
     policies: {
         'default-src': [csp.SELF],
         'script-src': [csp.SELF, csp.NONCE,'cdnjs.cloudflare.com'],
@@ -86,7 +86,7 @@ app.use(csp({
     }
 }));
 
-
+*/
 
 
 //setting up server

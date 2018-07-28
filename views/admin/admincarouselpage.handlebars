@@ -11,14 +11,15 @@
   <title>The Originals-Admin dashboard</title>
   <!-- Bootstrap core CSS-->
   <link href="/css/admin/bootstrap.min.css" rel="stylesheet">
+  <!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">-->
   <!-- Custom fonts for this template-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- Custom styles for this template-->
-    <!-- CSS -->
+  <!-- CSS -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
 <!-- Default theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
-    <link href="/css/admin/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="/css/admin/dataTables.bootstrap4.css" rel="stylesheet">
   <link href="/css/admin/sb-admin.min.css" rel="stylesheet">
 </head>
 
@@ -33,7 +34,7 @@
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion" style="overflow-y:scroll;">
         <li class="nav-item">
             <div class="text-center admin-details">
-                <img src="/logos/admin_logo.png" style="width:20%" class="img-responsive">
+                <img src="/logos/admin_logo.png" id="imageres" class="img-responsive">
                 <pre class="nav-link-text" style="color:white;">{{admindetails.name}}</pre>
                 <pre class="nav-link-text" style="color:white;">{{admindetails.categoryname}}</pre>
             </div>
@@ -56,8 +57,6 @@
             <span class="nav-link-text">Orders</span>
           </a>
         </li>
-
-        <!--category settings-->
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-briefcase"></i>
@@ -78,8 +77,6 @@
             </li>
           </ul>
         </li>
-
-        <!--item settings-->
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-shopping-bag"></i>
@@ -112,10 +109,11 @@
               <a href="/admin/dashboard/carousel">View Carousels</a>
             </li>
             <li>
-              <a href="/admin/dashboard/carousel/new">Add New Carousel</a>
+              <a href="/admin/dashboard/carousel/new" class="active">Add New Carousel</a>
             </li>
           </ul>
         </li>
+
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
@@ -163,7 +161,7 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown" >
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-fw fa-envelope"></i>
             <span class="d-lg-none">Messages
@@ -251,17 +249,16 @@
     <div class="container-fluid">
 
 
-
-
-
-            <ol class="breadcrumb">
+        
+        <!--content-->
+        
+       
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="/admin/dashboard">Dashboard / </a>
+          <a href="/admin/dashboard">Dashboard</a>
         </li>
-        <li>
-          <a href="/admin/dashboard/item/category/level1"> Item Category - Level 1 (Sizes) </a>
-        </li>
-        <li class="breadcrumb-item active"> / Create New</li>
+        <li class="breadcrumb-item active">All Slides</li>
       </ol>
         
 
@@ -269,69 +266,67 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i>
-           Add new Size List
-           <a href="/admin/dashboard/item/category/level1" class="btn btn-success" style="float:right">View All</a>           
+           View all slider
+           <a href="/admin/dashboard/carousel/new" class="btn btn-success float-right">+ Create New</a>
         </div>
         <div class="card-body">
 
 
-          <form class="form-container" id="newsizeform" action="/admin/dashboard/item/category/level1/new" method="POST">
-              
+            <div class="table-responsive">
 
-              <div class="form-group">
-                  <label>Category Name:</label>
-                      <input type="text" class="form-control" id="cat_name" name="cat_name" placeholder="Category Name">
-              </div>
-
-              <div class="form-group">
-                  <label>For:</label>
-                      <select class="form-control" id="for_type" name="cat_for">
-                        {{#each for}}
-                          <option value="{{this.name}}">{{this.name}}</option>
+                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead>
+                        <tr>
+                            <th>SLIDER NAME</th>
+                            <th>SLIDER LINK</th>
+                            <th>CREATED BY</th>
+                            <th>CREATED ON</th>
+                            <th>OPERATIONS</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>SLIDER NAME</th>
+                            <th>SLIDER LINK</th>
+                            <th>CREATED BY</th>
+                            <th>CREATED ON</th>
+                            <th>OPERATIONS</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {{#each tabledata}}
+                            <tr>
+                                <td>{{this.poster_name}}</td>
+                                <td>{{this.poster_link}}</td>
+                                <td>{{this.created_by}}</td>
+                                <td>{{this.created_on}}</td> 
+                                <td class="text-center">
+                                    <button class="btn btn-danger" onclick="trash('{{this.poster_name}}')"><i class="fa fa-trash"></i></button>
+                                </td>                               
+                            </tr>
                         {{/each}}
-                      </select>
-              </div>
+                    </tbody>
+                 </table>
 
-              <div class="form-group sz">
-                  <label>Sizes:</label>
-
-                  <div class="row">
-                      <div class="col-sm-2"></div>
-                      <div class="col-sm-6">
-                        <input type="text" class="form-control" id="cat_item" name="cat_item_1" placeholder="Size 1">
-                      </div>
-                      <div class="col-sm-3 cntrl-btn">
-                        <a class="btn btn-success" onclick="add()">&nbsp+&nbsp</a>
-                      </div>
-                  </div>
-                  <br>
-                                         
-              </div>
-
-
-              <div class="form-group text-center">
-                  <input type="submit" class="btn btn-primary" value="create">
-              </div>
-
-          </form>
-
-
-
+            </div>
 
           
 
+
+
+
+
+
+
+
+
+
+        
+        
+        
         </div>
-    </div>
+      </div>
 
-
-
-
-
-
-
-
-
-      
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
@@ -366,36 +361,46 @@
         </div>
       </div>
     </div>
-        <!-- Bootstrap core JavaScript-->
+    <!-- Bootstrap core JavaScript-->
     <script src="/js/admin/jquery.min.js"></script>
     <script src="/js/admin/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="/js/admin/jquery.easing.min.js"></script>
+    <!--tables-->
+     <script src="/js/admin/jquery.dataTables.js"></script>
+      <script src="/js/admin/dataTables.bootstrap4.js"></script>
+    <!--alertyfy-->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
     <!-- Custom scripts for all pages-->
-        <!-- Custom scripts for all pages-->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-    <script src="/js/admin/adminvalidators.js"></script>
     <script src="/js/admin/sb-admin.min.js"></script>
 
+
     <script>
-      var i=1;
-      function add(){
-          i=i+1;
-          $('.cntrl-btn').html('');
-          $('.cntrl-btn').removeClass('cntrl-btn');
-          $('.sz').append('<div class="row"><div class="col-md-2"></div><div class="col-md-6"><input type="text" class="form-control" id="cat_item" name="cat_item_'+i+'" placeholder="Size '+i+'"></div><div class="col-md-3 cntrl-btn"><a class="btn btn-success" onclick="add()">&nbsp+&nbsp</a></div></div><br>');
-      }
+        function trash(id){
+            alertify.confirm('Confirm Delete','Do you want to delete the slider named '+id,
+            function(){
+                window.location.replace("/admin/dashboard/carousel/del?name="+id);
+            }, 
+            function(){
+                
+            });
+        }   
+
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
     </script>
+    
 
-  </div>
 
-  <!--messages-->
+
+    <!--messages-->
      <!--display success message-->
         {{#if messageStatuse}}
             <script> alertify.alert('{{messageTitle}}', '{{messageBody}}');</script>
         {{/if}}
+    
+  </div>
 </body>
 
 </html>

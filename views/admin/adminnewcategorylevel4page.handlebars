@@ -11,14 +11,14 @@
   <title>The Originals-Admin dashboard</title>
   <!-- Bootstrap core CSS-->
   <link href="/css/admin/bootstrap.min.css" rel="stylesheet">
-  <!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">-->
   <!-- Custom fonts for this template-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- CSS -->
+  <!-- Custom styles for this template-->
+    <!-- CSS -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
 <!-- Default theme -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css"/>
-  <!-- Custom styles for this template-->
+    <link href="/css/admin/dataTables.bootstrap4.css" rel="stylesheet">
   <link href="/css/admin/sb-admin.min.css" rel="stylesheet">
 </head>
 
@@ -56,6 +56,8 @@
             <span class="nav-link-text">Orders</span>
           </a>
         </li>
+
+        <!--category settings-->
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-briefcase"></i>
@@ -76,6 +78,8 @@
             </li>
           </ul>
         </li>
+
+        <!--item settings-->
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-shopping-bag"></i>
@@ -108,11 +112,10 @@
               <a href="/admin/dashboard/carousel">View Carousels</a>
             </li>
             <li>
-              <a href="/admin/dashboard/carousel/new" class="active">Add New Carousel</a>
+              <a href="/admin/dashboard/carousel/new">Add New Carousel</a>
             </li>
           </ul>
         </li>
-
 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
@@ -160,7 +163,7 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-fw fa-envelope"></i>
             <span class="d-lg-none">Messages
@@ -248,16 +251,17 @@
     <div class="container-fluid">
 
 
-        
-        <!--content-->
-        
-       
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
+
+
+
+            <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="/admin/dashboard">Dashboard</a>
+          <a href="/admin/dashboard">Dashboard / </a>
         </li>
-        <li class="breadcrumb-item active">Create New Slider</li>
+        <li>
+          <a href="/admin/dashboard/item/category/level4"> Item Category - Level 4 (Item Type) </a>
+        </li>
+        <li class="breadcrumb-item active"> / Create New</li>
       </ol>
         
 
@@ -265,42 +269,38 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i>
-           Create new slider
-           <a href="/admin/dashboard/carousel" class="btn btn-success" style="float:right">View All</a>
+           Add new Type
+           <a href="/admin/dashboard/item/category/level4" class="btn btn-success" style="float:right">View All</a>           
         </div>
         <div class="card-body">
 
-          <form class="form-container" id="newcarouselform" action="/admin/dashboard/carousel/new" method="POST" encType="multipart/form-data">
 
+
+
+          <form class="form-container" id="newsizeform" action="/admin/dashboard/item/category/level4/new" method="POST">
+               <input type="hidden" name="_csrf" value="{{csrf}}">
               <div class="form-group">
-                  <label>Slider Name:</label>
-                      <input type="text" class="form-control" id="slider_name" name="slider_name" placeholder="Slider Name">
+                  <label>Item Type Name:</label>
+                      <input type="text" class="form-control" id="cat_name" name="cat_name" placeholder="Item Type Name">
               </div>
 
-              <div class="form-group">
-                  <label>Slider Link:</label>
-                  
-                      <input type="text" class="form-control" id="slider_link" name="slider_link" placeholder="Slider Link">
-      
-              </div>
 
-              <div class="form-group">
-                  <label>Slider Image:</label>
-                  
-                      <input type="file" class="form-control" id="slider_image" name="slider_image" placeholder="Slider Image">
-                  
-              </div>
-
-              
               <div class="form-group text-center">
-                  <input type="submit" class="btn btn-primary" value="Upload" onclick="uploading()">
+                  <input type="submit" class="btn btn-primary" value="create">
               </div>
 
           </form>
 
-        </div>
-      </div>
 
+
+
+
+         
+
+          
+
+        </div>
+    </div>
 
 
 
@@ -345,34 +345,28 @@
         </div>
       </div>
     </div>
-    <!-- Bootstrap core JavaScript-->
+        <!-- Bootstrap core JavaScript-->
     <script src="/js/admin/jquery.min.js"></script>
     <script src="/js/admin/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="/js/admin/jquery.easing.min.js"></script>
-    <!--alertyfy-->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
     <!-- Custom scripts for all pages-->
+        <!-- Custom scripts for all pages-->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script src="/js/admin/adminvalidators.js"></script>
     <script src="/js/admin/sb-admin.min.js"></script>
-    
 
-  <script>
-    function uploading(){
-      alertify.alert('<h3 class="text-center">Uploading..</h3><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%"></div>').set('closable', false); 
-    }
-  </script>
+  
 
+  </div>
 
-    <!--messages-->
+  <!--messages-->
      <!--display success message-->
         {{#if messageStatuse}}
             <script> alertify.alert('{{messageTitle}}', '{{messageBody}}');</script>
         {{/if}}
-    
-  </div>
 </body>
 
 </html>
