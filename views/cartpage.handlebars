@@ -1,0 +1,55 @@
+<html>
+<body>
+
+
+
+<p>Cart Add</p>
+<form action="/cart/add" method="POST">
+
+<label for="item_id">Enter item_id</label>
+    <input type="text" id="item_id" name="item_id">
+    <label for="color">Color</label>
+    <input  type="color"  id="color" name="color">
+    
+    <label for="size">Size</label>
+    <input  type="text" id="size" name="size">
+    
+    <label for="price">Price</label>
+    <input  type="tel" id="price" name="price">
+
+
+    <input type="submit" name="submit">
+
+</form>
+
+<p>Cart Remove</p>
+<br>
+<form action="/cart/remove" method="POST">
+
+<label for="item_id">Enter id</label>
+    <input type="text" id="item_id" name="id">
+    
+    <input type="submit" name="submit">
+    
+</form>
+
+
+<p>Item Increase/Decrease</p>
+<br>
+<form action="/cart/change" method="POST">
+
+<label for="item_id">Enter id</label>
+    <input type="text" id="item_id" name="id">
+<label for="item_id">Increase/decrease</label>
+    <input type="tel" id="value" name="value">    
+    
+    <input type="submit" name="submit">
+    
+</form>
+
+
+<form action="/cart/total" method="post">
+    <input type="submit">
+</form>
+</body>
+</html>

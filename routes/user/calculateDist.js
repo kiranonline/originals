@@ -2,7 +2,7 @@ var distance = require('google-distance-matrix');
 var express=require('express');
 var router = express.Router();
 
-//var api_key="";
+var api_key="";
 
 distance.key(api_key);
 router.post('/calc',function(req,res){
@@ -26,7 +26,7 @@ router.post('/calc',function(req,res){
                 res.send("invalid location");
             }
           //  res.send(distances.rows.elements.distance.text);
-    })
+    });
 });
 
 router.get('/calc',function(req,res){

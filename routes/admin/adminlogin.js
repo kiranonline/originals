@@ -50,17 +50,36 @@ router.post('/login',function(req,res){
 
             if(result.length==1){
                 //sessions
+                
+                console.log(result[0]);
+                //result[0]["haha"]="lol";
                 req.session.admin=result[0];
-                res.redirect('/admin/dashboard');
+
+                var q2="SELECT details FROM cart WHERE user_id='item1'";
+                conn.query(q2,function(err2,result2){
+                    
+                    if(err) throw err2
+                    if(result2.length==1){
+
+                   // console.log("yo");
+                    var cart=result2[0].details;
+                    console.log(cart);
+                    //console.log(result[0]);
+                    //result[0]["cart"]=result2[0].details;
+                    req.session.cart=cart;
+                    res.redirect('/admin/dashboard');
+                    }
+                    
+
+
+                });
             }
             else{
                 res.render('adminregisterpage.handlebars',{error:'Incorrect Details !'});
             }
         });
 
-
-     }
-
+    }
     
 });
 

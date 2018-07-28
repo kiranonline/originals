@@ -1,0 +1,38 @@
+<html>
+<body>
+
+    <form action="/promo" method="post">
+        <label for="name" >Name</label>
+        <input type="text" id="name" name="name">
+
+        <label for="percentage">percentage</label>
+        <input id="percentage" type="tel" name="percentage">
+        
+        <label for="upto">upto</label>
+        <input id="upto" type="upto" name="upto">
+
+        <label for="type"></label>
+        <select id="type" name="type">
+            <option value="cashback">Cashback Type</option>
+            <option value="discount">Discount Type</option>
+        </select>
+
+        <input type="submit" > 
+
+    </form>
+
+    <form action="/apply" method="POST">
+
+        <label for="total_amount">total_amount</label>
+        <input type="tel" name="total_amount" id="total_amount">
+
+        <label for="promocode">promocode</label>
+        <input type="text" name="promocode" id="promocode">
+        
+        <input type="submit">
+
+
+    </form>
+
+</body>
+</html>

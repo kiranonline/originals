@@ -39,7 +39,8 @@ router.get('/dashboard',function(req,res){
     }
     else{
         console.log('dash');
-        console.log(req.session.admin);
+		console.log(req.session.admin);
+		console.log(JSON.parse(req.session.cart));
         res.render('admindashboardpage.handlebars',{ admindetails :req.session.admin });
     }
 });

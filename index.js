@@ -28,8 +28,10 @@ var adminRegister = require('./routes/admin/adminregister.js');
 var adminLogin = require('./routes/admin/adminlogin.js');
 var adminDashboard = require('./routes/admin/admindashboardpage');
 var userLogin = require('./routes/user/userlogin.js');
-var userRegister = require('./routes//user/userregister.js');
-
+var userRegister = require('./routes/user/userregister.js');
+var addToCart=require('./routes/user/addToCart.js');
+var order=require('./routes/user/order.js');
+var promocode=require('./routes/user/promocode.js');
 
 
 var calculateDistance=require('./routes/user/calculateDist.js');
@@ -88,6 +90,8 @@ app.use(session({
                 session_id: 'session_id',
                 expires: 'expires',
                 data: 'data'
+
+
             }
         }
     })
@@ -110,7 +114,9 @@ app.use('/admin',adminDashboard);
 app.use('/',userRegister);
 app.use('/',userLogin);
 app.use('/',calculateDistance);
-
+app.use('/',addToCart);
+app.use('/',order);
+app.use('/',promocode);
 
 
 
