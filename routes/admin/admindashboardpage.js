@@ -1,6 +1,4 @@
 "use strict";
-
-
 var express = require('express');
 var router = express.Router();
 var path = require('path');
@@ -9,6 +7,7 @@ var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
 const fs =  require('fs');
 var uniqid = require('uniqid');
 var trim = require('trim');
+const fileUpload = require('express-fileupload');
 
 
 
@@ -33,7 +32,7 @@ router.get('/dashboard/carousel/new',function(req,res){
         res.redirect('/admin/login');
     }
     else{
-        res.render('admin/adminnewcarouselpage',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'',csrf:req.csrfToken() });
+        res.render('admin/adminnewcarouselpage',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'', csrf:req.csrfToken()});
     }
 });
 
@@ -64,7 +63,7 @@ router.post('/dashboard/carousel/new',(req,res)=>{
             
 
             if(result.length==0){
-                slider_image.mv(__dirname+'/../../assets/carousel_images/'+slider_name+'.jpg',function(err){
+                slider_image.mv(path.join(__dirname,'/../../assets/carousel_images/'+slider_name+'.jpg'),function(err){
                     if(err){
                         console.log(err);  
                     } 
@@ -749,9 +748,121 @@ router.post('/dashboard/item/new',function(req,res){
 
 
 
+//view promocode
+router.get('/dashboard/promocode/', (req,res)=>{
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        if(req.query.msg){
+            var msgS=true;
+            var msgH=req.query.msg;
+            var msgB='Slider Deleted Sucessfully';
+        }
+        else{
+            var msgS=false;
+            var msgH='';
+            var msgB=''
+        }
+        var q2="SELECT * FROM promocode";
+        conn.query(q2,(err,result)=>{
+            if(err){
+                console.log(err);
+            }
+            res.render('admin/promocode',{layout: false,admindetails :req.session.admin,messageStatuse:msgS,messageTitle:msgH,messageBody:msgB,codes:result});
+        });
+        
+    }
+});
 
 
 
+//new promoce form
+router.get('/dashboard/promocode/new',(req,res)=>{
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        res.render('admin/new_promocode',{layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'',csrf:req.csrfToken()});
+    }
+});
+
+
+//create promocode form
+router.post('/dashboard/promocode/new',(req,res)=>{
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        var id = uniqid('promo-'); 
+        var promo_type = req.body.promo_type;
+        var percentage =  req.body.percentage;
+        var promocode = req.body.promocode;
+        var upto = req.body.value_upto;
+        var added_by=req.session.admin.name;
+        var added_on=new Date();
+        var q2="SELECT * FROM promocode WHERE id="+mysql.escape(id)+"OR promocode="+mysql.escape(promocode);
+        conn.query(q2,(err,result1)=>{
+            if(err){
+                console.log(err);
+                
+            }
+            if(result1.length==0){
+                var q1="INSERT INTO promocode(id,type,promocode,percentage,upto,created_by,created_on) VALUES ("+mysql.escape(id)+","+mysql.escape(promo_type)+","+mysql.escape(promocode)+","+mysql.escape(percentage)+","+mysql.escape(upto)+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
+                conn.query(q1,(err,result)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    res.render('admin/new_promocode',{layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Success',messageBody:'Promocode added successfully',csrf:req.csrfToken()});            
+                });
+            }
+            else{
+                res.render('admin/new_promocode',{layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'Error',messageBody:'Duplicate Promocode',csrf:req.csrfToken()});            
+            }
+        });
+        
+    }
+});
+
+
+
+
+
+
+
+
+//delete 
+router.get('/dashboard/promocode/delete', (req,res)=>{
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        var q2="SELECT * FROM promocode WHERE id="+mysql.escape(req.query.id);
+        conn.query(q2,(err,result)=>{
+            if(err){
+                console.log(err);
+            }
+            console.log(result);
+            if(result.length==1){
+                var q3="DELETE FROM promocode WHERE id="+mysql.escape(req.query.id);
+                conn.query(q3,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                        res.redirect('/admin/dashboard/promocode');
+                    }
+                    else{
+                        res.redirect('/admin/dashboard/promocode');
+
+                    }
+                    
+                });
+            } 
+            else{
+                res.redirect('/admin/dashboard/promocode/?msg=Deleted');
+            }           
+        });
+    }
+});
 
 
 
