@@ -12,22 +12,30 @@ const fs =  require('fs');
 router.get('/',function(req,res){
 
     fs.readFile(path.join(__dirname,'/../../dependencies/website.theme'), function(err, text) {
+        var carousel_data,t;
         if (err) throw err;
         var theme_data = JSON.parse(text.toString());
         var q1="SELECT * FROM carousel_main";
+        var q2="SELECT * FROM ITEMS WHERE TYPE-NAME='T-Shirt'";
         conn.query(q1,function(err,result){
 
             if (err) {
                 console.log(err);
             }
             else{
-                var carousel_data = result;
-                res.render('homepage.handlebars',{theme:theme_data,carousel:carousel_data,nonc:req.nonc,csrf:req.csrfToken()});
+                carousel_data = result;
             }
-
-
-
         });
+        conn.query(q2,function(err,result){
+
+            if (err) {
+                console.log(err);
+            }
+            else{
+                t = result;
+            }
+        });
+        res.render('homepage.handlebars',{theme:theme_data,carousel:carousel_data,tshirt:t,nonce:req.nonce/*,csrf:req.csrfToken()*/});
 
     });
 });

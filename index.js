@@ -17,7 +17,7 @@ const flash = require('express-flash');
 var uniqid = require('uniqid');
 var passport = require('passport');
 var LocalStrategy  = require('passport-local').Strategy;
-var csurf = require('csurf');
+// var csurf = require('csurf');
 var helmet = require('helmet');
 const csp = require('express-csp-header');
 
@@ -85,8 +85,8 @@ app.use(function(req, res, next) {
         // 'block-all-mixed-content': true
     }
 }));
-
 */
+
 
 
 //setting up server
@@ -111,10 +111,10 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(expressValidator());
 app.use(cookieParser('secret'));
 
-
+/*
 var csrf = csurf({ cookie: true });
 app.use(csrf);
-
+*/
 
 //seting up file uploader
 app.use(fileUpload());
