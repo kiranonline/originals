@@ -287,6 +287,7 @@
                       <th>ITEM TYPE</th>
                       <th>ADDED BY</th>
                       <th>ADDED ON</th>
+                      <th>OPERATION</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -300,6 +301,7 @@
                       <th>ITEM TYPE</th>
                       <th>ADDED BY</th>
                       <th>ADDED ON</th>
+                      <th>OPERATION</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -314,6 +316,9 @@
                         <td>{{this.type_name}}</td>
                         <td>{{this.added_by}}</td>
                         <td>{{this.added_on}}</td>
+                        <td class="text-center">
+                          <button class="btn btn-danger" onclick="trash('{{id}}')"><i class="fa fa-trash"></i></button>
+                        </td>
                       </tr>
                       {{/each}}
                 </tbody>
@@ -379,6 +384,25 @@
          $(document).ready(function() {
             $('#dataTable').DataTable();
         });
+
+
+
+        function trash(id){
+          var url ='/admin/dashboard/item/delete/'+id;
+          $.ajax({
+            type:"DELETE",
+            url:url,
+            success:function(result){
+              alertify.alert('Success', result, function(){ 
+                window.location.replace("/admin/dashboard/item");
+               });
+            },
+            error:function(error){
+              alertify.alert('failed', error);
+            }
+
+          });
+        }
 
         
     </script>

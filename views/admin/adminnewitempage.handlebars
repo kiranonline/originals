@@ -269,7 +269,7 @@
 		<div class="container">
             <!--content-->
 			<form class="form-horizontal" id="form" action="/admin/dashboard/item/new" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="_csrf" value="{{csrf}}">
+       
         <div class="form-group">
 					<label class="control-label col-sm-12" for="item">Item Name:</label>
 					<div class="col-sm-12">
@@ -525,7 +525,6 @@ $('#removeButton').click(function(){
 <script>
  $('#cat4').on('click', function() {
 
-   var csrf = '{{csrf}}';
     $("#cat1 option").remove();
 
     console.log("changed");
@@ -535,7 +534,7 @@ $('#removeButton').click(function(){
     $.ajax({
       type: "POST",
       url: "/admin/dashboard/category1",
-      data: {category4:str,_csrf:csrf},
+      data: {category4:str},
       success: function(result){
         
         var s=JSON.parse(result);
