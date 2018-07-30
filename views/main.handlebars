@@ -3,6 +3,7 @@
     <head>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!--Import materialize.css-->
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="/css/defaultpage/materialize.min.css">
@@ -12,7 +13,10 @@
 
         <link rel="shortcut icon" type="image/x-icon" href="/logos/logo_bottom.png" />
         <title>The Originals</title>
+
+
         <style nonce="{{nonce}}">
+
             /*    Declaring theme colours   */
             :root {
                 --main-primary-1   : {{ theme.primary_colour_1 }}   ; 
@@ -22,20 +26,19 @@
             }
         </style>
         <!--slick-->
-        <link rel="stylesheet" type="text/css" href="/slick/slick/slick.css"/>
-        <link rel="stylesheet" type="text/css" href="/slick/slick/slick-theme.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/defaultpage/main.css">
+        <link rel="stylesheet" href="/css/base.css">
     </head>
     <body>
 
 
+ 
         <!--nav bar-->
             <div class="navbar-fixed" id="nav-bar-controller">
               <nav class="nav-extended">
                 <div class="nav-wrapper" id="nav-part-1">
                     <ul id="nav-mobile" class="nav-item-list left">
                         <li><a href="#"><i class="material-icons right menu-icon">menu</i></a></li>
-                        <li><img src="/logos/logo_bottom.png" class="responsive-img main-logo"></li>
+                        <li><img src="logos/logo_bottom.png" class="responsive-img main-logo"></li>
                          <li><span class="wesite-title">Originals</span></li>
                     </ul>
                     <ul class="hide-on-med-and-down">
@@ -43,10 +46,11 @@
                             <input type="search" class="search-input autocomplete" id="autocomplete-input" placeholder="Search..">
                         </li>
                     </ul>                        
-                    <ul id="nav-mobile" class="nav-item-list right">
-                         <li><a href="#"><i class="material-icons left">account_balance_wallet</i></a></li>
-                        <li><a href="#"><i class="material-icons left">shopping_cart</i></a></li>
-                        <li><a href="#" id="login-modal"><i class="material-icons left">face</i></a></li>
+                    <ul id="nav-mobile" class="nav-item-list right main-nav-icons">
+                        <li><a href="#" class="waves-effect waves-light"><i class="material-icons">account_balance_wallet</i></a></li>
+                        <li><a href="#" class="waves-effect waves-light"><i class="material-icons">shopping_cart</i></a></li>
+                        <li><a href="#" class="waves-effect waves-light"><i class="material-icons">face</i></a></li>
+                        <li class="hide-on-med-and-down"><a href="#" class="waves-effect waves-light"><i class="material-icons">phone_iphone</i></a></li>
                     </ul>
                 </div>
                 <div class="nav-content" id="mobile-search">
@@ -64,11 +68,10 @@
             <!--side nav bar-->
             <div class="menu">
                 <div class="app-menu">
-                    
+
                 </div>
             </div>
-
-          
+         
 
 
 
@@ -84,13 +87,68 @@
 
 
             <footer class="footer-mainsection-container">
-                
+                <div class="footer-1-wrapper">
+                    <img class="responsive-img full-footer-image" src="image/footer_image.png">
+                    <div class="footer-mainsection-inner">
+                        <div class="footer-body row">
+                            <div class="col m4">
+                                <div class="footer-section-1">
+                                    <p class="footer-header">Links</p>
+                                    <hr class="footer-line">
+                                    <ul class="footer-list footer-first-list">
+                                        <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp Shop with us</a></li>
+                                        <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i>&nbsp Read our blogs</a></li>
+                                        <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp Meet our team</a></li>
+                                        <li><a href="#"><i class="fa fa-superpowers" aria-hidden="true"></i>&nbsp Our goals</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col m4">
+                                <div class="center-align footer-section-1">
+                                    <p class="footer-header">We Offer</p>
+                                    <hr class="footer-line">
+                                    <ul class="footer-list footer-second-list">
+                                        <li><a><i class="fa fa-handshake-o footer-icons icon-1" aria-hidden="true"></i><br><p class="footer-icon-text">Reliability</p></a></li>
+                                        <li><a><i class="fa fa-diamond footer-icons icon-2  " aria-hidden="true"></i><br><p class="footer-icon-text">Quality</p></a></li>
+                                        <li><a><i class="fa fa-money footer-icons icon-3" aria-hidden="true"></i><br><p class="footer-icon-text">Refer & Earn</p></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col m4">
+                                <div class="right-align footer-section-1 sec-3rd">
+                                    <p class="footer-header">Head Office</p>
+                                    <hr class="footer-line">
+                                    <div class="footer-list footer-address">
+                                        Kalyani Government Engineering College,
+                                        Kalyani,Nadia,
+                                        731202
+                                       admin@the-originals.in
+                                        <br>
+                                       +91 9563152391
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer-secondary center-align">
+                            <a class="" href="#"><i class="fa fa-facebook social-icon fb"></i></a>
+                            <a class="" href="#"><i class="fa fa-instagram social-icon insta"></i></a>
+                        </div>
+                    </div>
+                </div>             
             </footer>
+
+
+
+
+
+
+
+                
 
 
             <footer class="footer-copyright-container center">
                 <div class="footer-copyright-wrapper">
-                    Origials - Made with Love
+                    Originals - Made with Love
                 </div>
             </footer>
        

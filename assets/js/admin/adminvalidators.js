@@ -158,4 +158,69 @@ $("#newsizeform").validate({
 
 
 
+
+
+//new promocode
+
+$("#newpromocode").validate({
+        
+    rules: {
+        percentage:{
+            required: true,
+            minlength:1,
+            maxlength:3
+        },
+        promocode:{
+            required: true,
+            minlength:3,
+            maxlength:8
+        },
+        upto:{
+            required:true
+        }
+        
+    },
+    //For custom messages
+    messages: {
+        percentage:{
+            required: "Please enter a percentage",
+            minlength:'Enter a valid percentage',
+            maxlength:'Enter a valid percentage'
+        },
+        promocode:{
+            required:'Please enter a value',
+            maxlength:'Enter a valid code',
+            minlength:'Enter a valid code'
+        },
+        upto:{
+            required:'Please enter a value'
+        }
+    },
+    errorElement : 'div',
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    }
+
+ });
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
 });

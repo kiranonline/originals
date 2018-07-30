@@ -33,7 +33,7 @@
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion" style="overflow-y:scroll;">
         <li class="nav-item">
             <div class="text-center admin-details">
-                <img src="/logos/admin_logo.png" style="width:20%" class="img-responsive">
+                <img src="/logos/admin_logo.png" id="imageres" class="img-responsive">
                 <pre class="nav-link-text" style="color:white;">{{admindetails.name}}</pre>
                 <pre class="nav-link-text" style="color:white;">{{admindetails.categoryname}}</pre>
             </div>
@@ -266,17 +266,19 @@
         <div class="card-header">
           <i class="fa fa-table"></i>
            Create new slider
-           <a href="/admin/dashboard/carousel" class="btn btn-success" style="float:right">View All</a>
+           <a href="/admin/dashboard/carousel" class="btn btn-success float-right">View All</a>
         </div>
         <div class="card-body">
 
           <form class="form-container" id="newcarouselform" action="/admin/dashboard/carousel/new" method="POST" encType="multipart/form-data">
-
+              
+              <input type="hidden" name="_csrf" value="{{csrf}}">
+              
               <div class="form-group">
                   <label>Slider Name:</label>
                       <input type="text" class="form-control" id="slider_name" name="slider_name" placeholder="Slider Name">
               </div>
-
+              
               <div class="form-group">
                   <label>Slider Link:</label>
                   

@@ -282,7 +282,7 @@
 
 
           <form method="POST" class="form-container" id="themechangeform" action="/admin/dashboard/website/theme" encType="multipart/form-data">
-
+               <input type="hidden" name="_csrf" value="{{csrf}}">
             <div class="container">
 
               <div class="form-group row">

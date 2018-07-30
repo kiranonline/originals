@@ -16,7 +16,7 @@ const fs =  require('fs');
 const flash = require('express-flash');
 var uniqid = require('uniqid');
 var passport = require('passport');
-var LocalStrategy     = require('passport-local').Strategy;
+var LocalStrategy  = require('passport-local').Strategy;
 var csurf = require('csurf');
 var helmet = require('helmet');
 const csp = require('express-csp-header');
@@ -75,7 +75,7 @@ app.use(function(req, res, next) {
 });
 
 // CSP
-app.use(csp({
+/*app.use(csp({
     policies: {
         'default-src': [csp.SELF],
         'script-src': [csp.SELF, csp.NONCE,'cdnjs.cloudflare.com'],
@@ -86,7 +86,7 @@ app.use(csp({
     }
 }));
 
-
+*/
 
 
 //setting up server
@@ -161,8 +161,8 @@ app.use(session({
     app.use(passport.session());
 
 
-  //flash message
-  app.use(flash());
+    //flash message
+    app.use(flash());
 
 
 
