@@ -1,138 +1,5 @@
-/*-----------importing fonts------------*/
-@import url('https://fonts.googleapis.com/css?family=Comfortaa');
-/*-----------nav bar--------------------*/
-html,body{
-    overflow-x: hidden !important;
-}
-nav{
-    background: var(--main-primary-1);
- }
- .main-logo{
-     display: block;
-    margin:15px auto -10px 30px; 
-    width:30px;     
- }
- .wesite-title{
-    font-family: 'Comfortaa', cursive !important;
-     font-size: 25px !important;
-     margin-left: 15px !important;
- }
- .search-bar{
-    height:64px !important;
-    width:40% !important;
-    margin-left: 10% !important;
- }
-.search-input{
-    background: white !important;
-    font-size: 15px !important;
-    padding:4px 8px 4px 50px !important;
-    height:35px !important;
-    background-image: url('/logos/search.png') !important;
-    background-position: 8px 8px !important;
-    background-repeat:no-repeat !important;
-    margin-top: 13px !important;
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2) !important;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2) !important;
-}
-#mobile-search{
-    display: none;
-}
-.hidden{
-    display: none !important;
-}
-.fixed{
-    position: fixed !important;
-}
 
-
-
-
-
-/*-------------------------side nav bar--------------------*/
-
-    .menu {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100% !important;
-        height: 100% !important;
-        overflow: hidden;
-        pointer-events: none;
-        z-index: 150;
-    }
-
-    .menu--visible {
-        pointer-events: auto;
-    }
-
-    .app-menu {
-        background-color: #fff;
-        color: #fff;
-        position: relative;
-        max-width: 400px;
-        width: 90%;
-        height: 100%;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-        -webkit-transform: translateX(-103%);
-        transform: translateX(-103%);
-        display: flex;
-        flex-direction: column;
-        will-change: transform;
-        z-index: 160;
-        pointer-events: auto;            
-    }
-
-    .menu--visible .app-menu {
-        -webkit-transform: none;
-        transform: none;
-    }
-
-    .menu--animatable .app-menu {
-        transition: all 130ms ease-in;
-    }
-
-    .menu--visible.menu--animatable  .app-menu {
-        transition: all 330ms ease-out;
-    }
-
-    .menu:after {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.4);
-        opacity: 0;
-        will-change: opacity;
-        pointer-events: none;
-        transition: opacity 0.3s cubic-bezier(0,0,0.3,1);
-    }
-
-    .menu--visible.menu:after {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .app-menu {
-        width: 300px;
-        height: 100% !important;
-        box-shadow: none;
-        background-color: #ddd;
-    }
-    
-    .menu:after {
-        width:100% !important;
-        height: 100% !important;
-    }
-
-
-
-
-
-
-
-/*-----------carousel image-----------------------*/
+/*-----------carousel image and dots -----------------------*/
 .container-fluid{
     width: 100%;
     margin-right: auto;
@@ -195,6 +62,7 @@ nav{
     height:120px;
     position: absolute;
     cursor: pointer;
+    background: var(--main-secondary-1);
 }
 .left-side{
     left:0px;
@@ -202,7 +70,7 @@ nav{
 }
 .right-side{
     right:0px;
-    border-radius: 50% 0px 0px 50%;
+    border-radius:50% 0px 0px 50%;
 }
 .slider-button-icon{
     position: absolute !important;
@@ -216,17 +84,18 @@ nav{
 
 
 
-
-
-/*-------footer copyright container-------------*/
-.footer-copyright-container{
-    width:100% !important;
-    background: var(--main-primary-1);
+/*--------------------------referal holder-------------------------*/
+.referal-poster{
+    width:99%;
+    margin-left: 0.5%;
+    margin-top: -50px;
 }
-.footer-copyright-wrapper{
-    padding:20px;
-    color:white;
-    background: rgba(0,0,0,0.6) !important;
+.referal-poster img{
+    width:100%;
+}
+.refer-earn-btn{
+    width:15% !important;
+    margin-top:-50px;
 }
 
 
@@ -253,40 +122,135 @@ nav{
 
 
 
+/*---------------------------trending holder--------------------------*/
+.trending-wrapper{
+    width:80%;
+    margin-left: 10%;
+    margin-top: 50px;
+}
+.button-explore{
+    border-radius: 4px;
+    background: var(--main-primary-1) !important;
+    color: #FFFFFF;
+    font-size: 15px !important;
+    transition: all 0.5s;
+    vertical-align:middle;
+}
+.explore-button-colour{
+    background-color:var(--main-primary-1) !important; 
+    width: 70%;
+}
+.explore-button-colour:active{
+    background-color:var(--main-primary-1) !important; 
+}
+.button-explore:hover{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.button-explore span {
+    display: inline-block; 
+    position: relative;
+    transition: 0.5s;
+  }
+.button-explore span:after{
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -15px;
+    transition: 0.5s;
+}
+.button-explore:hover span {
+    padding-right: 18px;
+  }
+  
+  .button-explore:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
 
 
-/*----------------------------media query [ 992px ]---------------------------------------*/
-@media only screen and (max-width: 992px) {
+
+
+
+
+
+
+
+/*---------------------item holders----------------------*/
+.item-list-header{
+    width:30%;
+    margin-left: 35%;
+    padding:15px 20px;
+    margin-bottom: -100px;
+    margin-top: 100px;
+    z-index:1;
+}
+.item-list-header-name{
+    font-size: 25px;
+}
+
+
+.main-item-section-wrapper{
+    width:99%;
+    margin: auto 0.5%;
+    /*padding:50px auto;*/
+}
+.item-row{
+    width:90%;
+    margin: 5%;
+    padding-top: 50px;
     
-    /*--nav bar---*/
-    .nav-item-list li{
-        width: 50px !important;
-    }
-    .wesite-title{
-        font-size: 20px;
-        margin-left: 0px !important;
-     }
-     .main-logo{
-         display: none;
-     }
-     .search-bar-container{
-         width:100% !important;
-     }
-     .search-bar-mobile{
-        height:64px !important;
-        width: 100% !important;
-        
-    }
-    #mobile-search{
-        display:block;
-    }
-    #mobile-search,.search-bar-container,.search-bar-mobile{
-        width:100% !important;
-    }
-    .search-input{
-       width: 85% !important;
-       margin-left: 3% !important;
-    }
+}
+.main-item-grid{
+    padding:0.75rem 20px !important;
+}
+.item-image-primary{
+    margin-top:10%;
+    width:70%;
+    margin-left: 15%;
+}
+.item-star{
+    margin-top: -10px;
+}
+.checked{
+    color: #ff6f00;
+}
+.item-name{
+    font-family: 'Comfortaa', cursive !important;
+    width:100%;
+    font-size: 13px;
+    padding:5px;
+}
+.extra-section-in-item{
+    padding:0px !important;
+}
+.add-to-cart-button{
+    border-radius: 50%;
+    border: none;
+    padding: 14px;
+    margin-top: 5px;
+    font-size: 13px;
+    cursor: pointer; 
+    background: var(--main-primary-1) !important;
+}
+.add-to-cart-button:active{
+    background: var(--main-primary-1) !important;
+}
+.add-to-cart-button:hover{
+    -ms-transform:scale(1.2);
+    -webkit-transform:scale(1.2);
+    transform: scale(1.2);
+}
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 992px) {
+
 
     /*-------slider button-----------*/
     .slider-button-container{
@@ -294,8 +258,34 @@ nav{
     }
 
 
-        
 
+
+
+    /*-----------main-item wrapper------------------------*/
+    .main-item-section-wrapper{
+        width:100%;
+    }
+    .item-row{
+
+    }
+
+
+
+    .refer-earn-btn{
+        width:80% !important;
+        margin-top: 0px !important;
+    }
+
+    .item-list-header-name{
+        font-size: 17px;
+    } 
+    .item-list-header{
+        width:70%;
+        margin-left:15%; 
+        margin-bottom: -45px;
+    }
+
+    
   }
 
 
@@ -307,14 +297,6 @@ nav{
 
 
 
-/*-----------------------------media query [ 750px ]--------------------------------------*/
-  @media only screen and (max-width: 750px) {
-    .search-input{
-        width: 85% !important;
-        margin-left: 3.5% !important;
-    
-    }
-  }
 
 
 
@@ -329,30 +311,6 @@ nav{
 
 
 
-/*-----------------------------media query [ 660px ]--------------------------------------*/
-@media only screen and (max-width: 600px) {
-    
-    /*------------nav bar-----------------*/
-    .wesite-title{
-        font-size: 18px;
-     }
-    .search-bar-container{
-        width:100% !important;
-    }
-    .search-bar-mobile{
-       height:64px !important;
-       width: 100% !important;
-       
-   }
-   .search-input{
-        width: 85% !important;
-        margin-left: 2.7% !important;
-    
-    }
-
-
-
-}
 
 
 
@@ -361,12 +319,3 @@ nav{
 
 
 
-
-/*-----------------------------media query [ 500px ]--------------------------------------*/
-@media only screen and (max-width: 500px) {
-    .search-input{
-        width: 80% !important;
-        margin-left: 2.7% !important;
-    
-    }
-}
