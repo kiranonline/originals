@@ -1,0 +1,522 @@
+<link type="text/css" rel="stylesheet" href="/css/user/profile.css">
+
+	
+	
+<div class="myaccount-wrapper">
+	<div class="row">
+
+		<div class ="col s12 m12 x3 xl3 hide-on-med-and-down ">
+
+			<ul class="collection card my-account-left-slot">
+
+				<li class="collection-item avatar valign-wrapper">
+					<img src="logos/user.png" alt="user" class="circle my-account-icon">
+					<span class="title">Kiran Kumar Das</span>
+				</li>
+
+				<li href="#" class="collection-item valign-wrapper openpersonaldetails">
+					<i class="small material-icons  my-account-icon" id="order_icon">account_circle</i>&nbsp &nbsp
+					CHANGE DETAILS
+				</li>
+
+				<li href="#" class="collection-item valign-wrapper openaddresssection">
+					<i class="small material-icons  my-account-icon" id="order_icon">place</i>&nbsp &nbsp
+					ADDRESS
+				</li>
+
+
+				<li href="#" class="collection-item valign-wrapper openreferalsection">
+					<i class="small material-icons  my-account-icon" id="order_icon">attach_money</i>&nbsp &nbsp
+					MY REFERALS
+				</li>
+
+				<li href="#" class="collection-item valign-wrapper openmyordersection">
+					<i class="small material-icons  my-account-icon" id="order_icon">assignment</i>&nbsp &nbsp
+					MY ORDERS
+				</li>
+
+				<li class="collection-item valign-wrapper" onclick="GoTo('/cart')">
+					<i class="small material-icons  my-account-icon" id="order_icon">shopping_cart</i>&nbsp &nbsp
+					MY CART
+				</li>
+
+				<li class="collection-item valign-wrapper" onclick="GoTo('/wallet')">
+					<i class="small material-icons  my-account-icon" id="order_icon">account_balance_wallet</i>&nbsp &nbsp
+					MY WALLET
+				</li>
+
+
+				<li class="collection-item avatar valign-wrapper" onclick="GoTo('/logout')">
+						<img src="logos/log_out.png" alt="user" class="circle my-account-icon">
+						<span class="title">Log Out</span>
+				</li>
+
+			</ul>
+		</div>
+		
+
+
+
+
+		<div class ="col s12 m12 x9 xl9  margin-extended">
+			
+
+
+			<!--edit details section-->
+
+			<div class="card edit-details-section" id="personaldetails">
+				 
+				<div class="center-align my-account-heading">Personal Information &nbsp &nbsp <a class="btn-floating btn-smal edit-btn" id="activate-edit"><i class="material-icons">edit</i></a></div>
+				
+				<hr>
+				
+				<form method="POST" class="my-account-form">
+					
+					<div class="row">
+							
+						<div class="input-field col s12 m6 l6 xl6">
+							<i class="material-icons prefix">account_circle</i>
+							<input disabled value="Kiran" id="user_first_name" type="text" class="validate editable">
+							<label for="user_first_name" class="purple-text text-darken-4">First Name </label>
+						</div>
+
+						<div class="input-field col s12 m6 l6 xl6">
+							<i class="material-icons prefix">account_circle</i>
+							<input disabled value="Das" id="user_last_name" type="text" class="validate editable">
+							<label for="user_last_name" class="purple-text text-darken-4">Last Name</label>
+						</div>
+
+					</div>
+
+
+					<div class="row">
+							
+						<div class="input-field col s12 m6 l6 xl6">
+							<i class="material-icons prefix">event</i>
+							<input disabled value="20" id="dob" type="number" class="validate editable">
+							<label for="dob" class="purple-text text-darken-4">Date of birth</label>
+						</div>
+	
+						<div class="input-field col s12 m6 l6 xl6">
+							<i class=" prefix"><img src="logos/gender.png" width="28" height="28"></i>
+							<select id="gender" disabled class="validate editable">
+								<option disabled selected>Male</option>
+								<option value="male">Male</option>
+								<option value="female">Female</option>
+							</select>
+							<label class="purple-text text-darken-4">Gender</label>
+						</div>	
+	
+					</div>
+
+					<div class="row">
+							
+						<div class="input-field col s12 m6 l6 xl6">
+							<i class="material-icons prefix">phone</i>
+							<input disabled value="9563152391" id="user_phone_number" type="number" class="validate">
+							<label for="user_phone_number" class="purple-text text-darken-4">Phone Number </label>
+						</div>
+	
+						<div class="input-field col s12 m6 l6 xl6">
+							<i class="material-icons prefix">email</i>
+							<input disabled value="kirankumardas224@gmail.com" id="user_email_id" type="email" class="validate">
+							<label for="user_email_id" class="purple-text text-darken-4">Email Id</label>
+						</div>
+	
+					</div>
+
+					<div class="row center-align">
+						<button class="btn waves-effect waves-light submit-button hide" type="submit" name="action">Save
+							<i class="material-icons right">send</i>
+						</button>
+					</div>
+
+					<div class="row right-align">
+							<a class="waves-effect waves-light btn submit-button modal-trigger" href="#passwordchange">Change Password
+							<i class="material-icons right">edit</i>
+						</a>
+					</div>
+
+
+				</form>
+			</div>
+
+
+
+
+			<!--address section-->
+
+			<div class="card edit-details-section" id="addresssection">
+				
+				<div class="center-align my-account-heading">Addresses <a class="waves-effect waves-light btn modal-trigger" id="add_new_address" href="#modal1"><i class="material-icons left" >control_point</i>New Address</a></div>
+				
+				
+				<!-- ------------------------------- Modal Structure -------------------------------- -->
+					<div id="modal1" class="modal form">
+						<form action="" name="new-address" class="new-address">
+						<div class="modal-content">
+							<div class="center-align my-account-heading">Add New Address</div>
+							
+										
+										
+										<div class="row">
+											<div class="input-field col s12 m6">
+												<input  value="" name="new_state" id="new_state" type="text" class="validate">
+												<label for="new_state">State</label>
+											</div>
+																				
+											<div class="input-field col s12 m6">
+												<input  value="" id="new_city" name="new_city" type="text" class="validate">
+												<label for="new_city">City</label>
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="input-field col s12 m6">
+												<input  value="" id="new_landmark" name="new_landmark"type="text" class="validate">
+												<label for="new_landmark">Landmark</label>
+											</div>
+										
+											<div class="input-field col s12 m6">
+												<input  value="" id="new_pin" name="new_pin" type="text" class="validate">
+												<label for="new_pin">Pin code</label>
+											</div>
+										</div>
+										
+								
+						</div>
+						<div class="modal-footer">
+							<a class="save waves-effect waves-light green white-text btn-flat">Save</a>
+							<a href="#!" class="modal-close waves-effect waves-light red white-text btn-flat">Close</a>
+						</div>
+						</form>
+					</div>
+				<hr>
+					
+				<div class="my-account-form">
+							
+					<div class="row">
+
+						<div class="col s12 m12 l6 xl6 card Addresses">
+							
+							<p>
+								<label>
+									<input class="with-gap" name="group3" type="radio" checked />
+									<span>
+										<div class="row">
+											<div class="input-field col s12">
+												<input disabled value="room no 206, Hotel treebo house inn bs-100, basai Noida, Utter Pradesh,731202" id="address_1_disabled" type="text" class="validate">
+												<label for="address_1_disabled">Address</label>
+											</div>
+										</div>
+									</span>
+								</label>
+							</p>
+					
+							<div class="address-contal-btns">
+								<a class="waves-effect waves-light btn" id="address_1_edit"><i class="material-icons left" >edit</i>Edit</a>
+								<a class="waves-effect waves-light btn hide" id="address_1_cancel"><i class="material-icons left" >cancel</i>Cancel</a>
+								<a class="waves-effect waves-light btn" id="address_1_delete"><i class="material-icons left">delete</i>Delete</a>
+							</div>								
+							
+						</div>
+
+						
+						<div class="col s12 m12 l16 xl6 card Addresses">
+							
+								<p>
+									<label>
+										<input class="with-gap" name="group3" type="radio" checked />
+										<span>
+											<div class="row">
+												<div class="input-field col s12">
+													<input disabled value="room no 206, Hotel treebo house inn bs-100, basai Noida, Utter Pradesh,731202" id="address_2_disabled" type="text" class="validate">
+													<label for="address_2_disabled">Address</label>
+												</div>
+											</div>
+										</span>
+									</label>
+								</p>
+						
+								<div class="address-contal-btns">
+									<a class="waves-effect waves-light btn" id="address_2_edit"><i class="material-icons left" >edit</i>Edit</a>
+									<a class="waves-effect waves-light btn hide" id="address_2_cancel"><i class="material-icons left" >cancel</i>Cancel</a>
+									<a class="waves-effect waves-light btn" id="address_2_delete"><i class="material-icons left" id="address_1_delete">delete</i>Delete</a>
+								</div>								
+								
+						</div>
+
+						<div class="col s12 m12 l6 xl6 card Addresses">
+							
+								<p>
+									<label>
+										<input class="with-gap" name="group3" type="radio" checked />
+										<span>
+											<div class="row">
+												<div class="input-field col s12">
+													<input disabled value="room no 206, Hotel treebo house inn bs-100, basai Noida, Utter Pradesh,731202" id="address_3_disabled" type="text" class="validate">
+													<label for="address_3_disabled">Address</label>
+												</div>
+											</div>
+										</span>
+									</label>
+								</p>
+						
+								<div class="address-contal-btns">
+									<a class="waves-effect waves-light btn" id="address_3_edit"><i class="material-icons left">edit</i>Edit</a>
+									<a class="waves-effect waves-light btn hide" id="address_3_cancel"><i class="material-icons left">cancel</i>Cancel</a>
+									<a class="waves-effect waves-light btn" id="address_3_delete"><i class="material-icons left">delete</i>Delete</a>
+								</div>								
+								
+						</div>
+
+
+
+
+
+
+						
+					</div>
+	
+				</div>
+				<!-- div class="address-contal-btns">
+					<a class="waves-effect waves-light btn" id="add_new_address"><i class="material-icons left" >control_point</i>New Address</a>
+				</div -->
+
+
+			</div>
+
+
+	<!-- -------------------------------Modal Form------------------------------------ -->
+
+
+
+
+
+
+
+
+			<!--My referal Section-->
+			<div class="card edit-details-section" id="referalsection">
+				
+				<div class="center-align my-account-heading">My Referal</div>
+					
+				<hr>
+					
+				<div class="my-account-form">
+							
+						<ul class="collection">
+
+								<li class="collection-item avatar valign-wrapper">
+								  <img src="logos/user.png" alt="" class="circle">
+								  <span class="title">Sourabh Bhattacharya</span>
+								</li>
+
+								<li class="collection-item avatar valign-wrapper">
+									<img src="logos/user.png" alt="" class="circle">
+									<span class="title">Sourabh Bhattacharya</span>
+								</li>
+
+								<li class="collection-item avatar valign-wrapper">
+									<img src="logos/user.png" alt="" class="circle">
+									<span class="title">Sourabh Bhattacharya</span>
+								</li>
+
+								<li class="collection-item avatar valign-wrapper">
+									<img src="logos/user.png" alt="" class="circle">
+									<span class="title">Sourabh Bhattacharya</span>
+								</li>
+							
+
+							  </ul>
+	
+				</div>
+
+
+			</div>
+
+
+
+
+
+
+			<!--My orders-->
+
+			<div class="card edit-details-section" id="myordersection">
+				
+				<div class="center-align my-account-heading">My Orders</div>
+					
+				<hr>
+					
+				<div class="my-account-form">
+							
+					<div class="card order-container">
+						<div class="order-header">
+							<p><span>ORDER ID : </span> ord-123456<br>
+							<span>STATUS : </span> Shipped</p>
+						</div>
+						<hr>
+						<div class="order-body row">
+							
+							<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
+								<img src="logos/watch.jpg" class="responsive-img ordered-img">	
+							</div>
+
+							<div class="col s12 m12 l8 xl8 left-align order-details">
+								<p>
+									<span>ITEM NAME : </span>Watch<br>
+									<span>ITEM ID : </span>ITM-123445<br>
+									<span>PRICE : </span> 200<br>
+									<span>ORDERED ON :</span>17/04/2018<br>
+									<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
+								
+								
+								</p>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="card order-container">
+							<div class="order-header">
+								<p><span>ORDER ID : </span> ord-123456<br>
+								<span>STATUS : </span> Shipped</p>
+							</div>
+							<hr>
+							<div class="order-body row">
+								
+								<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
+									<img src="icons/watch.jpg" class="responsive-img ordered-img">	
+								</div>
+	
+								<div class="col s12 m12 l8 xl8 left-align order-details">
+									<p>
+										<span>ITEM NAME : </span>Watch<br>
+										<span>ITEM ID : </span>ITM-123445<br>
+										<span>PRICE : </span> 200<br>
+										<span>ORDERED ON :</span>17/04/2018<br>
+										<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
+									
+									
+									</p>
+								</div>
+	
+							</div>
+						</div>
+
+						<div class="card order-container">
+								<div class="order-header">
+									<p><span>ORDER ID : </span> ord-123456<br>
+									<span>STATUS : </span> Shipped</p>
+								</div>
+								<hr>
+								<div class="order-body row">
+									
+									<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
+										<img src="icons/watch.jpg" class="responsive-img ordered-img">	
+									</div>
+		
+									<div class="col s12 m12 l8 xl8 left-align order-details">
+										<p>
+											<span>ITEM NAME : </span>Watch<br>
+											<span>ITEM ID : </span>ITM-123445<br>
+											<span>PRICE : </span> 200<br>
+											<span>ORDERED ON :</span>17/04/2018<br>
+											<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
+										
+										
+										</p>
+									</div>
+		
+								</div>
+							</div>
+
+				</div>
+			</div>
+
+
+
+		</div>
+		
+	</div><!--for row class-->
+</div><!--for container class-->
+
+
+
+
+
+
+<!--password changing modal-->
+  	<!-- Modal Structure -->
+  	<div id="passwordchange" class="modal modal-fixed-footer">
+			<div class="modal-content">
+				<h5>CHANGE PASSWORD</h5>
+				<hr>
+				<p class="red-text">This Service is Temporarily Unavailable</p>
+			</div>
+				<div class="modal-footer">
+				<!--<a class="save waves-effect waves-light green white-text btn-flat">Save</a>-->
+				<a href="#!" class="modal-close waves-effect waves-light red white-text btn-flat">Close</a>
+			</div>
+		</div>
+				
+		
+		
+			 
+
+
+
+
+
+
+
+<!--mobile below nav bar-->
+<div class="mobile-menu card z-depth-5 hide-on-large-only">
+
+	<div class="mobile-menu-wrapper">
+		<div class="p part1 valign-wrapper openpersonaldetails">
+			<div class="icon-inner">
+				<i class="material-icons small">account_circle</i>
+				<p id="navbar_option">My Details</p>
+			</div>
+		</div>
+		<div class="p part2 valign-wrapper openaddresssection">
+			<div class="icon-inner">
+				<i class="material-icons small">place</i>
+				<p id="navbar_option">Address</p>
+			</div>
+		</div>
+		<div class="p part3 valign-wrapper openreferalsection">
+			<div class="icon-inner">
+				<i class="material-icons small">attach_money</i>
+				<p id="navbar_option">My Referals</p>
+			</div>
+		</div>
+		<div class="p part4 valign-wrapper openmyordersection">
+			<div class="icon-inner">
+				<i class="material-icons small">assignment</i>
+				<p id="navbar_option">My Orders</p>
+			</div>
+		</div>
+		<div class="p part5 valign-wrapper" onclick="GoTo('/logout')">
+			<div class="icon-inner">
+				<i class="material-icons small">power_settings_new</i>
+				<p id="navbar_option">Log out</p>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+
+<script src="/js/user/profile.js"></script>
+<script>
+	function GoTo(url){
+        window.location.replace(url);
+    }
+</script>
+	
+</body>				
+</html>
+

@@ -1,0 +1,244 @@
+/*==============================Custom css for this page=============================*/
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+
+
+:root {
+	--main-primary-1   : #4a148c   ; 
+	--main-primary-2   : #6a1b9a   ; 
+	--main-secondary-1 : #1a237e  ;
+	--main-secondary-2 : #283593 ;       
+}
+.myaccount-wrapper{
+	width:90%;
+	margin:20px 5%;
+}
+.my-account-left-slot li{
+	cursor: pointer;
+}
+.my-account-icon{
+	color: var(--main-secondary-1);
+}
+.active-menu{
+	background-color: var(--main-secondary-1) !important;
+	color: white;
+}
+.active-menu .my-account-icon{
+	color: white !important;
+}
+
+
+
+
+
+.my-account-heading{
+	padding:20px;
+	font-family: 'Comfortaa', cursive !important;
+	font-size: 25px;
+}
+.edit-btn{
+	background-color: var(--main-secondary-1) !important;
+}
+.my-account-form{
+	padding:50px;
+}
+.submit-button{
+	background-color:var(--main-secondary-1);
+}
+.submit-button:active,.submit-button:hover{
+	background-color:var(--main-secondary-1);
+}
+
+
+
+
+.address-contal-btns{
+	text-align: center;
+	padding:10px;
+
+}
+.address-contal-btns a{
+	background-color:var(--main-secondary-1);
+}
+.address-contal-btns a:active, .address-contal-btns a:hover{
+	background-color:var(--main-secondary-1);
+}
+
+
+
+
+
+
+.order-header{
+	padding:5px 10px 0px 10px;
+}
+.ordered-img{
+	width:60%;
+	padding:20px;
+}
+.order-details{
+	padding:5px 10px;
+}
+
+
+
+
+
+
+
+/* ---------card design--------------- */
+
+
+.card{
+	background-color:#fafafa      ;
+}
+
+.label{
+	color:#4a148c;
+}
+
+/* ------------------------- */
+
+#navbar_option{
+	font-size:10px;
+	margin-top:0px;
+	padding-top:0px;
+	margin-bottom:30px;
+	border:0;
+}
+p {
+    display: block;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+
+
+/* ---------modal design--------------- */
+
+
+#modal1{
+	padding:10px 80px;
+	width:70%;
+}
+
+.modal { 
+	width: 75% !important ; 
+	height: 600px !important ; 
+}
+form .error {
+  color: #ff0000;
+}
+
+
+
+
+
+
+@media screen and (max-width: 992px) {
+	
+	.myaccount-wrapper{
+		width:100%;
+		margin:0px;
+	}
+	.my-account-heading{
+		padding:10px;
+		font-size: 20px;
+		margin-top: -5px;
+	}
+	.my-account-form{
+		padding:20px;
+	}
+	.margin-extended{
+		padding:0px !important;
+		padding-bottom: 50px;
+	}
+
+	.mobile-menu{
+		position: fixed;
+		width: 100%;
+		z-index: 2;
+		height:50px !important;
+		background: white;
+		bottom:0px !important;
+		margin-bottom: -0.5px;
+		left:0;
+	}
+	.mobile-menu{
+		width: 100%;
+		height: 50px;
+	}
+	.mobile-menu-wrapper{
+		width: 100%;
+	}
+	.mobile-menu-wrapper .p{
+		width:20%;
+		float:left;
+		height:80px;
+	}
+	.part1, .part2, .part3, .part4{
+		border-right:1px solid #bdbdbd;
+	}
+	.icon-inner{
+		width:100%;
+		text-align: center;
+		margin-bottom:0px;
+		padding-bottom:-20px;
+	}
+
+	.ordered-img{
+		width:40%;
+		padding:10px;
+	}
+	.order-details{
+		text-align: center;
+	}
+	
+	p {
+    display: block;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+	}
+	
+	#modal1{
+		padding:10px 0px;
+		width:100%;
+	}
+
+	.modal { 
+		width: 100% !important ; 
+		height: 600px !important ; 
+	}
+
+	
+  }
+
+
+
+
+
+
+
+
+
+  @media screen and (max-width: 600px){
+	.my-account-heading{
+		font-size: 15px;
+	} 
+	
+	#modal1{
+		padding:10px 0px;
+		width:100%;
+		height:100%;
+	}
+
+	.modal { 
+		width: 100% !important ; 
+		height: 100%!important ; 
+	}
+  }
+
+

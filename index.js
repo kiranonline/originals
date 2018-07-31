@@ -42,11 +42,13 @@ var app = express();
 var adminRegister = require('./routes/admin/adminregister.js');
 var adminLogin = require('./routes/admin/adminlogin.js');
 var adminDashboard = require('./routes/admin/admindashboardpage');
+//for users
 var userLogin = require('./routes/user/userlogin.js');
 var userRegister = require('./routes/user/userregister.js');
-//for users
+var userAction = require('./routes/user/useraction.js')
 //store
 var store = require('./routes/website/store.js');
+var cartOrder = require('./routes/website/cart.js');
 
 
 
@@ -182,10 +184,12 @@ app.use('/admin',adminDashboard);
 app.use('/',store);
 app.use('/',userRegister);
 app.use('/',userLogin);
+app.use('/',userAction);
+app.use('/',cartOrder);
 
 app.get('/logout', function(req, res) {
     req.logout(); 
-    res.send("Logged out");
+    res.redirect('/login');
 });
 
 

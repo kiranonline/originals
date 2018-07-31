@@ -14,10 +14,15 @@ var passport = require(path.join(__dirname,'/../../dependencies/passportlogin.js
 
 router.get('/login', function(req, res){
     if(!req.isAuthenticated()){
-        res.render('user/userlogin.handlebars',{layout:false});
+        if(req.flash('error')){
+            var message = req.flash('error');
+        }
+        else{
+            var message=''
+        }
+        res.render('user/userlogin',{error:message})
     } else{
-        res.send("You are already logged in");
-
+        res.redirect('/');
     }
     
 });
@@ -36,19 +41,20 @@ router.get('/login', function(req, res){
 
 
 
-router.post("/login",function(req,res,next){
+router.post("/login",passport.authenticate('local',{
 
-    passport.authenticate('local',function(err,user,info){
+    failureRedirect:'/login',
+    failureFlash : true
 
-        if (err) { return next(err); }
-        if (!user) { return res.send('false'); }
-
-        req.logIn(user, function(err) {
-            if (err) { return next(err); }
-            return res.send('true');
-        });
-
-    })(req,res,next);
+}),function(req,res,next){
+    if(req.session.oldUrl){
+        var oldUrl=req.session.oldUrl;
+        req.session.oldUrl=null;
+        res.redirect(oldUrl);
+    }
+    else{
+        res.redirect('/')
+    }
 
 });
 

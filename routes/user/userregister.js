@@ -11,7 +11,7 @@ const expressValidator = require('express-validator');
 
 //render registration form
 router.get('/register', function(req, res){
-    res.render('user/userregisterpage.handlebars',{layout:false,error: '',form:'reg',csrf:req.csrfToken()});
+    res.render('user/userregisterpage.handlebars',{layout:false,error: '',form:'reg'});
 });
 
 
@@ -156,7 +156,7 @@ router.get('/verify', function(req, res){
                         if (err) throw err;
                         else{
                             console.log('successful registration');
-                            res.render('user/userlogin.handlebars', {layout:false,msg : 'E-mail id successfully is verified!'});
+                            res.render('user/userlogin.handlebars', {msg : 'E-mail id successfully is verified!'});
                         }
                     })
                 }
