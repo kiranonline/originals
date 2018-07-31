@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/css/defaultpage/main.css">
-<link rel="stylesheet" type="text/css" href="/slick/slick/slick-theme.css"/>
-<link rel="stylesheet" type="text/css" href="/slick/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="/slick/slick/slick-theme.css" />
+<link rel="stylesheet" type="text/css" href="/slick/slick/slick.css" />
 
 
 
@@ -12,7 +12,9 @@
 <div class="container-fluid">
     <div class="home-page-carousel">
         {{#each carousel}}
-            <a href="{{this.poster_link}}" style="cursor:pointer"><img src="{{this.poster_image_link}}" class="responsive-img carousel-image"></a>
+        <a href="{{this.poster_link}}" style="cursor:pointer">
+            <img src="{{this.poster_image_link}}" class="responsive-img carousel-image">
+        </a>
         {{/each}}
     </div>
     <div class="crausel-slide-controls">
@@ -34,21 +36,285 @@
 
 
 
-{{!--+++++++++++ Login-Modal ++++++++++++--}}
 
-<link href="/css/admin/adminreg.css" rel="stylesheet">
 
-<div id="func" class="container main-holder white z-depth-2">
+<div class="card referal-poster center-align">
+    <img src="logos/refer.png" class="responsive-img">
+</div>
+<div class="center-align">
+    <button class="btn card btn-large button-explore explore-button-colour refer-earn-btn waves-effect waves-light" style="vertical-align:middle">
+        <span>Refer Now</span>
+    </button>
+</div>
+
+
+
+
+
+<div class="trending-wrapper trending">
+    <div class="row">
+
+        <div class="col m4">
+            <div class="card">
+                <div class="card-image">
+                    <img src="assets/image/m1.jpg">
+                    <span class="card-title">Premium T-shirts</span>
+                </div>
+                <div class="card-content">
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
+                        require little markup to use effectively.</p>
+                </div>
+                <div class="card-action center-align">
+                    <button class="btn card btn-large button-explore explore-button-colour waves-effect waves-light" style="vertical-align:middle">
+                        <span>Explore</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col m4">
+            <div class="card">
+                <div class="card-image">
+                    <img src="assets/image/m2.jpg">
+                    <span class="card-title">Premium Cards</span>
+                </div>
+                <div class="card-content">
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
+                        require little markup to use effectively.</p>
+                </div>
+                <div class="card-action center-align">
+                    <button class="btn card btn-large button-explore explore-button-colour waves-effect waves-light" style="vertical-align:middle">
+                        <span>Explore</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col m4">
+            <div class="card">
+                <div class="card-image">
+                    <img src="assets/image/m3.jpg">
+                    <span class="card-title">Premium Chocolates</span>
+                </div>
+                <div class="card-content">
+                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I
+                        require little markup to use effectively.</p>
+                </div>
+                <div class="card-action center-align">
+                    <button class="btn card btn-large button-explore explore-button-colour waves-effect waves-light" style="vertical-align:middle">
+                        <span>Explore</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="main-item-section-wrapper">
+
+
+    <div class="card item-list-header center-align">
+        <span class="item-list-header-name">Premium Card</span>
+    </div>
+
+
+
+    <div class="card" id="few_item_slider">
+
+        <div class="item-row homepage-item-list-1">
+
+{{#each card}}
+            <div class="main-item-grid">
+                <div class="card">
+                    <div class="row">
+                        <div class="card-image-wrapper col m10 offset-m1">
+                            <img src="{{this.images}}" class="responsive-img item-image-primary">
+                        </div>
+                        <div clas="col m1">
+                        </div>
+                    </div>
+                    {{!-- <div class="item-star center-align">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div> --}}
+                    <div class="item-name center-align">
+                        {{this.name}}
+                    </div>
+
+                    <div class="card-action center-align extra-section-in-item">
+                        <div class="row">
+                            <div class="col s6 center-align">
+                                <p class="price-tag">
+                                    {{!-- <del class="red-text">&#8377 </del> --}}
+                                    <span class="green-text">&nbsp &#8377 {{this.price}}</span>
+                                </p>
+                            </div>
+                            <div class="col s6">
+                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart">
+                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{{/each}}
+
+
+            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section" id="left-side2">
+                <div class="card-content slider-button center">
+                    <i class="material-icons slider-button-icon">chevron_left</i>
+                </div>
+            </div>
+
+            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section" id="right-side2">
+                <div class="card-content slider-button center">
+                    <i class="material-icons slider-button-icon">chevron_right</i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <div class="card" id="few_item_slider">
+
+        <div class="item-row homepage-item-list-1">
+
+{{#each tee}}
+            <div class="main-item-grid">
+                <div class="card">
+                    <div class="row">
+                        <div class="card-image-wrapper col m10 offset-m1">
+                            <img src="{{this.images}}" class="responsive-img item-image-primary">
+                        </div>
+                        <div clas="col m1">
+                        </div>
+                    </div>
+                    {{!-- <div class="item-star center-align">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div> --}}
+                    <div class="item-name center-align">
+                        {{this.name}}
+                    </div>
+
+                    <div class="card-action center-align extra-section-in-item">
+                        <div class="row">
+                            <div class="col s6 center-align">
+                                <p class="price-tag">
+                                    {{!-- <del class="red-text">&#8377 </del> --}}
+                                    <span class="green-text">&nbsp &#8377 {{this.price}}</span>
+                                </p>
+                            </div>
+                            <div class="col s6">
+                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart">
+                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{{/each}}
+
+
+            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section" id="left-side2">
+                <div class="card-content slider-button center">
+                    <i class="material-icons slider-button-icon">chevron_left</i>
+                </div>
+            </div>
+
+            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section" id="right-side2">
+                <div class="card-content slider-button center">
+                    <i class="material-icons slider-button-icon">chevron_right</i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <div class="card" id="few_item_slider">
+
+        <div class="item-row homepage-item-list-1">
+
+{{#each choco}}
+            <div class="main-item-grid">
+                <div class="card">
+                    <div class="row">
+                        <div class="card-image-wrapper col m10 offset-m1">
+                            <img src="{{this.images}}" class="responsive-img item-image-primary">
+                        </div>
+                        <div clas="col m1">
+                        </div>
+                    </div>
+                    {{!-- <div class="item-star center-align">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span>
+                    </div> --}}
+                    <div class="item-name center-align">
+                        {{this.name}}
+                    </div>
+
+                    <div class="card-action center-align extra-section-in-item">
+                        <div class="row">
+                            <div class="col s6 center-align">
+                                <p class="price-tag">
+                                    {{!-- <del class="red-text">&#8377 </del> --}}
+                                    <span class="green-text">&nbsp &#8377 {{this.price}}</span>
+                                </p>
+                            </div>
+                            <div class="col s6">
+                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart">
+                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{{/each}}
+
+
+            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section" id="left-side2">
+                <div class="card-content slider-button center">
+                    <i class="material-icons slider-button-icon">chevron_left</i>
+                </div>
+            </div>
+
+            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section" id="right-side2">
+                <div class="card-content slider-button center">
+                    <i class="material-icons slider-button-icon">chevron_right</i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{!--+++++++++++ Login-Modal ++++++++++++--}}
+
+    <link href="/css/admin/adminreg.css" rel="stylesheet">
+
+    <div id="func" class="container main-holder white z-depth-2">
         <ul class="tabs purple darken-2">
-            <li class="tab col s3"><a class="white-text active" href="#login">login</a></li>
+            <li class="tab col s3">
+                <a class="white-text active" href="#login">login</a>
+            </li>
             <!--<li class="tab col s3"><a class="white-text" href="#register">register</a></li>-->
         </ul>
-  
+
         <div id="login" class="col s12">
             <form class="col s12" id="loginform" method="POST" action="/login">
                 <input type="hidden" name="_csrf" value="{{csrf}}">
                 <div class="form-container form-holder">
-                     <img class="responsive-img login-logo" src="/logos/logo2.png">
+                    <img class="responsive-img login-logo" src="/logos/logo2.png">
                     <p class="center-align" style="color:red">{{error}}</p>
                     <div class="row">
                         <div class="input-field col s12">
@@ -63,26 +329,13 @@
                         </div>
                     </div>
                     <br>
-             
-                        <button class="btn login waves-effect waves-light purple darken-2" type="submit" name="action">Login</button>
-                        <br>
-               
+
+                    <button class="btn login waves-effect waves-light purple darken-2" type="submit" name="action">Login</button>
+                    <br>
+
                 </div>
             </form>
         </div>
-        </div>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
-<script src="/js/admin/adminreg.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
+    <script src="/js/admin/adminreg.js"></script>
