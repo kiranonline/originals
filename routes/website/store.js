@@ -18,25 +18,51 @@ router.get('/', function (req, res) {
             console.log(err);
         }
         carouseldata = result;
-        var q2 = "SELECT * FROM ITEMS WHERE type_name='T-shirt'";
+        var q2 = "SELECT * FROM items WHERE type_name='T-shirt'";
         conn.query(q2, function (err, result) {
             if (err) {
                 console.log(err);
             }
-            tee_ = result;
-            var q3 = "SELECT * FROM ITEMS WHERE type_name='cards'";
+            tee_=[];
+            console.log(result);
+            for(var i in result){
+                tee_.push({
+                    id:result[i].id,
+                    name:result[i].name,
+                    price:result[i].price,
+                    image:JSON.parse(result[i].images)['1']
+                });
+            }
+            var q3 = "SELECT * FROM items WHERE type_name='cards'";
             conn.query(q3, function (err, result) {
                 if (err) {
                     console.log(err);
                 }
-                card_ = result;
-                var q2 = "SELECT * FROM ITEMS WHERE type_name='chocolate'";
+                card_=[];
+                for(var i in result){
+                    card_.push({
+                        id:result[i].id,
+                        name:result[i].name,
+                        price:result[i].price,
+                        image:JSON.parse(result[i].images)['1']
+                    });
+                }
+                
+                var q2 = "SELECT * FROM items WHERE type_name='chocolate'";
                 conn.query(q2, function (err, result) {
                     if (err) {
                         console.log(err);
                     }
-                    choco_ = result;
-                    
+                    choco_=[];  
+                    for(var i in result){
+                        choco_.push({
+                            id:result[i].id,
+                            name:result[i].name,
+                            price:result[i].price,
+                            image:JSON.parse(result[i].images)['1']
+                        });
+                    }
+                    console.log(tee_,card_,choco_);
                     res.render('homepage.handlebars', {
                         nonce: req.nonce,
                         carousel: carouseldata,

@@ -22,13 +22,13 @@
     </div>
 </div>
 
-<div class="card slider-button-container left-side">
+<div class="card slider-button-container left-side waves-effect waves-light">
     <div class="card-content slider-button center">
         <i class="material-icons slider-button-icon">chevron_left</i>
     </div>
 </div>
 
-<div class="card slider-button-container right-side">
+<div class="card slider-button-container right-side waves-effect waves-light">
     <div class="card-content slider-button center">
         <i class="material-icons slider-button-icon">chevron_right</i>
     </div>
@@ -57,7 +57,7 @@
         <div class="col m4">
             <div class="card">
                 <div class="card-image">
-                    <img src="assets/image/m1.jpg">
+                    <img src="/image/m1.jpg">
                     <span class="card-title">Premium T-shirts</span>
                 </div>
                 <div class="card-content">
@@ -74,7 +74,7 @@
         <div class="col m4">
             <div class="card">
                 <div class="card-image">
-                    <img src="assets/image/m2.jpg">
+                    <img src="/image/m2.jpg">
                     <span class="card-title">Premium Cards</span>
                 </div>
                 <div class="card-content">
@@ -91,7 +91,7 @@
         <div class="col m4">
             <div class="card">
                 <div class="card-image">
-                    <img src="assets/image/m3.jpg">
+                    <img src="/image/m3.jpg">
                     <span class="card-title">Premium Chocolates</span>
                 </div>
                 <div class="card-content">
@@ -123,25 +123,29 @@
 
     <div class="card" id="few_item_slider">
 
-        <div class="item-row homepage-item-list-1">
+        <div class="item-row homepage-item-list-1"></div>
 
-{{#each card}}
+
+
+
+
+{{#each tee}}
             <div class="main-item-grid">
                 <div class="card">
                     <div class="row">
                         <div class="card-image-wrapper col m10 offset-m1">
-                            <img src="{{this.images}}" class="responsive-img item-image-primary">
+                            <img src="{{this.image}}" class="responsive-img item-image-primary">
                         </div>
                         <div clas="col m1">
                         </div>
                     </div>
-                    {{!-- <div class="item-star center-align">
+                    <div class="item-star center-align">
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </div> --}}
+                        <span class="fa fa-star checked "></span>
+                        <span class="fa fa-star checked"></span>
+                    </div> 
                     <div class="item-name center-align">
                         {{this.name}}
                     </div>
@@ -184,23 +188,24 @@
 
         <div class="item-row homepage-item-list-1">
 
-{{#each tee}}
+
+{{#each card}}
             <div class="main-item-grid">
                 <div class="card">
                     <div class="row">
                         <div class="card-image-wrapper col m10 offset-m1">
-                            <img src="{{this.images}}" class="responsive-img item-image-primary">
+                            <img src="{{this.image}}" class="responsive-img item-image-primary">
                         </div>
                         <div clas="col m1">
                         </div>
                     </div>
-                    {{!-- <div class="item-star center-align">
+                    <div class="item-star center-align">
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </div> --}}
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                    </div>
                     <div class="item-name center-align">
                         {{this.name}}
                     </div>
@@ -248,18 +253,18 @@
                 <div class="card">
                     <div class="row">
                         <div class="card-image-wrapper col m10 offset-m1">
-                            <img src="{{this.images}}" class="responsive-img item-image-primary">
+                            <img src="{{this.image}}" class="responsive-img item-image-primary">
                         </div>
                         <div clas="col m1">
                         </div>
                     </div>
-                    {{!-- <div class="item-star center-align">
+                    <div class="item-star center-align">
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star"></span>
                         <span class="fa fa-star"></span>
-                    </div> --}}
+                    </div> 
                     <div class="item-name center-align">
                         {{this.name}}
                     </div>
@@ -339,3 +344,4 @@
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
     <script src="/js/admin/adminreg.js"></script>
+    <script src="/js/store/store.js"></script>
