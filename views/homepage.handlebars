@@ -121,9 +121,9 @@
 
 
 
-    <div class="card" id="few_item_slider">
+    <div class="card few_item_slider" id="few_item_slider">
 
-        <div class="item-row homepage-item-list-1"></div>
+        <div class="item-row homepage-item-list-1">
 
 
 
@@ -159,7 +159,7 @@
                                 </p>
                             </div>
                             <div class="col s6">
-                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart">
+                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart" onclick="getItem('{{this.id}}')">
                                     <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -170,21 +170,28 @@
 {{/each}}
 
 
-            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section" id="left-side2">
+            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section left-side2" id="left-side2">
                 <div class="card-content slider-button center">
                     <i class="material-icons slider-button-icon">chevron_left</i>
                 </div>
             </div>
 
-            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section" id="right-side2">
+            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section right-side2" id="right-side2">
                 <div class="card-content slider-button center">
                     <i class="material-icons slider-button-icon">chevron_right</i>
                 </div>
             </div>
+
+
+
         </div>
     </div>
 
-   <div class="card" id="few_item_slider">
+
+
+
+
+   <div class="card few_item_slider" id="few_item_slider">
 
         <div class="item-row homepage-item-list-1">
 
@@ -219,7 +226,7 @@
                                 </p>
                             </div>
                             <div class="col s6">
-                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart">
+                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart" onclick="getItem('{{this.id}}')">
                                     <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -230,23 +237,26 @@
 {{/each}}
 
 
-            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section" id="left-side2">
+            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section left-side2" id="left-side2">
                 <div class="card-content slider-button center">
                     <i class="material-icons slider-button-icon">chevron_left</i>
                 </div>
             </div>
 
-            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section" id="right-side2">
+            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section right-side2" id="right-side2">
                 <div class="card-content slider-button center">
                     <i class="material-icons slider-button-icon">chevron_right</i>
                 </div>
             </div>
-        </div>
+
     </div>
+</div>
 
-   <div class="card" id="few_item_slider">
 
-        <div class="item-row homepage-item-list-1">
+
+
+<div class="card few_item_slider" id="few_item_slider">
+    <div class="item-row homepage-item-list-1">
 
 {{#each choco}}
             <div class="main-item-grid">
@@ -278,7 +288,7 @@
                                 </p>
                             </div>
                             <div class="col s6">
-                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart">
+                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart" onclick="getItem('{{this.id}}')">
                                     <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -289,19 +299,21 @@
 {{/each}}
 
 
-            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section" id="left-side2">
+            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section left-side2" id="left-side2">
                 <div class="card-content slider-button center">
                     <i class="material-icons slider-button-icon">chevron_left</i>
                 </div>
             </div>
 
-            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section" id="right-side2">
+            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section right-side2" id="right-side2">
                 <div class="card-content slider-button center">
                     <i class="material-icons slider-button-icon">chevron_right</i>
                 </div>
             </div>
-        </div>
+
+
     </div>
+</div>
 
     {{!--+++++++++++ Login-Modal ++++++++++++--}}
 
@@ -342,6 +354,12 @@
             </form>
         </div>
     </div>
+    <script src="/js/store/store.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
     <script src="/js/admin/adminreg.js"></script>
-    <script src="/js/store/store.js"></script>
+    <script>
+    function getItem(id){
+       window.location.replace("/item/"+id);
+    }
+
+    </script>
