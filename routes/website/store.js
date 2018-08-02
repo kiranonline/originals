@@ -99,43 +99,60 @@ router.get("/item/:itemId", function (req, res) {
             if (result.length == 1) {
                 console.log(result);
                 var size_id = result[0].size_id;
+                var color_id=result[0].color_id;
                 var q2 = "SELECT * FROM item_category_level1 WHERE id=" + mysql.escape(size_id);
                 conn.query(q2, function (err, result1) {
                     if (err) {
                         console.log(err);
                     } else {
-                        if (result1.length == 1) {
-                            var sizes_json = JSON.parse(result1[0].size);
-                            var sizes_array = [];
-                            var gender = [];
-                            for (var key in sizes_json) {
-                                sizes_array.push(sizes_json[key]);
-                            }
-                            if (result[0].gender == "Both") {
-                                gender = ["male", "female"];
-                            } else if (result[0].gender == "Male") {
-                                gender = ["male"];
-                            } else if (result[0].gender == "Female") {
-                                gender = ["female"];
-                            } else {
-                                gender = [];
-                            }
 
-                            var item = {
-                                id: result[0].id,
-                                name: result[0].name,
-                                price: result[0].price,
-                                sizes: sizes_array,
-                                gender: gender,
-                                type: result[0].type_name,
-                                event: result[0].event_name
-                            }
+                            
+                            var q3 = "SELECT * FROM color WHERE id=" + mysql.escape(color_id);
+                            console.log(q3);
+                            conn.query(q3, function (err, result2) {
+                                if (err) {
+                                    console.log('I am\n');
+                                    console.log(err);
+                                } else {
+                                    if (result1.length == 1) {
+                                        var sizes = JSON.parse(result1[0].size);
+                                        var colors = JSON.parse(result2[0].color) || null;
+                                        console.log(colors);
+                                        var gender = {};
+                                        var image = JSON.parse(result[0].images);
+                                        if (result[0].gender == "Both") {
+                                            gender = {1:"male", 2:"female"};
+                                        } else if (result[0].gender == "Male") {
+                                            gender = {1:"male"};
+                                        } else if (result[0].gender == "Female") {
+                                            gender = {1:"female"};
+                                        } else {
+                                            gender = [];
+                                        }
+            
+                                        var item = {
+                                            id: result[0].id,
+                                            name: result[0].name,
+                                            price: result[0].price,
+                                            sizes: sizes,
+                                            colors:colors,
+                                            gender: gender,
+                                            type: result[0].type_name,
+                                            event: result[0].event_name,
+                                            image: image
+                                        }
+            
+                                        //res.send(JSON.stringify(item));
+                                        console.log(item);
+                                        res.render('item/itempage',{item:item});
+            
+                                    } else {
+                                        res.redirect('/');
+                                    }
+                                }
+                            });
 
-                            res.send(JSON.stringify(item));
-
-                        } else {
-                            res.redirect('/');
-                        }
+                        
                     }
                 });
             } else {
@@ -153,6 +170,12 @@ router.get("/item/:itemId", function (req, res) {
 
 
 
+
+
+router.post('/cart/add',(req,res)=>{
+    console.log(req.body);
+    res.send(req.body);
+});
 
 
 

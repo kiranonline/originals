@@ -242,8 +242,17 @@
     transform: scale(1.2);
 }
 
-
-
+.item-list-footer{
+    width:30%;
+    margin-left:35%; 
+    margin-top: -45px;
+    color:black;
+    padding:20px;
+}
+.item-list-footer a{
+    text-decoration: none;
+    color: black
+}
 
 
 
@@ -276,7 +285,7 @@
         margin-top: 0px !important;
     }
 
-    .item-list-header-name{
+    .item-list-header-name,.item-list-header-name{
         font-size: 17px;
     } 
     .item-list-header{
@@ -284,7 +293,11 @@
         margin-left:15%; 
         margin-bottom: -45px;
     }
-
+    .item-list-footer{
+        width:70%;
+        margin-left:15%; 
+        margin-top: -45px;
+    }
     
   }
 

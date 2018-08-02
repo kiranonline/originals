@@ -123,7 +123,7 @@
 
     <div class="card few_item_slider" id="few_item_slider">
 
-        <div class="item-row homepage-item-list-1">
+        <div class="item-row homepage-item-list-1" id="homepage-item-list-1">
 
 
 
@@ -133,7 +133,7 @@
             <div class="main-item-grid">
                 <div class="card">
                     <div class="row">
-                        <div class="card-image-wrapper col m10 offset-m1">
+                        <div class="card-image-wrapper col s12 m10 offset-m1">
                             <img src="{{this.image}}" class="responsive-img item-image-primary">
                         </div>
                         <div clas="col m1">
@@ -170,74 +170,13 @@
 {{/each}}
 
 
-            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section left-side2" id="left-side2">
-                <div class="card-content slider-button center">
-                    <i class="material-icons slider-button-icon">chevron_left</i>
-                </div>
-            </div>
-
-            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section right-side2" id="right-side2">
-                <div class="card-content slider-button center">
-                    <i class="material-icons slider-button-icon">chevron_right</i>
-                </div>
-            </div>
-
+            
 
 
         </div>
-    </div>
 
 
-
-
-
-   <div class="card few_item_slider" id="few_item_slider">
-
-        <div class="item-row homepage-item-list-1">
-
-
-{{#each card}}
-            <div class="main-item-grid">
-                <div class="card">
-                    <div class="row">
-                        <div class="card-image-wrapper col m10 offset-m1">
-                            <img src="{{this.image}}" class="responsive-img item-image-primary">
-                        </div>
-                        <div clas="col m1">
-                        </div>
-                    </div>
-                    <div class="item-star center-align">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                    </div>
-                    <div class="item-name center-align">
-                        {{this.name}}
-                    </div>
-
-                    <div class="card-action center-align extra-section-in-item">
-                        <div class="row">
-                            <div class="col s6 center-align">
-                                <p class="price-tag">
-                                    {{!-- <del class="red-text">&#8377 </del> --}}
-                                    <span class="green-text">&nbsp &#8377 {{this.price}}</span>
-                                </p>
-                            </div>
-                            <div class="col s6">
-                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart" onclick="getItem('{{this.id}}')">
-                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-{{/each}}
-
-
-            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section left-side2" id="left-side2">
+        <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section left-side2" id="left-side2">
                 <div class="card-content slider-button center">
                     <i class="material-icons slider-button-icon">chevron_left</i>
                 </div>
@@ -250,70 +189,19 @@
             </div>
 
     </div>
-</div>
 
 
-
-
-<div class="card few_item_slider" id="few_item_slider">
-    <div class="item-row homepage-item-list-1">
-
-{{#each choco}}
-            <div class="main-item-grid">
-                <div class="card">
-                    <div class="row">
-                        <div class="card-image-wrapper col m10 offset-m1">
-                            <img src="{{this.image}}" class="responsive-img item-image-primary">
-                        </div>
-                        <div clas="col m1">
-                        </div>
-                    </div>
-                    <div class="item-star center-align">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                    </div> 
-                    <div class="item-name center-align">
-                        {{this.name}}
-                    </div>
-
-                    <div class="card-action center-align extra-section-in-item">
-                        <div class="row">
-                            <div class="col s6 center-align">
-                                <p class="price-tag">
-                                    {{!-- <del class="red-text">&#8377 </del> --}}
-                                    <span class="green-text">&nbsp &#8377 {{this.price}}</span>
-                                </p>
-                            </div>
-                            <div class="col s6">
-                                <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart" onclick="getItem('{{this.id}}')">
-                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-{{/each}}
-
-
-            <div class="card slider-button-container left-side waves-effect waves-light width_of_item-section left-side2" id="left-side2">
-                <div class="card-content slider-button center">
-                    <i class="material-icons slider-button-icon">chevron_left</i>
-                </div>
-            </div>
-
-            <div class="card slider-button-container right-side waves-effect waves-light width_of_item-section right-side2" id="right-side2">
-                <div class="card-content slider-button center">
-                    <i class="material-icons slider-button-icon">chevron_right</i>
-                </div>
-            </div>
-
-
+     <div class="card item-list-footer center-align">
+        <a class="item-list-header-name">Explore All</a>
     </div>
-</div>
+
+
+
+
+
+    
+
+
 
 
     <script src="/js/store/store.js"></script>

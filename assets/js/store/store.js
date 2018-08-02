@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+
+
+/*    
 if($(window).width() > 992){
     //item slides slick
     $('.homepage-item-list-1').slick({
@@ -63,8 +66,46 @@ if($(window).width() <=600){
 
 
 }
+*/
 
 
+    $('#homepage-item-list-1').slick({
+        infinite:true,
+        speed:300,
+        slidesToShow:4,
+        slidesToScroll:1,
+        autoplay:true,
+        prevArrow:$('#left-side2'),
+        nextArrow:$('#right-side2'),
+        responsive:[
+            {
+                breakpoint:1024,
+                settings:{
+                    slidesToShow:3,
+                    slidesToScroll:1,
+                    infinite:true
+                }
+            },
+            {
+                breakpoint:600,
+                settings:{
+                    slidesToShow:2,
+                    slidesToScroll:1,
+                    infinite:true
+                }
+            },
+            {
+                breakpoint:480,
+                settings:{
+                    slidesToShow:2,
+                    slidesToScroll:1,
+                    infinite:true
+                }
+            }
+        ]
+    });
+    var item_section_height = $('.few_item_slider').height()/2;
+    $('.width_of_item-section').css({"top":item_section_height,"transform": "translateY(-50%)"});
 
 
 

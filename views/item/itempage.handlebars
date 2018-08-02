@@ -1,0 +1,125 @@
+<link type="text/css" rel="stylesheet" href="/css/item/itempage.css"  media="screen,projection"/>
+
+
+
+
+
+
+<div class="container">
+    <div class = "row">
+			
+			
+            <div class="col s12 m6 l5 xl5 margin-extended">
+
+                <div class="card holder_1">
+
+                    <div class="active-image-holder">
+                        <img id="active-image" class="responsive-img active-image-cntrl">
+                    </div>
+                    
+                    <div class="item-images-slide" id="item-images-slide">
+
+                        {{#each item.image}}
+                            <img src="/{{this}}" class="item-image" onclick="showImage('#active-image','/{{this}}')">          
+                        {{/each}}
+
+                    </div>
+
+                    <i id="left" class="fa fa-chevron-circle-left slide-btnn left" aria-hidden="true"></i>
+                    <i id="right"  class="fa fa-chevron-circle-right slide-btnn right" aria-hidden="true"></i>	
+                </div>
+
+
+                	
+			</div>
+			
+
+
+			<div class="col s12 m6 l7 xl7 margin-extended ">
+
+                <div class="card">
+                    <div class="Item-name padding_1">
+                        <p>{{item.name}}</p>
+                    </div>
+                    <hr>
+                    <div class="Item-desc padding_2">
+                        <img src="/logos/logo_bottom.png" class="exclusive">
+                        <p>Originals Exclusive Collection</p>
+                    </div>
+                    <div class="stars-container padding_2">
+                        <div class="item-star">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked "></span>
+                            <span class="fa fa-star checked"></span>
+                        </div> 
+                    </div>
+                    <div class="type-container padding_2">
+                        <p class="type">Type : <span>{{item.type}}</span></p>
+                        <p class="type">Price : <span>{{item.price}}</span></p>
+                    </div>
+                    
+
+                    <div class="form-container padding_2">
+                            <p>
+                                {{#each item.sizes}}
+                                    <label>
+                                        <input class="with-gap" name="size" type="radio" value="{{this}}" checked/>
+                                        <span>{{this}}</span>
+                                    </label>
+                                {{/each}}
+                            </p>
+
+                            <p>
+                                {{#each item.colors}}
+                                    <label>
+                                        <input class="with-gap" name="color" style="color:white;" type="radio" value="{{this}}" checked/>
+                                        <span style="background-color:{{this}}"></span>
+                                    </label>
+                                {{/each}}
+                            </p>
+
+                            <button class="button waves-effect waves-light add-to-cart" onclick="AddTocart('{{item.id}}')">Add to Cart</button>
+                    </div>
+                </div>
+
+			</div>	
+
+
+	</div>
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript" src="/js/item/itempage.js"></script>
+
+<script>
+    function showImage(target,address){
+        $(target).attr("src",address);
+        console.log('I');
+    }
+
+    $('.item-image:first-child').click();
+
+    function AddTocart(id){
+        $.ajax({
+            type: "POST",
+            url: "/cart/add",
+            data: {id:id,size:$("input[name='size']:checked").val(),color:$("input[name='color']:checked").val()},
+            success: function(result){
+                M.toast({html: 'Item Added to cart', classes: 'rounded'});
+            },
+            error: function(error){
+                M.toast({html: 'internal Server Error', classes: 'rounded'});
+                console.log(error);
+            }
+        });
+    }
+
+
+</script>

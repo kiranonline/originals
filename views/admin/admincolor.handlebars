@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -251,87 +248,86 @@
     </div>
   </nav>
   <div class="content-wrapper">
-    <div class="container text-center">
-            <!--content-->	
+    <div class="container-fluid">
 
 
 
 
-      <ol class="breadcrumb">
+
+            <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="/admin/dashboard">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Items</li>
+        <li class="breadcrumb-item active">Item Category - colour </li>
       </ol>
+        
 
-
+        <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i>
            View all category
-           <a href="/admin/dashboard/item/category/level4/new" class="btn btn-success" style="float:right">+ Add New</a>           
+           <a href="/admin/dashboard/item/category/color/new" class="btn btn-success" style="float:right">+ Add New</a>           
         </div>
         <div class="card-body">
 
 
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable"  width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>NAME</th>
-                      <th>PRICE</th>
-                      <th>SIZE</th>
-                      <th>COLOR</th>
-                      <th>GENDER</th>
-                      <th>EVENT</th>
-                      <th>ITEM TYPE</th>
-                      <th>ADDED BY</th>
-                      <th>ADDED ON</th>
-                      <th>OPERATION</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                      <th>ID</th>
-                      <th>NAME</th>
-                      <th>PRICE</th>
-                      <th>COLOR</th>
-                      <th>GENDER</th>
-                      <th>EVENT</th>
-                      <th>ITEM TYPE</th>
-                      <th>ADDED BY</th>
-                      <th>ADDED ON</th>
-                      <th>OPERATION</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                      {{#each items}}
-                      <tr>
-                        <td>{{this.id}}</td>
-                        <td>{{this.name}}</td>
-                        <td>{{this.price}}</td>
-                        <td>{{this.size_name}}</td>
-                        <td>{{this.color_name}}</td>
-                        <td>{{this.gender}}</td>
-                        <td>{{this.event_name}}</td>
-                        <td>{{this.type_name}}</td>
-                        <td>{{this.added_by}}</td>
-                        <td>{{this.added_on}}</td>
-                        <td class="text-center">
-                          <button class="btn btn-danger" onclick="trash('{{id}}')"><i class="fa fa-trash"></i></button>
-                        </td>
-                      </tr>
-                      {{/each}}
-                </tbody>
-                
-              </table>
-				</div>
+
+                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead>
+                        <tr>
+                            <th>CATEGORY ID</th>
+                            <th>CATEGORY NAME</th>
+                            <th>COLORS</th>
+                            <th>FOR ITEM</th>
+                            <th>CREATED BY</th>
+                            <th>CREATED ON</th>
+                            <th>NUMBER</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>CATEGORY ID</th>
+                            <th>CATEGORY NAME</th>
+                            <th>COLORS</th>
+                            <th>FOR ITEM</th>
+                            <th>CREATED BY</th>
+                            <th>CREATED ON</th>
+                            <th>NUMBER</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {{#each tabledata}}
+                            <tr>
+                                <td>{{this.id}}</td>
+                                <td>{{this.name}}</td>
+                                <td>{{this.color}}</td>
+                                <td>{{this.for_item}}</td>
+                                <td>{{this.created_by}}</td>
+                                <td>{{this.created_on}}</td> 
+                                <td></td>                              
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                 </table>
+
+            </div>
+
+          
+
+        </div>
+    </div>
 
 
-          </div>
-					
-		</div>
+
+
+
+
+
+
+
+      
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
@@ -366,7 +362,7 @@
         </div>
       </div>
     </div>
-          <!-- Bootstrap core JavaScript-->
+        <!-- Bootstrap core JavaScript-->
     <script src="/js/admin/jquery.min.js"></script>
     <script src="/js/admin/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
@@ -379,36 +375,20 @@
     <!-- Custom scripts for all pages-->
     <script src="/js/admin/sb-admin.min.js"></script>
 
-
-
-
     <script>
          $(document).ready(function() {
             $('#dataTable').DataTable();
         });
 
-
-
-        function trash(id){
-          var url ='/admin/dashboard/item/delete/'+id;
-          $.ajax({
-            type:"DELETE",
-            url:url,
-            success:function(result){
-              alertify.alert('Success', result, function(){ 
-                window.location.replace("/admin/dashboard/item");
-               });
-            },
-            error:function(error){
-              alertify.alert('failed', error);
-            }
-
-          });
-        }
-
         
     </script>
   </div>
+
+  <!--messages-->
+     <!--display success message-->
+        {{#if messageStatuse}}
+            <script> alertify.alert('{{messageTitle}}', '{{messageBody}}');</script>
+        {{/if}}
 </body>
 
 </html>

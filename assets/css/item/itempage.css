@@ -1,0 +1,105 @@
+/* styling the image thumbnails */
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
+	.container{
+		width:95%;
+		margin: 2.5%;
+	}
+	.holder_1{
+		padding:30px !important;
+
+	}
+	.item-images-slide{
+		width:80%;
+		margin-left: 10%;
+	}
+	.item-image{
+		width: 90px;
+		height: 100px;
+		padding:0px 20px; 
+		cursor: pointer;
+	}
+	.slide-btnn{
+		font-size: 20px;
+		cursor: pointer;
+		transform: translateY(-70px) !important;
+	}
+	.active-image-holder{
+		width:80%;
+		margin-left: 10%;
+		text-align: center;
+		min-height: 300px;
+	}	
+	.padding_1{
+		padding:1px 20px 0px 20px;
+	}
+	.Item-name{
+		font-size: 25px;
+	}
+	.padding_2{
+		padding: 1px 20px;
+	}
+	.Item-desc img, .Item-desc p{
+		display: inline;
+	}
+	.Item-desc img{
+		width:30px;
+	}
+	.Item-desc p{
+		font-size: 18px;
+	}
+	.checked{
+		color: #ff6f00;
+	}
+	.type{
+		font-size: 18px;
+	}
+	.type span{
+		color: var(--main-primary-1 );
+		font-size: 20px;
+	}
+	.button {
+		border: none;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin-bottom: 20px;
+	}
+	.add-to-cart{
+		background: var(--main-primary-1 );
+		cursor: pointer;
+		color: aliceblue;
+	}
+	.add-to-cart:hover, .add-to-cart:focus{
+		background: var(--main-primary-1 );
+	}
+
+
+
+
+
+
+
+	
+	
+	
+	@media screen and (max-width: 600px){
+		.Item-name{
+			font-size: 20px;
+		}
+		.Item-desc p{
+			font-size: 14px;
+		}
+		.button{
+			margin: 0px;
+			padding: 0px;
+			position: fixed;
+			width: 100%;
+			height:50px;
+			bottom:0px;
+			left:0px;
+		}
+
+		
+	}

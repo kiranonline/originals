@@ -299,6 +299,13 @@
 					  <select name="size" class="form-control" id="cat1" >
 					  </select>
 					</div>  
+				</div>
+        <div class="form-group">
+				  <label class="control-label col-sm-12" for="cat11">Select Color:</label>
+				  <div class="col-sm-12">
+					  <select name="color" class="form-control" id="cat11" >
+					  </select>
+					</div>  
 				</div>  
 				<div class="form-group">
 				  <label class="control-label col-sm-12" for="cat2">Select Target Gender:</label>
@@ -531,6 +538,7 @@ $('#removeButton').click(function(){
     var str=$("#cat4").val();
     console.log(str);
     var arr_size=[];
+    var arr_color=[];
     $.ajax({
       type: "POST",
       url: "/admin/dashboard/category1",
@@ -539,7 +547,7 @@ $('#removeButton').click(function(){
         
         var s=JSON.parse(result);
         console.log(s);
-        $.each( s, function( key, value ) {
+        $.each( s["sizes"], function( key, value ) {
           var actual_size = JSON.parse(value.size);
           for(keyy in actual_size){
             arr_size.push(actual_size[keyy]);
@@ -547,6 +555,15 @@ $('#removeButton').click(function(){
           $("#cat1").append("<option value='"+value.id+","+value.name+"'>"+value.name+"---["+arr_size+"]</option>");
           //console.log("<option value='"+value+"'>"+value+"</option>")
           arr_size=[];
+        });
+        $.each( s["colors"], function( key, value ) {
+          var actual_color = JSON.parse(value.color);
+          for(keyy in actual_color){
+            arr_color.push(actual_color[keyy]);
+          }
+          $("#cat11").append("<option value='"+value.id+","+value.name+"'>"+value.name+"---["+arr_color+"]</option>");
+          //console.log("<option value='"+value+"'>"+value+"</option>")
+          arr_color=[];
         });
 
       },

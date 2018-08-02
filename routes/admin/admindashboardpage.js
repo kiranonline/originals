@@ -208,6 +208,159 @@ router.get('/dashboard/item/category/level2',function(req,res){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//view item category - color
+router.get('/dashboard/item/category/color',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        //fetching data from db
+        var q3="SELECT * FROM color";
+        conn.query(q3,function(err,result){
+            if(err){
+                console.log(err);
+            }
+            res.render('admin/admincolor',{ layout: false,
+                                                              admindetails :req.session.admin,
+                                                              messageStatuse:false,
+                                                              messageTitle:'',
+                                                              messageBody:'',
+                                                              tabledata:result});
+            
+        });
+    }
+
+});
+
+
+//create new category - size (level1)
+
+router.get('/dashboard/item/category/color/new',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        var q1="SELECT * FROM item_category_level4";
+        conn.query(q1,function(err,result){
+            if(err){
+                console.log(err);
+            }
+            var for_item = result; 
+            res.render('admin/adminnewcolor',{ layout: false,admindetails :req.session.admin,messageStatuse:false,messageTitle:'',messageBody:'',for:for_item});
+        });
+        
+    }
+});
+
+
+
+router.post('/dashboard/item/category/color/new',function(req,res){
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        console.log(req.body);
+        var name=req.body.cat_name;
+        var this_is_for=req.body.cat_for;
+        var colors=(req.body);
+        delete colors.cat_name;
+        delete colors.cat_for;
+        colors=JSON.stringify(colors);
+        var q2='SELECT * FROM item_category_level4 WHERE name='+mysql.escape(this_is_for);
+        console.log(req.body);
+        conn.query(q2,function(err,result){
+            if(err) {
+                console.log(err);
+            }
+            if(result.length==1){
+                var for_item_id=result[0].id;
+                var id=uniqid('cat-color-');
+                var q1='SELECT * FROM color WHERE id='+mysql.escape(id);
+                conn.query(q1,function(err,result){
+                    if (err) {
+                        console.log(err);
+                    }
+                    if(result.length==0){
+                        q2='INSERT INTO color(id,name,color,for_item,created_by,created_on) VALUES ('+mysql.escape(id)+','+mysql.escape(name)+','+mysql.escape(colors)+','+mysql.escape(for_item_id)+','+mysql.escape(req.session.admin.name)+','+mysql.escape(new Date())+')';
+                        conn.query(q2,function(err,result){
+                            if (err){
+                                console.log(err);
+                            }
+                            res.render('admin/adminnewcolor',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'SUCCESS',messageBody:'New Category Created' });
+                        });
+                    }
+                    else{
+                        res.render('admin/adminnewcolor',{ layout: false,admindetails :req.session.admin,messageStatuse:true,messageTitle:'FAILED',messageBody:'Technical Issue'});
+                    }
+
+                });
+            }
+            
+        });
+        
+        
+
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //view item category - size (level1)
 router.get('/dashboard/item/category/level1',function(req,res){
     if(!req.session.admin){
@@ -631,9 +784,22 @@ router.post('/dashboard/category1',function(req,res){
 		if(err){
             console.log(err);
         }
-		var r=JSON.parse(JSON.stringify(result));
-        console.log(r);
-		res.send(r);
+            var sizes=result;
+            var query1 ="SELECT id,name,color FROM color WHERE for_item="+mysql.escape(req.body.category4.split(",")[0]);
+            conn.query(query1,function(err,res1){
+                if(err){
+                    console.log(err);
+                }
+                var ress={
+                    sizes:JSON.parse(JSON.stringify(sizes)),
+                    colors:JSON.parse(JSON.stringify(res1))
+                }
+                console.log(ress);
+                res.send(ress);
+
+            });
+        
+		
 	});
 });
 
@@ -655,6 +821,8 @@ router.post('/dashboard/item/new',function(req,res){
        var id=uniqid('item-'); 	
        var size_id=req.body.size.split(",")[0];
        var size_name=req.body.size.split(",")[1];
+       var color_id=req.body.color.split(",")[0];
+       var color_name=req.body.color.split(",")[1];
        var gender=req.body.gender;
        var event_type_id=req.body.event_type.split(",")[0];
        var event_type_name=req.body.event_type.split(",")[1];
@@ -700,7 +868,7 @@ router.post('/dashboard/item/new',function(req,res){
                         }
                         
                          function do_it(){
-                            var query ="INSERT INTO items (id,name,price,size_id,size_name,gender,event_id,event_name,type_id,type_name,tags,images,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+","+mysql.escape(str)+","+mysql.escape(JSON.stringify(item_image_list))+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
+                            var query ="INSERT INTO items (id,name,price,size_id,size_name,color_id,color_name,gender,event_id,event_name,type_id,type_name,tags,images,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(color_id)+","+mysql.escape(color_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+","+mysql.escape(str)+","+mysql.escape(JSON.stringify(item_image_list))+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
                             console.log(query); 
                             conn.query(query,function(err,result){
                                 if(err) throw err;
