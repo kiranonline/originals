@@ -172,11 +172,29 @@ router.get("/item/:itemId", function (req, res) {
 
 
 
-router.post('/cart/add',(req,res)=>{
-    console.log(req.body);
-    res.send(req.body);
-});
 
+
+
+
+
+router.get('/products/all',(req,res)=>{
+    var q1="SELECT * FROM items";
+    conn.query(q1,(err,result)=>{
+        if(err){
+            console.log(err);
+        }
+        items=[];  
+        for(var i in result){
+            items.push({
+                id:result[i].id,
+                name:result[i].name,
+                price:result[i].price,
+                image:JSON.parse(result[i].images)['1']
+            });
+        }
+        res.render('searchpage/search',{items:items});
+    });
+});
 
 
 
