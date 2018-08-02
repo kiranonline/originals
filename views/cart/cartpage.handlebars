@@ -1,0 +1,43 @@
+
+<html>
+    <title>The Originals</title>
+    <link rel="stylesheet"  href="css/cart/cart.css">
+    <body>
+        <div class="container">
+            {{#each cart}}
+            <div class="row">
+                <div class="col s12 m12 l8 xl8 no-margine no-padding" id="cartitemsection">
+                    <div class="card left-section">
+                        <div class="row">
+                            <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
+                                <img src="uploads/T-shirt/item-1tqqnmonjk8p66vs/1_jjYC9tuf4C3HkHCP5PcKTA.jpeg" class="responsive-img cart-item-image">
+                            </div>
+                            <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
+                                <p class="desc-item">Description of Item</p>
+                                <p><span>Id : </span>{{id}}</p>
+                                <p><span>Item Id : </span>{{item_id}}</p>
+                                <p><span>Size : </span>{{size}}</p>
+                                <p><span>Color: </span>{{color}}</p>
+                                <p>Quantity : </p>
+                                <p>
+                                <span class="btn" id="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                <a class="btn" id="quantity">{{no_of_items}}</a>
+                                <span class="btn" id="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                </p>
+                                <p class="price">{{price}} </p>
+                                <p class="discount">Rs. 300</p>
+                                <p>
+                                    <a class="btn remove waves-effect waves-light" href="#">Remove</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </body>
+</html>
+
+
+        

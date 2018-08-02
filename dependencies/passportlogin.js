@@ -39,7 +39,8 @@ passport.use('local', new LocalStrategy({
               return done(null, false, req.flash('message','Invalid username or password.'));
   
            }
-  
+          //  addCartToSession(req,rows);
+           
           return done(null, rows[0]);
   
         });
@@ -58,6 +59,7 @@ passport.serializeUser(function(user, done){
 
 });
 
+
 passport.deserializeUser(function(phone, done){
 
     conn.query("SELECT * FROM userlist WHERE phone = "+ phone, function (err, rows){
@@ -67,6 +69,20 @@ passport.deserializeUser(function(phone, done){
     });
 
 });
+
+
+function addCartToSession(req,rows)
+{
+    
+
+    console.log("haha");
+
+    var cart=rows[0].cart;
+    console.log(cart);
+       
+    req.session.cart=cart;   
+       
+}
 
 
 
