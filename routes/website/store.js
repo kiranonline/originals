@@ -172,12 +172,6 @@ router.get("/item/:itemId", function (req, res) {
 
 
 
-router.post('/cart/add',(req,res)=>{
-    console.log(req.body);
-    res.send(req.body);
-});
-
-
 
 
 

@@ -40,8 +40,6 @@ router.get('/user/cart',isLoggedIn,(req,res)=>{
 
 router.get('/cart',isLoggedIn,(req,res)=>{
 
-
-
     res.render('cart/itemsAdd.handlebars');
 });
 
@@ -108,19 +106,22 @@ router.post('/cart/remove',isLoggedIn,(req,res)=>{
 
         //console.log("item_id: "+item_id+" no_of_items: "+no_of_items+" size: "+size+" color: "+color+" price: "+price+" image: "+image);
         remove(req,id,cart_items_array);
+        res.send("remove");
 
     });
-    res.send("hello");
+    //res.send("hello");
+    //res.redirect('/user/cart');
 });
 router.post('/cart/change',isLoggedIn,(req,res)=>{
 
+    console.log("change");
     var query="SELECT * FROM items WHERE id="+mysql.escape(req.body.item_id);
-    conn.query(query,(err,res)=>{
+    conn.query(query,(err,res2)=>{
         if(err) console.log(err);
 
-        if(res.length==1)
+        if(res2.length==1)
         {
-            var price=res[0].price;
+            var price=res2[0].price;
             var id=req.body.id;
             var value=req.body.value;
 
@@ -140,10 +141,11 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                 //console.log("item_id: "+item_id+" no_of_items: "+no_of_items+" size: "+size+" color: "+color+" price: "+price+" image: "+image);
                 increase_decrease(req,id,cart_items_array,value);
 
+                res.send("changed");
             });
         }
     });
-    res.send("hello");
+    
 });
 
 router.post('/cart/total',isLoggedIn,(req,res)=>{
