@@ -9,9 +9,11 @@ var uniqid=require('uniqid');
 
 
 class items{
-    constructor(item_id,no_of_items,size,color,price,image){
+    constructor(item_id,item_name,item_type,no_of_items,size,color,price,image){
         this.id=uniqid('cart-');
         this.item_id=item_id;
+        this.item_name=item_name;
+        this.item_type=item_type;
         this.no_of_items=no_of_items;
         this.size=size;
         this.color=color;
@@ -57,6 +59,8 @@ router.post('/cart/add',isLoggedIn,function(req,res){
             var size=req.body.size;
             var color=req.body.color;
             var price=result[0].price;
+            var item_name=result[0].name;
+            var item_type=result[0].type_name;
             var imageJSON=JSON.parse(result[0].images);
             var image=imageJSON["1"];
 
@@ -77,7 +81,7 @@ router.post('/cart/add',isLoggedIn,function(req,res){
 
             //console.log("item_id: "+item_id+" no_of_items: "+no_of_items+" size: "+size+" color: "+color+" price: "+price+" image: "+image);
 
-            checkExistence(req,item_id,size,color,price,image,cart_items_array);
+            checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array);
 
             });
         }
@@ -172,7 +176,7 @@ router.post('/cart/total',isLoggedIn,(req,res)=>{
     res.send("hello");
 });
 
-function checkExistence(req,item_id,size,color,price,image,cart_items_array)
+function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array)
 {
     for(var i=0;i<cart_items_array.length;i++)
     {
@@ -197,16 +201,16 @@ function checkExistence(req,item_id,size,color,price,image,cart_items_array)
             }
         }
     };
-    add(req,item_id,size,color,price,image,cart_items_array);
+    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array);
 }
 
 //item_id,no_of_items,size,color,price,image
-function  add(req,item_id,size,color,price,image,cart_items_array)
+function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array)
 {
     
     console.log("new itam added");
-    var obj=new items(item_id,1,size,color,price,image);
-var dict={"id":obj.id,"item_id":obj.item_id,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"image":obj.image};
+    var obj=new items(item_id,item_name,item_type,1,size,color,price,image);
+var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type":item_type,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"image":obj.image};
     
     cart_items_array.push(dict);    
     var dict={"items":cart_items_array};

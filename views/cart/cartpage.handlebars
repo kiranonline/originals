@@ -10,16 +10,19 @@
                             </div>
                             <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
                                 <p class="desc-item">Description of Item</p>
-                                <p><span>Id : </span>{{id}}</p>
-                                <p><span>Item Id : </span>{{item_id}}</p>
+                                <p><span>Item Name : </span>{{item_name}}</p>
+                                <p><span>Item type : </span>{{item_type}}</p>
                                 <p><span>Size : </span>{{size}}</p>
-                                <p><span>Color: </span>{{color}}</p>
+                                <ul >
+                                    <li style="display:inline-block;"><p><span>Color: &nbsp&nbsp&nbsp </span></li>
+                                    <li style="display:inline-block;"><div  style="background-color:{{color}};width:25px;height:25px">  </div></li>
+                                </ul>
+                                
                                 <p>Quantity : </p>                                    
                                 <span class="btn minus" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
                                 <a class="btn {{id}} {{item_id}}" id="quantity">{{no_of_items}}</a>
                                 <span class="btn plus" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                <p class="price">{{price}} </p>
-                                <p class="discount">Rs. 300</p>
+                                <p class="price">Price: <span>{{price}}</span> </p>
                                 <p>
                                     <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{id}}')">Remove</a>
                                 </p>
