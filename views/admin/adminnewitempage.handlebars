@@ -547,6 +547,7 @@ $('#removeButton').click(function(){
         
         var s=JSON.parse(result);
         console.log(s);
+        $("#cat11").html('');
         $.each( s["sizes"], function( key, value ) {
           var actual_size = JSON.parse(value.size);
           for(keyy in actual_size){
@@ -556,6 +557,7 @@ $('#removeButton').click(function(){
           //console.log("<option value='"+value+"'>"+value+"</option>")
           arr_size=[];
         });
+        $("#cat11").html('');
         $.each( s["colors"], function( key, value ) {
           var actual_color = JSON.parse(value.color);
           for(keyy in actual_color){
