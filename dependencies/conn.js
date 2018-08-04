@@ -3,8 +3,7 @@ var pull_development=mysql.createPool({
     host:"localhost",
     user:"root",
     password:"",
-    database:"originals",
-    
+    database:"originals"
 });
 
 module.exports=pull_development;
