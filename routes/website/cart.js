@@ -46,10 +46,6 @@ router.get('/user/cart',isLoggedIn,(req,res)=>{
 });
 
 
-router.get('/cart',isLoggedIn,(req,res)=>{
-
-    res.render('cart/itemsAdd.handlebars');
-});
 
 router.post('/cart/add',isLoggedIn,function(req,res){
     
