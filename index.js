@@ -33,6 +33,8 @@ var sequelize = new Sequelize('originals', 'root', '', {
   });
   
 
+
+
 //app initialization
 var app = express();
 

@@ -19,7 +19,14 @@ router.get('/profile',isLoggedIn,(req,res)=>{
         if(err){
             console.log(err);
         }
-        res.render('user/profile.handlebars',{address:res1});
+        var q2="SELECT * FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
+        conn.query(q2,(err,res2)=>{
+            if(err){
+                console.log(err);
+            }
+            res.render('user/profile.handlebars',{user:res2[0],address:res1});
+        });
+        
     });
     
 });

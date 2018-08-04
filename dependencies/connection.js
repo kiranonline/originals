@@ -2,7 +2,9 @@
 var mysql = require('mysql');
 
 
-//connecting
+
+
+
 var conn = mysql.createConnection({
     host:"localhost",
     user:"root",
@@ -19,8 +21,17 @@ conn.connect(function(err) {
     console.log('connected to database as id ' + conn.threadId);
   });
 
+/*
+
+ var pool_development = mysql.createPool({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'originals'
+});
 
 
+*/
 
 
 

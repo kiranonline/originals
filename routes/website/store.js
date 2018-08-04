@@ -3,11 +3,32 @@ var router = express.Router();
 var path = require('path');
 var mysql = require('mysql');
 var conn = require(path.join(__dirname, '/../../dependencies/connection.js'));
+var pool = require(path.join(__dirname, '/../../dependencies/conn.js'));
 const fs = require('fs');
 var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin.js'));
 
 
 
+
+
+router.get('/try',function(req,res){
+    pool.getConnection(function(err,conn){
+        if(err){
+            console.log(err);
+
+        }
+        conn.query('SELECT * FROM items',(err,result)=>{
+            if(err){
+                console.log(err);
+                conn.end();
+            }
+            console.log(result);
+            res.send(result);
+        })
+        conn.end();
+        
+    });
+});
 
 //fetching homepage
 router.get('/', function (req, res) {

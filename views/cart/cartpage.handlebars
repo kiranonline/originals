@@ -5,7 +5,7 @@
                     {{#each cart}}
                     <div class="card left-section">
                         <div class="row {{id}}">
-                            <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
+                            <div class="col s12 m12 l4 xl4">
                                 <img src="/{{image}}" class="responsive-img cart-item-image">
                             </div>
                             <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
@@ -19,28 +19,39 @@
                                 </ul>
                                 
                                 <p>Quantity : </p>                                    
-                                <span class="btn minus" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                <span class="btn minus remove" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
                                 <a class="btn {{id}} {{item_id}}" id="quantity">{{no_of_items}}</a>
-                                <span class="btn plus" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                <span class="btn plus remove" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                <a class="btn remove waves-effect waves-light" style="" onclick="removeBtn('{{id}}')">Remove</a>
                                 <p class="price">Price: <span>{{price}}</span> </p>
                                 <p>
-                                    <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{id}}')">Remove</a>
+                                    
                                 </p>
                             </div>
                         </div>
                     </div>
                     {{/each}}
+                    <a href="/order" class="checkoutbtn1 center-align"><p>CHECKOUT</p></a>
                 </div>
                 <div class="l4 xl4 no-margin no-padding center">
-                    <div style="position:fixed;top:50%;right:12%;">
-                            <input type="submit" value="checkout" class="btn">
-                    </div>
+                    
                     
                 </div>
+
+
             </div>
             
+
+            <a href="/order" class="checkoutbtn valign-wrapper center-align"><p>CHECKOUT</p></a>
+            
+
+
+
+
             
         </div>
+
+        
     
 <script>
 
