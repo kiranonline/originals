@@ -49,6 +49,7 @@ var userAction = require('./routes/user/useraction.js')
 //store
 var store = require('./routes/website/store.js');
 var cartOrder = require('./routes/website/cart.js');
+var address = require('./routes/website/address.js');
 
 
 
@@ -186,6 +187,7 @@ app.use('/',userRegister);
 app.use('/',userLogin);
 app.use('/',userAction);
 app.use('/',cartOrder);
+app.use('/address',address);
 
 app.get('/logout', function(req, res) {
     req.logout(); 

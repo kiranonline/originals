@@ -110,7 +110,7 @@
         $.ajax({
             type: "POST",
             url: "/cart/add",
-            data: {id:id,size:$("input[name='size']:checked").val(),color:$("input[name='color']:checked").val()},
+            data: {item_id:id,size:$("input[name='size']:checked").val(),color:$("input[name='color']:checked").val()},
             success: function(result){
                 M.toast({html: 'Item Added to cart', classes: 'rounded'});
             },
