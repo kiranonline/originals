@@ -50,7 +50,7 @@ var userAction = require('./routes/user/useraction.js')
 var store = require('./routes/website/store.js');
 var cartOrder = require('./routes/website/cart.js');
 var address = require('./routes/website/address.js');
-
+var promocode=require('./routes/website/promocode.js');
 
 
 
@@ -188,6 +188,7 @@ app.use('/',userLogin);
 app.use('/',userAction);
 app.use('/',cartOrder);
 app.use('/address',address);
+app.use('/promocode',promocode);
 
 app.get('/logout', function(req, res) {
     req.logout(); 

@@ -3,11 +3,14 @@ var router = express.Router();
 var path = require('path');
 var mysql = require('mysql');
 var conn = require(path.join(__dirname, '/../../dependencies/connection.js'));
+var poll=require(path.join(__dirname, '/../../dependencies/conn.js'));
 const fs = require('fs');
 var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin.js'));
 var uniqid=require('uniqid');
 
 
+
+var deliveryCharge=40;
 class items{
     constructor(item_id,item_name,item_type,no_of_items,size,color,price,image){
         this.id=uniqid('cart-');
@@ -18,14 +21,54 @@ class items{
         this.size=size;
         this.color=color;
         this.price=price;
+        this.total=parseInt(no_of_items)*parseInt(price);
         this.image=image;
     }
 }
 
 router.get('/order',isLoggedIn,(req,res)=>{
 
-    console.log("called");
-    res.render('cart/orderpage.handlebars');
+    var query="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
+    conn.query(query,function(err,result){
+        if(err) console.log(err);
+
+        var cart=JSON.parse(result[0]['cart']);
+
+        console.log(cart);
+        var cart_items_array=cart["items"];
+
+        var TotalPrice=getTotalPrice(cart_items_array);
+        var TotalPriceWithDeliveryCharge=parseInt(TotalPrice)+deliveryCharge;
+
+        var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
+        conn.query(q1,(err2,res1)=>{
+            if(err2){
+                console.log(err2);
+            }
+            res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
+        });
+    });
+
+});
+
+
+router.post('/order/place',function(req,res){
+
+    poll.getConnection(function(err,conn){
+
+        if(err) console.log(err);
+
+        var q="SELECT * FROM userlist where name='RK'";
+        conn.query(q,function(err2,res2){
+
+            console.log(res2[0].phone);
+            
+
+        });
+        conn.end();
+
+    });
+    res.send("place order");
 
 });
 
@@ -145,9 +188,12 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                 //log(cart_items_array.length);
 
                 //console.log("item_id: "+item_id+" no_of_items: "+no_of_items+" size: "+size+" color: "+color+" price: "+price+" image: "+image);
-                increase_decrease(req,id,cart_items_array,value);
+                var total_price=increase_decrease(req,id,cart_items_array,value);
 
-                res.send("changed");
+                console.log(total_price);
+
+
+                res.send({total_price:total_price});
             });
         }
     });
@@ -194,6 +240,7 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
                     cart_items_array[i]["no_of_items"]=no_of_items;
                     cart_items_array[i]["price"]=price;
                     
+                    cart_items_array[i]["total"]=parseInt(no_of_items)*parseInt(price);
                     var dict={"items":cart_items_array};
 
 
@@ -212,7 +259,7 @@ function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_
     
     console.log("new itam added");
     var obj=new items(item_id,item_name,item_type,1,size,color,price,image);
-var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type":item_type,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"image":obj.image};
+var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type":item_type,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"total":obj.total,"image":obj.image};
     
     cart_items_array.push(dict);    
     var dict={"items":cart_items_array};
@@ -248,6 +295,7 @@ function increase_decrease(req,id,cart_items_array,value)
             var no_of_items=cart_items_array[i]["no_of_items"];
             var total_no=parseInt(no_of_items)+parseInt(value);
 
+            var total_price=0;
             if(total_no<=0)
             {
                 console.log("no of pieces is less than 0")
@@ -256,11 +304,13 @@ function increase_decrease(req,id,cart_items_array,value)
             else{
     
                 cart_items_array[i]["no_of_items"]=total_no;
+                total_price=total_no*parseInt(cart_items_array[i]["price"]);
+                cart_items_array[i]["total"]=total_price;
             }
 
             var dict={"items":cart_items_array};
             updateQuery(dict,req);
-            return;        
+            return total_price;        
         }        
     }
 }

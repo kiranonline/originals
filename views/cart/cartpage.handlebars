@@ -4,27 +4,27 @@
                 <div class="col s12 m12 l8 xl8 no-margine no-padding" id="cartitemsection">
                     {{#each cart}}
                     <div class="card left-section">
-                        <div class="row {{id}}">
+                        <div class="row {{this.id}}">
                             <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
-                                <img src="/{{image}}" class="responsive-img cart-item-image">
+                                <img src="/{{this.image}}" class="responsive-img cart-item-image">
                             </div>
                             <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
                                 <p class="desc-item">Description of Item</p>
-                                <p><span>Item Name : </span>{{item_name}}</p>
-                                <p><span>Item type : </span>{{item_type}}</p>
-                                <p><span>Size : </span>{{size}}</p>
+                                <p><span>Item Name : </span>{{this.item_name}}</p>
+                                <p><span>Item type : </span>{{this.item_type}}</p>
+                                <p><span>Size : </span>{{this.size}}</p>
                                 <ul >
                                     <li style="display:inline-block;"><p><span>Color: &nbsp&nbsp&nbsp </span></li>
-                                    <li style="display:inline-block;"><div  style="background-color:{{color}};width:25px;height:25px">  </div></li>
+                                    <li style="display:inline-block;"><div  style="background-color:{{this.color}};width:25px;height:25px">  </div></li>
                                 </ul>
                                 
                                 <p>Quantity : </p>                                    
                                 <span class="btn minus" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                <a class="btn {{id}} {{item_id}}" id="quantity">{{no_of_items}}</a>
+                                <a class="btn {{this.id}} {{this.item_id}}" id="quantity">{{this.no_of_items}}</a>
                                 <span class="btn plus" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                <p class="price">Price: <span>{{price}}</span> </p>
+                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.total}}</span> </p>
                                 <p>
-                                    <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{id}}')">Remove</a>
+                                    <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{this.id}}')">Remove</a>
                                 </p>
                             </div>
                         </div>
@@ -74,16 +74,19 @@
 
         var y=x.attr("class").split(' ')[1];
         var z=x.attr("class").split(' ')[2];
-
-                console.log(z);
+        var price_span=".price"+y;
 
 
        $.ajax({
             method:"post",
             url:"/cart/change",
             data:{id:y,item_id:z,value:1},
-            success:function(){
+            success:function(res){
                 x.html(+x.html()+1);
+
+                total_price_item=res["total_price"];
+                $(price_span).html(total_price_item);
+
             
             M.toast({html:"No of items increased successfully",classes:"rounded"});
             },
@@ -101,23 +104,30 @@
         var y=x.attr("class").split(' ')[1];
         var z=x.attr("class").split(' ')[2];
 
-        console.log(z);
 
-        $.ajax({
-            method:"post",
-            url:"/cart/change",
-            data:{id:y,item_id:z,value:-1},
-            success:function(){
+        var price_span=".price"+y;
+        //console.log(price_span);
+        //console.log(z);
+        if (x.html() > 1){
+                $.ajax({
+                    method:"post",
+                    url:"/cart/change",
+                    data:{id:y,item_id:z,value:-1},
+                    success:function(res){
 
-                if (x.html() > 1) x.html(+x.html() - 1);
+                        x.html(+x.html() - 1);
 
-                else return;
-            
-            M.toast({html:"No of items decreased successfully",classes:"rounded"});
-            },
-            error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
+                        total_price_item=res["total_price"];
+                        $(price_span).html(total_price_item);
 
-       });
+
+                    M.toast({html:"No of items decreased successfully",classes:"rounded"});
+                    },
+                    error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
+
+            });
+        }
+        else return;
         
     });
     
