@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
             console.log(err);
         }
         carouseldata = result;
-        var q2 = "SELECT * FROM items WHERE type_name='T-shirt'";
+        var q2 = "SELECT * FROM items WHERE type_name='T-shirt' AND status='active'";
         conn.query(q2, function (err, result) {
             if (err) {
                 console.log(err);
@@ -91,7 +91,7 @@ router.get('/', function (req, res) {
 //fetch item
 router.get("/item/:itemId", function (req, res) {
     var itemId = req.params.itemId;
-    var q1 = "SELECT * FROM items WHERE id=" + mysql.escape(itemId);
+    var q1 = "SELECT * FROM items WHERE id=" + mysql.escape(itemId)+" AND status='active'";
     conn.query(q1, function (err, result) {
         if (err) {
             console.log(err);
@@ -178,7 +178,7 @@ router.get("/item/:itemId", function (req, res) {
 
 
 router.get('/products/all',(req,res)=>{
-    var q1="SELECT * FROM items";
+    var q1="SELECT * FROM items WHERE status='active'";
     conn.query(q1,(err,result)=>{
         if(err){
             console.log(err);

@@ -34,7 +34,7 @@ router.post('/register', function(req, res){
     req.checkBody('last_name', 'Last name is required').notEmpty();
     //req.checkBody('email2', "Invalid Email Id").notEmpty().isEmail();
     req.checkBody('phone2', 'Enter a valid phone number').isNumeric().isLength({min : 10, max : 10});    
-    req.checkBody('phone2', "Phone number field can't be kept blank").notEmpty()
+    req.checkBody('phone2', "Phone number field can't be kept blank").notEmpty();
     req.checkBody("age", "Enter in the correct age").isNumeric().isLength({min : 2, max : 2}); 
     req.checkBody("password2", "Password must be longer than 5 characters").notEmpty().isLength({min : 6});
     req.checkBody("password2_confirm", "Entry must match the Password entered above").notEmpty().equals(pass);

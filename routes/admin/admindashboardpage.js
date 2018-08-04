@@ -934,13 +934,7 @@ router.delete('/dashboard/item/delete/:id',(req,res)=>{
         }
        
         if(result.length==1){
-            var type_name=result[0].type_name;
-            fse.remove('assets/uploads/'+type_name+"/"+id,(err)=>{
-                if(err){
-                    console.log(err);
-                }
-            });
-            var q2="DELETE FROM items WHERE id="+mysql.escape(id);
+            var q2="UPDATE items SET status='inactive' WHERE id="+mysql.escape(id);
             conn.query(q2,(err,result2)=>{
                 if(err){
                     console.log(err);

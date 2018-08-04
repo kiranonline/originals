@@ -24,6 +24,7 @@
     "express-validator": "^5.2.0",
     "flash": "^1.1.0",
     "fs-extra": "^7.0.0",
+    "google-distance-matrix": "^1.1.1",
     "helmet": "^3.13.0",
     "md5": "^2.2.1",
     "morgan": "^1.9.0",

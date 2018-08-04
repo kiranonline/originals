@@ -153,40 +153,33 @@
 				
 				<!-- ------------------------------- Modal Structure -------------------------------- -->
 					<div id="modal1" class="modal form">
-						<form action="" name="new-address" class="new-address">
+						<form action="/address/new" method="POST" name="new_address" id="new_address" class="new-address">
 						<div class="modal-content">
 							<div class="center-align my-account-heading">Add New Address</div>
 							
-										
+								
 										
 										<div class="row">
 											<div class="input-field col s12 m6">
-												<input  value="" name="new_state" id="new_state" type="text" class="validate">
-												<label for="new_state">State</label>
+												<input name="contact" id="contact" type="number" class="validate">
+												<label for="contact">Contact Number</label>
+											</div>
+
+											<div class="input-field col s12 m6">
+												<input name="landmark" id="landmark" type="text" class="validate">
+												<label for="landmark">Landmark</label>
 											</div>
 																				
-											<div class="input-field col s12 m6">
-												<input  value="" id="new_city" name="new_city" type="text" class="validate">
-												<label for="new_city">City</label>
+											<div class="input-field col s12 m12">
+												<input  value="" id="add" name="add" type="text" class="validate">
+												<label for="add">Address</label>
 											</div>
+											
 										</div>
-										
-										<div class="row">
-											<div class="input-field col s12 m6">
-												<input  value="" id="new_landmark" name="new_landmark"type="text" class="validate">
-												<label for="new_landmark">Landmark</label>
-											</div>
-										
-											<div class="input-field col s12 m6">
-												<input  value="" id="new_pin" name="new_pin" type="text" class="validate">
-												<label for="new_pin">Pin code</label>
-											</div>
-										</div>
-										
 								
 						</div>
 						<div class="modal-footer">
-							<a class="save waves-effect waves-light green white-text btn-flat">Save</a>
+							<input class="save waves-effect waves-light green white-text btn-flat" type="submit" value="save" name="save">
 							<a href="#!" class="modal-close waves-effect waves-light red white-text btn-flat">Close</a>
 						</div>
 						</form>
@@ -196,8 +189,8 @@
 				<div class="my-account-form">
 							
 					<div class="row">
-
-						<div class="col s12 m12 l6 xl6 card Addresses">
+						{{#each address}}
+						<div class="col s12 m12 l8 xl8 offset-l2 offset-xl2 card Addresses">
 							
 							<p>
 								<label>
@@ -205,8 +198,8 @@
 									<span>
 										<div class="row">
 											<div class="input-field col s12">
-												<input disabled value="room no 206, Hotel treebo house inn bs-100, basai Noida, Utter Pradesh,731202" id="address_1_disabled" type="text" class="validate">
-												<label for="address_1_disabled">Address</label>
+												<p style="text-align: center;">Contact No :<span>{{this.contact}}</span></p>
+												<p style="text-align: center;">{{this.address}}</p>
 											</div>
 										</div>
 									</span>
@@ -214,66 +207,12 @@
 							</p>
 					
 							<div class="address-contal-btns">
-								<a class="waves-effect waves-light btn" id="address_1_edit"><i class="material-icons left" >edit</i>Edit</a>
-								<a class="waves-effect waves-light btn hide" id="address_1_cancel"><i class="material-icons left" >cancel</i>Cancel</a>
-								<a class="waves-effect waves-light btn" id="address_1_delete"><i class="material-icons left">delete</i>Delete</a>
+								<!--<a class="waves-effect waves-light btn" id="address_1_edit"><i class="material-icons left" >edit</i>Edit</a>-->
+								<a class="waves-effect waves-light btn" id="address_1_delete" onclick="deleteAddress('{{this.id}}')"><i class="material-icons left">delete</i>Delete</a>
 							</div>								
 							
 						</div>
-
-						
-						<div class="col s12 m12 l16 xl6 card Addresses">
-							
-								<p>
-									<label>
-										<input class="with-gap" name="group3" type="radio" checked />
-										<span>
-											<div class="row">
-												<div class="input-field col s12">
-													<input disabled value="room no 206, Hotel treebo house inn bs-100, basai Noida, Utter Pradesh,731202" id="address_2_disabled" type="text" class="validate">
-													<label for="address_2_disabled">Address</label>
-												</div>
-											</div>
-										</span>
-									</label>
-								</p>
-						
-								<div class="address-contal-btns">
-									<a class="waves-effect waves-light btn" id="address_2_edit"><i class="material-icons left" >edit</i>Edit</a>
-									<a class="waves-effect waves-light btn hide" id="address_2_cancel"><i class="material-icons left" >cancel</i>Cancel</a>
-									<a class="waves-effect waves-light btn" id="address_2_delete"><i class="material-icons left" id="address_1_delete">delete</i>Delete</a>
-								</div>								
-								
-						</div>
-
-						<div class="col s12 m12 l6 xl6 card Addresses">
-							
-								<p>
-									<label>
-										<input class="with-gap" name="group3" type="radio" checked />
-										<span>
-											<div class="row">
-												<div class="input-field col s12">
-													<input disabled value="room no 206, Hotel treebo house inn bs-100, basai Noida, Utter Pradesh,731202" id="address_3_disabled" type="text" class="validate">
-													<label for="address_3_disabled">Address</label>
-												</div>
-											</div>
-										</span>
-									</label>
-								</p>
-						
-								<div class="address-contal-btns">
-									<a class="waves-effect waves-light btn" id="address_3_edit"><i class="material-icons left">edit</i>Edit</a>
-									<a class="waves-effect waves-light btn hide" id="address_3_cancel"><i class="material-icons left">cancel</i>Cancel</a>
-									<a class="waves-effect waves-light btn" id="address_3_delete"><i class="material-icons left">delete</i>Delete</a>
-								</div>								
-								
-						</div>
-
-
-
-
-
+						{{/each}}
 
 						
 					</div>
@@ -450,7 +389,7 @@
   	<!-- Modal Structure -->
   	<div id="passwordchange" class="modal modal-fixed-footer">
 			<div class="modal-content">
-				<h5>CHANGE PASSWORD</h5>
+				<h5>CHANGE PASSWORD or Details</h5>
 				<hr>
 				<p class="red-text">This Service is Temporarily Unavailable</p>
 			</div>
@@ -512,11 +451,19 @@
 
 <script src="/js/user/profile.js"></script>
 <script>
+
+
 	function GoTo(url){
         window.location.replace(url);
     }
-</script>
-	
-</body>				
-</html>
 
+
+	//delete request
+    function deleteAddress(id){
+        window.location.replace('/address/delete/'+id);
+    }
+
+
+
+
+</script>
