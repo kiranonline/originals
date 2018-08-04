@@ -243,15 +243,16 @@
 }
 
 .item-list-footer{
-    width:30%;
-    margin-left:35%; 
-    margin-top: -45px;
+    width:15%;
+    margin-left:42.5%; 
+    margin-top: -75px;
     color:black;
     padding:20px;
 }
 .item-list-footer a{
     text-decoration: none;
-    color: black
+    color: black;
+    font-size: 16px;
 }
 
 

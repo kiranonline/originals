@@ -14,8 +14,14 @@ var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin
 
 //get profile page
 router.get('/profile',isLoggedIn,(req,res)=>{
-    //res.send('My profile');
-    res.render('user/profile.handlebars',{});
+    var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
+    conn.query(q1,(err,res1)=>{
+        if(err){
+            console.log(err);
+        }
+        res.render('user/profile.handlebars',{address:res1});
+    });
+    
 });
 
 
