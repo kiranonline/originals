@@ -208,14 +208,4 @@ router.get('/products/all',(req,res)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
 module.exports = router;
