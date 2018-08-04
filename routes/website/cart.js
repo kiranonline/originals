@@ -37,7 +37,11 @@ router.get('/order',isLoggedIn,(req,res)=>{
         console.log(cart);
         var cart_items_array=cart["items"];
 
-        var TotalPrice=getTotalPrice(cart_items_array);
+        
+        var TotalPrice;
+        getTotalPrice(cart_items_array,function(sum){
+            TotalPrice=sum;
+        });
         var TotalPriceWithDeliveryCharge=parseInt(TotalPrice)+deliveryCharge;
 
         var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
@@ -45,6 +49,7 @@ router.get('/order',isLoggedIn,(req,res)=>{
             if(err2){
                 console.log(err2);
             }
+            console.log(res1);
             res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
         });
     });
@@ -52,19 +57,145 @@ router.get('/order',isLoggedIn,(req,res)=>{
 });
 
 
-router.post('/order/place',function(req,res){
+router.post('/order/place',isLoggedIn,function(req,res){
+
+    var address_id=req.body.address_id;
 
     poll.getConnection(function(err,conn){
 
         if(err) console.log(err);
 
-        var q="SELECT * FROM userlist where name='RK'";
+        var order_id=uniqid('order-');
+        var user_phone=req.session.passport["user"];
+        var items;
+        var total_price;
+        var promocode=req.body.promocode;
+        var discount;
+        var cashback;
+        var net_amount;
+        var delivery_charge;
+        var net_amount_with_delivery_charge;
+        var address;
+        var address_contact;
+        var date=new Date();
+        var order_status="pending";
+        var payment_status="pending";
+        
+        var q="SELECT cart FROM userlist WHERE phone="+mysql.escape(user_phone);
         conn.query(q,function(err2,res2){
+            if(err2) console.log(err2);
 
-            console.log(res2[0].phone);
-            
+            if(res2.length==1)
+            {            
+
+                items=res2[0].cart;//var
+
+                var x=JSON.parse(items);
+                var cart_items_array=x["items"];
+
+                getTotalPrice(cart_items_array,function(sum){
+                    total_price=sum;
+                });
+                var q2="SELECT * FROM promocode WHERE promocode="+mysql.escape(promocode);
+                conn.query(q2,function(err3,res3){
+                    if(err3) console.log(err3);
+                    if(res3.length==1)
+                    {
+
+                        var percentage=parseFloat(res3[0].percentage);
+                        var upto=parseFloat(res3[0].upto);
+                        var type=res3[0].type;
+
+                        if(type=="discount")
+                        {
+                            var discount_amount=total_price*percentage/100;
+                            if(discount_amount>upto)
+                            discount_amount=upto;
+
+                            discount=discount_amount;//var
+                            cashback=0;//var
+                            net_amount=total_price-discount;//var
+                        }
+                        else if(type=="cashback")
+                        {
+                            var discount_amount=total_price*percentage/100;
+                            if(discount_amount>upto)
+                            discount_amount=upto;
+
+                            discount=0 ;//var
+                            cashback=discount_amount;//var
+                            net_amount=total_price;//var
+                        }
+                    }
+                    else{
+                        discount=0;
+                        cashback=0;
+                        net_amount=total_price;
+                    }
+
+                    delivery_charge=deliveryCharge;
+                    net_amount_with_delivery_charge=net_amount+delivery_charge;
+
+
+                    var q3="SELECT * FROM address WHERE id="+mysql.escape(address_id);
+                    conn.query(q3,function(err4,res4){
+
+                        if(err4) console.log(err4);
+
+                        if(res4.length==1)
+                        {
+                            address=res4[0].address;
+                            address_contact=res4[0].contact;
+                        }
+                        else{
+                            res.status(404).render('404page');
+                            return;
+                        }
+
+                        //console.log("order_id: "+order_id);
+                        //console.log("User:  "+user_phone);
+                        //console.log("items: "+items);
+                        //console.log("total price: "+total_price);
+                        //console.log("Promocode: "+promocode);
+                        //console.log("Discount: "+discount );
+                        //console.log("Cashback: "+cashback);
+                        //console.log("Net Amount: "+net_amount);
+                        //console.log("Delivery charge: "+delivery_charge);
+                        //console.log("Net Amount With Delivery Charge: "+net_amount_with_delivery_charge);
+                        //console.log("Address: "+address);
+                        //console.log("Address Contact: "+address_contact);
+                        var q4="INSERT INTO temp_order (id,user_phone,items,total_price,promocode,discount,cashback,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_phone)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+")";
+                        console.log(q4);                        
+                        conn.query(q4,function(err5,res5){
+                            if(err4) console.log(err5);
+                            console.log("inserted");
+
+
+                        });
+
+
+                    });
+
+
+                    
+
+
+            });
+
+        }
+        else
+        {
+            res.status(404).render('404page');
+        }
+
+
 
         });
+
+    
+
+        
+
         conn.end();
 
     });
@@ -314,7 +445,7 @@ function increase_decrease(req,id,cart_items_array,value)
         }        
     }
 }
-function getTotalPrice(cart_items_array)
+function getTotalPrice(cart_items_array,callback)
 {
     var sum=0;
     for(var i=0;i<cart_items_array.length;i++)
@@ -325,7 +456,7 @@ function getTotalPrice(cart_items_array)
         sum+=x;
     }
    // console.log("Total Price "+sum);
-    return sum;
+     callback(sum);
 }
 
 
