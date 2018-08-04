@@ -22,6 +22,12 @@ class items{
     }
 }
 
+router.get('/order',isLoggedIn,(req,res)=>{
+
+    res.render('orderpage.handlebars');
+
+});
+
 router.get('/user/cart',isLoggedIn,(req,res)=>{
 
     var query="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
