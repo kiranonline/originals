@@ -1,42 +1,129 @@
-
-<html>
-    <title>The Originals</title>
-    <link rel="stylesheet"  href="css/cart/cart.css">
-    <body>
+<link type="text/css" rel="stylesheet" href="/css/cart/cart.css">
         <div class="container">
-            {{#each cart}}
-            <div class="row">
+            <div class="row ">
                 <div class="col s12 m12 l8 xl8 no-margine no-padding" id="cartitemsection">
+                    {{#each cart}}
                     <div class="card left-section">
-                        <div class="row">
+                        <div class="row {{id}}">
                             <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
                                 <img src="/{{image}}" class="responsive-img cart-item-image">
                             </div>
                             <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
                                 <p class="desc-item">Description of Item</p>
-                                <p><span>Id : </span>{{id}}</p>
-                                <p><span>Item Id : </span>{{item_id}}</p>
+                                <p><span>Item Name : </span>{{item_name}}</p>
+                                <p><span>Item type : </span>{{item_type}}</p>
                                 <p><span>Size : </span>{{size}}</p>
-                                <p><span>Color: </span>{{color}}</p>
-                                <p>Quantity : </p>
+                                <ul >
+                                    <li style="display:inline-block;"><p><span>Color: &nbsp&nbsp&nbsp </span></li>
+                                    <li style="display:inline-block;"><div  style="background-color:{{color}};width:25px;height:25px">  </div></li>
+                                </ul>
+                                
+                                <p>Quantity : </p>                                    
+                                <span class="btn minus" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                <a class="btn {{id}} {{item_id}}" id="quantity">{{no_of_items}}</a>
+                                <span class="btn plus" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                <p class="price">Price: <span>{{price}}</span> </p>
                                 <p>
-                                <span class="btn" id="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                <a class="btn" id="quantity">{{no_of_items}}</a>
-                                <span class="btn" id="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                </p>
-                                <p class="price">{{price}} </p>
-                                <p>
-                                    <a class="btn remove waves-effect waves-light" href="#">Remove</a>
+                                    <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{id}}')">Remove</a>
                                 </p>
                             </div>
                         </div>
                     </div>
+                    {{/each}}
+                </div>
+                <div class="l4 xl4 no-margin no-padding center">
+                    <div style="position:fixed;top:50%;right:12%;">
+                            <input type="submit" value="checkout" class="btn">
+                    </div>
+                    
                 </div>
             </div>
-            {{/each}}
+            
+            
         </div>
-    </body>
-</html>
+    
+<script>
+
+    function removeBtn(id)
+    {
+        console.log("clicked");
+        console.log(id);
+        $.ajax({
+            method:"post",
+            url:"/cart/remove",
+            data:{id:id},
+            success:function(){
+            $('.'+id).remove();
+            M.toast({html:"item removed successfully from cart",classes:"rounded"});
+            },
+            error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
+        });
+    } 
+
+    function increase(id,value)
+    {
+        console.log(value);
+        $('.cart-i9fbl4wsjkcyfu2g #minus i').innerhtml="haha";
+    }
+
+
+    $('.plus').click(function () {
+        console.log("plus");
+
+        var x=$(this).prev();
+
+        var y=x.attr("class").split(' ')[1];
+        var z=x.attr("class").split(' ')[2];
+
+                console.log(z);
+
+
+       $.ajax({
+            method:"post",
+            url:"/cart/change",
+            data:{id:y,item_id:z,value:1},
+            success:function(){
+                x.html(+x.html()+1);
+            
+            M.toast({html:"No of items increased successfully",classes:"rounded"});
+            },
+            error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
+
+       });
+    });
+    $('.minus').click(function () {
+        console.log("minus");
+
+        var x=$(this).next();
+
+        
+
+        var y=x.attr("class").split(' ')[1];
+        var z=x.attr("class").split(' ')[2];
+
+        console.log(z);
+
+        $.ajax({
+            method:"post",
+            url:"/cart/change",
+            data:{id:y,item_id:z,value:-1},
+            success:function(){
+
+                if (x.html() > 1) x.html(+x.html() - 1);
+
+                else return;
+            
+            M.toast({html:"No of items decreased successfully",classes:"rounded"});
+            },
+            error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
+
+       });
+        
+    });
+    
+        
+
+</script>
 
 
         
