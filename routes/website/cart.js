@@ -24,11 +24,12 @@ class items{
 
 router.get('/order',isLoggedIn,(req,res)=>{
 
-    res.render('orderpage.handlebars');
+    console.log("called");
+    res.render('cart/orderpage.handlebars');
 
 });
 
-router.get('/user/cart',isLoggedIn,(req,res)=>{
+router.get('/cart',isLoggedIn,(req,res)=>{
 
     var query="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
     conn.query(query,function(err,result){
@@ -45,11 +46,6 @@ router.get('/user/cart',isLoggedIn,(req,res)=>{
 
 });
 
-
-router.get('/cart',isLoggedIn,(req,res)=>{
-
-    res.render('cart/itemsAdd.handlebars');
-});
 
 router.post('/cart/add',isLoggedIn,function(req,res){
     
