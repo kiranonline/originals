@@ -43,27 +43,39 @@ router.post('/login',function(req,res){
 
         //login functionality
 
-        var q1='SELECT * FROM adminlist WHERE phone='+mysql.escape(phone)+'and password='+mysql.escape(hashedpassword);
-        conn.query(q1,function(err,result){
-
-            if (err) { console.log(err) }
-            else{
-                if(result.length==1){
-                    //sessions
-                    req.session.admin=result[0];
-                    console.log(req.session.admin);
-                    res.redirect('/admin/dashboard');
-                }
-                else{
-                    console.log("Hey admin ! Incorrect details");
-                    res.render('admin/adminregisterpage',{layout: false,error:'Incorrect Details !'});
-                }
+        pool.getConnection((err,conn)=>{
+            if(err){
+                console.log(err);
             }
 
-            
+
+            var q1='SELECT * FROM adminlist WHERE phone='+mysql.escape(phone)+'and password='+mysql.escape(hashedpassword);
+            conn.query(q1,function(err,result){
+    
+                if (err) { console.log(err) }
+                else{
+                    if(result.length==1){
+                        //sessions
+                        req.session.admin=result[0];
+                        console.log(req.session.admin);
+                        res.redirect('/admin/dashboard');
+                    }
+                    else{
+                        console.log("Hey admin ! Incorrect details");
+                        res.render('admin/adminregisterpage',{layout: false,error:'Incorrect Details !'});
+                    }
+                }
+    
+                
+            });
+    
+            conn.release();
+
+
+
         });
 
-
+        
      }
 
     

@@ -2,7 +2,9 @@
 var mysql = require('mysql');
 
 
-//connecting
+
+
+/*
 var conn = mysql.createConnection({
     host:"localhost",
     user:"root",
@@ -20,6 +22,29 @@ conn.connect(function(err) {
   });
 
 
+*/
+
+
+
+
+
+var pool_d  = mysql.createPool({
+  connectionLimit : 10,
+  host            : 'localhost',
+  user            : 'root',
+  password        : '',
+  database        : 'originals'
+});
+
+
+
+var pool_p  = mysql.createPool({
+  connectionLimit : 10,
+  host            : 'localhost',
+  user            : 'admin_theoriginals',
+  password        : 'TheOriginals@13579',
+  database        : 'theoriginals_db1'
+});
 
 
 
@@ -27,4 +52,4 @@ conn.connect(function(err) {
 
 
   
-module.exports = conn;
+module.exports = pool_d;

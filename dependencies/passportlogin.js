@@ -71,18 +71,6 @@ passport.deserializeUser(function(phone, done){
 });
 
 
-function addCartToSession(req,rows)
-{
-    
-
-    console.log("haha");
-
-    var cart=rows[0].cart;
-    console.log(cart);
-       
-    req.session.cart=cart;   
-       
-}
 
 
 

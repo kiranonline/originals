@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var mysql = require('mysql');
-var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
+var pool = require(path.join(__dirname,'/../../dependencies/connection.js'));
 var sendEmail = require(path.join(__dirname,'/../../dependencies/email.js'));
 var md5 = require('md5');
 var nodemailer = require('nodemailer');
@@ -47,67 +47,39 @@ router.post('/register', function(req, res){
    else{
        console.log('Got it');
     //check whether user phone or email already registered on userlist
-
-    var q3 = 'select * from userlist where phone =' + mysql.escape(phone) + ' or email=' +mysql.escape(email);
-    conn.query(q3, function(err, result) {
-        if(err) throw err;
-        if(result.length>0){
-            res.render('user/userregisterpage.handlebars', {layout:false,error : 'The phone number or Email-id is already registered.'});
+    pool.getConnection((err,conn)=>{
+        if(err){
+            console.log(err);
         }
-        else{
-            //check whether phone number or email id already on temporary userlist pending for verification of email
-
-            var q4 = 'select * from tempuserlist where phone =' + mysql.escape(phone) + ' or email=' +mysql.escape(email);
-
-            conn.query(q4, function(err, result){
-                if(err) throw err;
-                if(result.length>0){
-                    //if phone number or email id pending for verification then remove from temporary userlist.
-
-
-                    var q5 = 'delete from tempuserlist where phone =' + mysql.escape(phone) + ' or email=' +mysql.escape(email);
-                    conn.query(q5, function(err, result){
-                        if(err) throw err;
-                        else{
-                            
-                            var name=f_name + " " + l_name;
-                            var d = new Date();
-                            var pass_encrypt  = md5(pass);
-
-                            //creation of random number for verification
-                            rand = Math.floor((Math.random() * 10000) + (Math.random())*1000 + (Math.random())*100 + (Math.random())*10 + (Math.random()));
-                            //fetching host and generating verification link
-                            let host = req.get('host');
-                            let link="http://"+req.get('host')+"/verify?id="+rand;
-                            var q2 = 'insert into tempuserlist (name, phone, password, email, gender, age, timeofquery, otp) values (' + mysql.escape(name) + ',' + mysql.escape(phone) + ',' + mysql.escape(pass_encrypt) + ',' + mysql.escape(email) + ','+mysql.escape(gender)+',' + mysql.escape(age) + ',' + mysql.escape(d) + ',' + mysql.escape(link) +')';
-        
-                            conn.query(q2, function (err, result) {
-                            if (err) throw err;
+        var q3 = 'select * from userlist where phone =' + mysql.escape(phone) + ' or email=' +mysql.escape(email);
+        conn.query(q3, function(err, result) {
+            if(err) throw err;
+            if(result.length>0){
+                res.render('user/userregisterpage.handlebars', {layout:false,error : 'The phone number or Email-id is already registered.'});
+            }
+            else{
+                //check whether phone number or email id already on temporary userlist pending for verification of email
+    
+                var q4 = 'select * from tempuserlist where phone =' + mysql.escape(phone) + ' or email=' +mysql.escape(email);
+    
+                conn.query(q4, function(err, result){
+                    if(err) throw err;
+                    if(result.length>0){
+                        //if phone number or email id pending for verification then remove from temporary userlist.
+    
+    
+                        var q5 = 'delete from tempuserlist where phone =' + mysql.escape(phone) + ' or email=' +mysql.escape(email);
+                        conn.query(q5, function(err, result){
+                            if(err) throw err;
                             else{
-                            console.log("1 record inserted");
-                            
-
-                            sendEmail(name,email,link);
-                        
-                            
-                            //rendering the page for resending verification mail if not yet recieved
-                            res.render('user/verification.handlebars', {layout:false,email : email});
-                        }
-
-                            
-                    });
-                            }
-                    })
-                }
-
-                else{   
-                    //check whether phone number or email id already on temporary userlist pending for verification of email
-
-
+                                
                                 var name=f_name + " " + l_name;
                                 var d = new Date();
                                 var pass_encrypt  = md5(pass);
+    
+                                //creation of random number for verification
                                 rand = Math.floor((Math.random() * 10000) + (Math.random())*1000 + (Math.random())*100 + (Math.random())*10 + (Math.random()));
+                                //fetching host and generating verification link
                                 let host = req.get('host');
                                 let link="http://"+req.get('host')+"/verify?id="+rand;
                                 var q2 = 'insert into tempuserlist (name, phone, password, email, gender, age, timeofquery, otp) values (' + mysql.escape(name) + ',' + mysql.escape(phone) + ',' + mysql.escape(pass_encrypt) + ',' + mysql.escape(email) + ','+mysql.escape(gender)+',' + mysql.escape(age) + ',' + mysql.escape(d) + ',' + mysql.escape(link) +')';
@@ -119,24 +91,65 @@ router.post('/register', function(req, res){
                                 
     
                                 sendEmail(name,email,link);
+                            
                                 
+                                //rendering the page for resending verification mail if not yet recieved
                                 res.render('user/verification.handlebars', {layout:false,email : email});
                             }
     
                                 
                         });
-                                
+                                }
+                        })
+                    }
+    
+                    else{   
+                        //check whether phone number or email id already on temporary userlist pending for verification of email
+    
+    
+                                    var name=f_name + " " + l_name;
+                                    var d = new Date();
+                                    var pass_encrypt  = md5(pass);
+                                    rand = Math.floor((Math.random() * 10000) + (Math.random())*1000 + (Math.random())*100 + (Math.random())*10 + (Math.random()));
+                                    let host = req.get('host');
+                                    let link="http://"+req.get('host')+"/verify?id="+rand;
+                                    var q2 = 'insert into tempuserlist (name, phone, password, email, gender, age, timeofquery, otp) values (' + mysql.escape(name) + ',' + mysql.escape(phone) + ',' + mysql.escape(pass_encrypt) + ',' + mysql.escape(email) + ','+mysql.escape(gender)+',' + mysql.escape(age) + ',' + mysql.escape(d) + ',' + mysql.escape(link) +')';
+                
+                                    conn.query(q2, function (err, result) {
+                                    if (err) throw err;
+                                    else{
+                                    console.log("1 record inserted");
+                                    
+        
+                                    sendEmail(name,email,link);
+                                    
+                                    res.render('user/verification.handlebars', {layout:false,email : email});
+                                }
+        
+                                    
+                            });
+                                    
+                            
                         
-                    
-                }
-                });
-            
-        }
+                    }
+                    });
+                
+            }
+        });
+        conn.release();
+
     });
+    
     
    }
 
 });
+
+
+
+
+
+
 
 
 router.get('/verify', function(req, res){

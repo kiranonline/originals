@@ -66,7 +66,7 @@
 
 			<div class="card edit-details-section" id="personaldetails">
 				 
-				<div class="center-align my-account-heading">Personal Information &nbsp &nbsp <a class="btn-floating btn-smal edit-btn" id="activate-edit"><i class="material-icons">edit</i></a></div>
+				<div class="center-align my-account-heading">Personal Information &nbsp &nbsp <button class="btn-floating btn-smal edit-btn" id="activate-edit"><i class="material-icons">edit</i></button></div>
 				
 				<hr>
 				
@@ -74,16 +74,10 @@
 					
 					<div class="row">
 							
-						<div class="input-field col s12 m6 l6 xl6">
+						<div class="input-field col s12 m12 l12 xl12">
 							<i class="material-icons prefix">account_circle</i>
-							<input disabled value="Kiran" id="user_first_name" type="text" class="validate editable">
-							<label for="user_first_name" class="purple-text text-darken-4">First Name </label>
-						</div>
-
-						<div class="input-field col s12 m6 l6 xl6">
-							<i class="material-icons prefix">account_circle</i>
-							<input disabled value="Das" id="user_last_name" type="text" class="validate editable">
-							<label for="user_last_name" class="purple-text text-darken-4">Last Name</label>
+							<input disabled value="{{user.name}}" id="user_first_name" type="text" class="validate editable">
+							<label for="user_first_name" class="purple-text text-darken-4">Name </label>
 						</div>
 
 					</div>
@@ -93,16 +87,16 @@
 							
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">event</i>
-							<input disabled value="20" id="dob" type="number" class="validate editable">
-							<label for="dob" class="purple-text text-darken-4">Date of birth</label>
+							<input disabled value="{{user.age}}" id="dob" type="number" class="validate editable">
+							<label for="dob" class="purple-text text-darken-4">Age</label>
 						</div>
 	
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class=" prefix"><img src="logos/gender.png" width="28" height="28"></i>
 							<select id="gender" disabled class="validate editable">
-								<option disabled selected>Male</option>
-								<option value="male">Male</option>
-								<option value="female">Female</option>
+								<option disabled selected>{{user.gender}}</option>
+								<option value="male">male</option>
+								<option value="female">female</option>
 							</select>
 							<label class="purple-text text-darken-4">Gender</label>
 						</div>	
@@ -113,13 +107,13 @@
 							
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">phone</i>
-							<input disabled value="9563152391" id="user_phone_number" type="number" class="validate">
+							<input disabled value="{{user.phone}}" id="user_phone_number" type="number" class="validate">
 							<label for="user_phone_number" class="purple-text text-darken-4">Phone Number </label>
 						</div>
 	
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">email</i>
-							<input disabled value="kirankumardas224@gmail.com" id="user_email_id" type="email" class="validate">
+							<input disabled value="{{user.email}}" id="user_email_id" type="email" class="validate">
 							<label for="user_email_id" class="purple-text text-darken-4">Email Id</label>
 						</div>
 	
@@ -132,9 +126,9 @@
 					</div>
 
 					<div class="row right-align">
-							<a class="waves-effect waves-light btn submit-button modal-trigger" href="#passwordchange">Change Password
+						<button class="waves-effect waves-light btn submit-button modal-trigger" href="#passwordchange">Change Password
 							<i class="material-icons right">edit</i>
-						</a>
+						</button>
 					</div>
 
 
@@ -148,7 +142,7 @@
 
 			<div class="card edit-details-section" id="addresssection">
 				
-				<div class="center-align my-account-heading">Addresses <a class="waves-effect waves-light btn modal-trigger" id="add_new_address" href="#modal1"><i class="material-icons left" >control_point</i>New Address</a></div>
+				<div class="center-align my-account-heading">Addresses <button class="waves-effect waves-light btn modal-trigger" id="add_new_address" href="#modal1"><i class="material-icons left" >control_point</i>New Address</button></div>
 				
 				
 				<!-- ------------------------------- Modal Structure -------------------------------- -->
@@ -176,10 +170,10 @@
 											</div>
 											
 										</div>
-												<input class="save waves-effect waves-light green white-text btn-flat" type="submit" value="save" name="save">
-			
+
 						</div>
 						<div class="modal-footer">
+							<button style="cursor:pointer" class="save waves-effect waves-light green white-text btn-flat" type="submit" value="save" name="save">Save</button>
 							<a href="#!" class="modal-close waves-effect waves-light red white-text btn-flat">Close</a>
 						</div>
 						</form>
@@ -192,9 +186,7 @@
 						{{#each address}}
 						<div class="col s12 m12 l8 xl8 offset-l2 offset-xl2 card Addresses">
 							
-							<p>
-								<label>
-									<input class="with-gap" name="group3" type="radio" checked />
+							
 									<span>
 										<div class="row">
 											<div class="input-field col s12">
@@ -203,9 +195,7 @@
 											</div>
 										</div>
 									</span>
-								</label>
-							</p>
-					
+							
 							<div class="address-contal-btns">
 								<!--<a class="waves-effect waves-light btn" id="address_1_edit"><i class="material-icons left" >edit</i>Edit</a>-->
 								<a class="waves-effect waves-light btn" id="address_1_delete" onclick="deleteAddress('{{this.id}}')"><i class="material-icons left">delete</i>Delete</a>
@@ -242,9 +232,9 @@
 					
 				<hr>
 					
-				<div class="my-account-form">
+				<div class="my-account-form center-align">
 							
-						<ul class="collection">
+						<!--<ul class="collection">
 
 								<li class="collection-item avatar valign-wrapper">
 								  <img src="logos/user.png" alt="" class="circle">
@@ -267,7 +257,10 @@
 								</li>
 							
 
-							  </ul>
+							  </ul>-->
+
+
+							  <h6>No referals</h6>
 	
 				</div>
 
