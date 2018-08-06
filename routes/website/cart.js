@@ -28,6 +28,8 @@ class items{
 
 router.get('/order',isLoggedIn,(req,res)=>{
 
+    pool.getConnection(function(error,conn){
+if(error) console.log(error);
     var query="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
     conn.query(query,function(err,result){
         if(err) console.log(err);
@@ -53,6 +55,7 @@ router.get('/order',isLoggedIn,(req,res)=>{
             res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
         });
     });
+});
 
 });
 
@@ -213,13 +216,19 @@ router.get('/cart',isLoggedIn,(req,res)=>{
         conn.query(query,function(err,result){
             if(err) console.log(err);
     
+
             var cart=JSON.parse(result[0]['cart']);
     
             console.log(cart);
             var cart_items_array=cart["items"];
     
+            var btnEnable=false;
+            if(cart_items_array.length>0)
+            {
+                btnEnable=true;
+            }
     
-            res.render('cart/cartpage.handlebars',{cart:cart_items_array});
+            res.render('cart/cartpage.handlebars',{cart:cart_items_array,btnEnable:btnEnable});
         });
         conn.release();
     });
