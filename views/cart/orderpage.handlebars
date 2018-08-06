@@ -3,67 +3,59 @@
     <div class="cartpage-wrapper">
         
 
-        <div class="row">
-            <div class="col s12 m12 l8 xl8 no-margine no-padding" id="cartitemsection">
-                <div class="card left-section">
-                    <div class="row">
-                        <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
-                            <img src="" class="responsive-img cart-item-image">
-                        </div>
-                        <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
-                            <p class="desc-item">Description of Item</p>
-                            <p><span>Item Id : </span>itm-10002</p>
-                            <p><span>Size : </span> M</p>
-                            <p>Quantity :</p>
-                            <p>
-                            <a class="btn" id="quantity">1</a>
-                            </p>
-                            <p class="price">Rs. 415 </p>
-                            <p class="discount">Rs. 300</p>
-                            <p>
-                                <a class="btn remove waves-effect waves-light" href="#">Remove</a>
-                            </p>
+        <div class="row ">
+                <div class="col s12 m12 l8 xl8 no-margine no-padding" id="cartitemsection">
+                    {{#each cart}}
+                    <div class="card left-section">
+                        <div class="row {{this.id}}">
+                            <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
+                                <img src="/{{this.image}}" class="responsive-img cart-item-image">
+                            </div>
+                            <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
+                                <p class="desc-item">Description of Item</p>
+                                <p><span>Item Name : </span>{{this.item_name}}</p>
+                                <p><span>Item type : </span>{{this.item_type}}</p>
+                                <p><span>Size : </span>{{this.size}}</p>
+                                <ul >
+                                    <li style="display:inline-block;"><p><span>Color: &nbsp&nbsp&nbsp </span></li>
+                                    <li style="display:inline-block;"><div  style="background-color:{{this.color}};width:25px;height:25px">  </div></li>
+                                </ul>
+                                
+                                <p>Quantity : &nbsp <a class="btn" id="quantity">{{this.no_of_items}}</a></p>                                    
+                                
+                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.total}}</span> </p>
+                                
+                            </div>
                         </div>
                     </div>
+                    {{/each}}
                 </div>
-            </div>
 
-
+ 
             <div class="col s12 m12 l4 xl4 no-margine no-padding" >
                 <div class="card right-section" id="addresssection">
                     <h6 class="address-section-hdr">Choose an Address</h6>
                     <hr>
-                    <div class="row">
+                    <div class="row  addressDiv">
+                        {{#each address}}
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 card Addresses">
 						    <p>
                                 <label>
-                                    <input class="with-gap" name="group3" type="radio" checked />
+                                    <input class="with-gap" name="address"  value="{{this.id}}" type="radio" checked />
                                     <span>
-                                        room no 206, Hotel treebo house inn<br>
-                                        bs-100, basai<br>
-                                        Noida, Utter Pradesh,<br>
-                                        731202<br>
-                                        +919563152391
+                                        {{this.address}}
+                                        <br>
+                                       {{this.contact}}
+                                    
                                     </span>
                                 </label>
                             </p>
                         </div>
-                        <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 card Addresses">
-                                <p>
-                                    <label>
-                                        <input class="with-gap" name="group3" type="radio" checked />
-                                        <span>
-                                            room no 206, Hotel treebo house inn<br>
-                                            bs-100, basai<br>
-                                            Noida, Utter Pradesh,<br>
-                                            731202<br>
-                                            +919563152391
-                                        </span>
-                                    </label>
-                                </p>
-                        </div>
+                        {{/each}}
+
+                       
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
-                                <a class="waves-effect waves-light btn new-address"><i class="material-icons left">add</i>New Address</a>
+                                <a class="waves-effect waves-light btn new-address" href="/profile"><i class="material-icons left" >add</i>New Address</a>
                         </div>
                     </div>
                 </div>
@@ -75,28 +67,35 @@
                     <div class="row billing-wrapper">
 
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address left-align">
-                            <p class="billing-large-text"><span>Price : </span>1000</p> 
-                            <p class="billing-medium-text"><span>G.S.T : </span>1000</p>
-                            <p class="billing-medium-text"><span>Delevary Charge : </span>1000</p> 
+                            <p class="billing-large-text"><span>Price : </span>
+                            <span id="total">{{this.TotalPrice}}</span></p> 
+                            <p class="billing-medium-text"><span>Delivery Charge : </span>40 
+                            <span style="color:red">*</span>
+                            <span style="font-size:12px">(If the delivery address is in Kalyani , then you will get delivery charge as cashback)</span>
+                            </p> 
                             <hr>
-                            <p class="billing-large-text"><span>Total : </span>1000</p> 
+                            <p class="billing-large-text" ><span >Total : <span>
+                                {{this.TotalPriceWithDeliveryCharge}}</span></span></p> 
                         </div>
                     
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
                             <div class="row">
                                 <div class="input-field col s8 m8 l8 xl8">
                                     <input id="promocode" type="text" class="validate">
-                                    <label for="promocode">have promocode</label>
+                                    <label for="promocode">Use Promocode</label>
                                 </div>
                                 <div class="col s4 m4 l4 xl4">
-                                    <a class="btn btn-hldr">Apply</a>
+                                    <button class="btn btn-hldr" onclick="apply()">Apply</button>
                                 </div>
                             </div>
-                            
+                        </div>
+                        <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address left-align" id="NetAmountDiv" style="display:none">
+                                <p class="billing-large-text">Net Amount: <span id="NetAmount"></span></p>
                         </div>
 
+
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
-                            <a class="waves-effect waves-light btn new-address"><i class="material-icons left">payment</i>Proceed to pay</a>
+                            <button onclick="orderPlace()" class="waves-effect waves-light btn new-address" ><i class="material-icons left">payment</i>Proceed to pay</button>
                         </div>
 
                 </div>
@@ -126,6 +125,73 @@
         
     </div>
 
+<script>
+function orderPlace()
+{
+
+    var x=$(".addressDiv").children().length-1;
+    if(x==0)
+    {
+        M.toast({html:"Please Select Address",classes:"rounded"});
+        return;
+    }
+
+    var address_id=$("input[name='address']:checked").val();
+    var promocode=$('#promocode').val();
+    //console.log(address_id);
+    //console.log(promocode);
+
+    $.ajax({
+        method:"post",
+        data:{address_id:address_id,promocode:promocode},
+        url:"order/place",
+        success:function(){}
+    });
+}
+function apply()
+{
+    console.log("clicked");
+    
+   var x= $('#promocode').val();
+
+   var y=$("#total").html();
+   
+   //console.log(y);
+   $.ajax({
+       method:"post",
+       url:"/promocode/check",
+       data:{name:x,totalPrice:y},
+       success:function(res)
+       {
+
+           
+           var success=res["success"];
+           console.log(success);
+           if(success=="true")
+           {
+               var net_amount=res['net_amount'];
+               var deliveryCharge=res['deliveryCharge'];
+
+                net_amount=+net_amount+deliveryCharge;
+
+                $("#NetAmountDiv").css('display','block');
+                $("#NetAmount").html(net_amount);
+
+               M.toast({html:"Promocode Applied",classes:"rounded"});
+           }
+           else if(success=="false")
+           {
+               $('#promocode').val("");
+               M.toast({html:"Promocode Invalid",classes:"rounded"});
+           }
+       },
+       error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
+       
+   });
+   
+}
+
+</script>
 
 
 

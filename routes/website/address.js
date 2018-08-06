@@ -16,6 +16,7 @@ const expressValidator = require('express-validator');
 
 router.post('/new',isLoggedIn,(req,res)=>{
 
+    console.log("haha");
     let contact=req.body.contact;
     let landmark=req.body.landmark;
     let add=req.body.add;
