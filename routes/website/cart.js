@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var pool = require(path.join(__dirname, '/../../dependencies/connection.js'));
 const fs = require('fs');
 var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin.js'));
+var passport = require(path.join(__dirname,'/../../dependencies/passportlogin.js'));
 var uniqid=require('uniqid');
 
 
@@ -53,8 +54,20 @@ router.get('/cart',isLoggedIn,(req,res)=>{
 });
 
 
-router.post('/cart/add',isLoggedIn,function(req,res){
+router.post('/cart/add',function(req,res){
+    console.log('i got');
 
+
+if(!req.isAuthenticated()){
+    
+    req.session.oldUrl="/item/"+req.body.item_id;
+    console.log(req.session.oldUrl);
+    /*data={
+        redirect:'/item/'+req.body.item_id
+    }*/
+    res.send("Not Logged In");
+}
+else{
 
     pool.getConnection((err,conn)=>{
         if(err){
@@ -106,6 +119,8 @@ router.post('/cart/add',isLoggedIn,function(req,res){
 
 
     });
+
+}
     
     
 });
