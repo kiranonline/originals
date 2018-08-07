@@ -144,7 +144,7 @@ function orderPlace()
     $.ajax({
         method:"post",
         data:{address_id:address_id,promocode:promocode},
-        url:"order/place",
+        url:"/order/place",
         success:function(){}
     });
 }

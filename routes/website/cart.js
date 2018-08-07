@@ -64,7 +64,8 @@ router.post('/order/place',isLoggedIn,function(req,res){
 
     var address_id=req.body.address_id;
 
-    poll.getConnection(function(err,conn){
+    
+    pool.getConnection(function(err,conn){
 
         if(err) console.log(err);
 
@@ -140,7 +141,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                     net_amount_with_delivery_charge=net_amount+delivery_charge;
 
 
-                    var q3="SELECT * FROM address WHERE id="+mysql.escape(address_id)+"&& user_id="+mysql.escape(user_phone);
+                    var q3="SELECT * FROM address WHERE id="+mysql.escape(address_id)+" && user_id="+mysql.escape(user_phone);
                     conn.query(q3,function(err4,res4){
 
                         if(err4) console.log(err4);
@@ -156,7 +157,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                         }
 
                         //console.log("order_id: "+order_id);
-                        //console.log("User:  "+user_phone);
+                        console.log("User:  "+user_phone);
                         //console.log("items: "+items);
                         //console.log("total price: "+total_price);
                         //console.log("Promocode: "+promocode);
