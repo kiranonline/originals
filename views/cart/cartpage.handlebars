@@ -22,10 +22,8 @@
                                 <span class="btn minus" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
                                 <a class="btn {{this.id}} {{this.item_id}}" id="quantity">{{this.no_of_items}}</a>
                                 <span class="btn plus" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{this.id}}')">Remove</a>
                                 <p class="price ">Total Price: <span class="price{{this.id}}">{{this.total}}</span> </p>
-                                <p>
-                                    <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{this.id}}')">Remove</a>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -33,27 +31,16 @@
                 </div>
                 {{/each}}
                 {{#btnEnable}}
-                <button onClick="goToOrder()" class="checkoutbtn center-align"><p>CHECKOUT</p></button>
+                    <button class="checkoutbtn center-align chkbtn"><p>CHECKOUT</p></button>
                 {{else}}
                 <div class="card row center-align">
                     <p>Your cart is empty</p>
                 </div>
                 
                 {{/btnEnable}}
-                <div class="l4 xl4 no-margin no-padding center">
-                    
-                    {{#btnEnable}}
-                    <a href="/order" id="checkoutbtn" class="checkoutbtn valign-wrapper center-align"><p>CHECKOUT</p></a>
-                    {{/btnEnable}}
-                </div>
-
 
             </div>
             
-            {{#btnEnable}}
-            <button onClick="goToOrder()" id="checkoutbtn" class="checkoutbtn1 valign-wrapper center-align"><p>CHECKOUT</p></button>
-            {{/btnEnable}}
-
 
 
             
@@ -66,10 +53,12 @@
 
 
 
-function goToOrder(){
+
+$('.checkoutbtn').on('click',function(){
     console.log("clicked");
     window.location.replace('/order');
-}
+});
+
 
 
 
@@ -81,10 +70,10 @@ $(document).on('scroll', function() {
 var x= $('#footer_').position().top;
 
     if( $(this).scrollTop() >=( x-100) ){
-        $('#checkoutbtn').fadeOut();
+        $('.chkbtn').fadeOut();
     }
     if( $(this).scrollTop() < (x-100) ){
-        $('#checkoutbtn').fadeIn();
+        $('.chkbtn').fadeIn();
     }
 });
 
