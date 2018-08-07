@@ -33,9 +33,12 @@
                 </div>
                 {{/each}}
                 {{#btnEnable}}
-                <a href="/order" class="checkoutbtn1 center-align"><p>CHECKOUT</p></a>
+                <button onClick="goToOrder()" class="checkoutbtn center-align"><p>CHECKOUT</p></button>
                 {{else}}
-                <p>Your cart is empty</p>
+                <div class="card row center-align">
+                    <p>Your cart is empty</p>
+                </div>
+                
                 {{/btnEnable}}
                 <div class="l4 xl4 no-margin no-padding center">
                     
@@ -47,7 +50,9 @@
 
             </div>
             
-            
+            {{#btnEnable}}
+            <button onClick="goToOrder()" id="checkoutbtn" class="checkoutbtn1 valign-wrapper center-align"><p>CHECKOUT</p></button>
+            {{/btnEnable}}
 
 
 
@@ -57,6 +62,19 @@
         
     
 <script>
+
+
+
+
+function goToOrder(){
+    console.log("clicked");
+    window.location.replace('/order');
+}
+
+
+
+
+
 
 $(document).on('scroll', function() {
 
