@@ -98,8 +98,10 @@
     cursor: pointer;
     text-align: center;
 }
-.checkoutbtn1{
-    display: none;
+
+.checkoutbtn:focus,.checkoutbtn:active{
+    background: var(--main-secondary-1);
+    color:white;
 }
 
 
@@ -182,21 +184,13 @@
         padding: 30px;
     }
     .checkoutbtn{
-        display: none;
-    }
-    .checkoutbtn1{
-        display: block;
+        position: relative;
+        right:0;
+        left:0;
         width:100%;
-        height:50px;
-        text-align: center !important; 
-        background-color: var(--main-secondary-1) !important;
-        color: white;      
+        margin-bottom: 60px;
     }
-    .checkoutbtn1 p{
-        margin-top:20px;
-        margin-left: 50%;
-        transform: translateX(-50%);
-    }
+    
 
 
 
