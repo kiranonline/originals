@@ -140,7 +140,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                     net_amount_with_delivery_charge=net_amount+delivery_charge;
 
 
-                    var q3="SELECT * FROM address WHERE id="+mysql.escape(address_id);
+                    var q3="SELECT * FROM address WHERE id="+mysql.escape(address_id)+"&& user_id="+mysql.escape(user_phone);
                     conn.query(q3,function(err4,res4){
 
                         if(err4) console.log(err4);
@@ -215,7 +215,6 @@ router.get('/cart',isLoggedIn,(req,res)=>{
         var query="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
         conn.query(query,function(err,result){
             if(err) console.log(err);
-    
 
             var cart=JSON.parse(result[0]['cart']);
     
@@ -412,9 +411,9 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                     //log(cart_items_array.length);
     
                     //console.log("item_id: "+item_id+" no_of_items: "+no_of_items+" size: "+size+" color: "+color+" price: "+price+" image: "+image);
-                    increase_decrease(req,id,cart_items_array,value);
+                    var total_price=increase_decrease(req,id,cart_items_array,value);
     
-                    res.send("changed");
+                    res.send({total_price:total_price});
                 });
             }
         });
