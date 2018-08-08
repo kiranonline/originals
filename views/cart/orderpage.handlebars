@@ -141,12 +141,21 @@ function orderPlace()
     //console.log(address_id);
     //console.log(promocode);
 
+$('<form action="/order/place" method="POST"/>')
+        .append($('<input type="hidden" name="address_id" value="' + address_id + '">'))
+        .append($('<input type="hidden" name="promocode" value="' + promocode + '">'))
+        .appendTo($(document.body)) //it has to be added somewhere into the <body>
+        .submit();
+/*
     $.ajax({
         method:"post",
         data:{address_id:address_id,promocode:promocode},
         url:"/order/place",
         success:function(){}
     });
+    */
+
+
 }
 function apply()
 {

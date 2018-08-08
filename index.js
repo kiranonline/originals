@@ -53,6 +53,8 @@ var store = require('./routes/website/store.js');
 var cartOrder = require('./routes/website/cart.js');
 var address = require('./routes/website/address.js');
 var promocode=require('./routes/website/promocode.js');
+var order=require('./routes/website/order.js');
+var payment=require('./routes/website/payment.js');
 
 
 
@@ -191,6 +193,8 @@ app.use('/',userAction);
 app.use('/',cartOrder);
 app.use('/address',address);
 app.use('/promocode',promocode);
+app.use('/',order);
+app.use('/',payment);
 
 app.get('/logout', function(req, res) {
     req.logout(); 

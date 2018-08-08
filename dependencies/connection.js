@@ -53,3 +53,5 @@ var pool_p  = mysql.createPool({
 
   
 module.exports = pool_d;
+module.exports = pool_p;
+
