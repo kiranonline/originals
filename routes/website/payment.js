@@ -34,7 +34,7 @@ router.get('/order/payment/success',function(req,res){
                 var delivery_charge=res2[0].delivery_charge;
                 var paid=res2[0].amount_paid;
                 var items_all=JSON.parse(res2[0].items);
-                var items=x["items"];
+                var items=items_all["items"];
 
                 res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,timestamp:timestamp,total:total,delivery_charge:delivery_charge,paid:paid,items:items});
 
