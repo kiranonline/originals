@@ -12,7 +12,7 @@ var payload = {
   order_id:order_id,
   /*redirect_url: '/orderplaced/'+order_id,*/
   
-  redirect_url: 'http://the-originals.in/',
+  redirect_url: 'http://the-originals.in/order/payment/success',
   send_email: true,
   webhook: 'http://www.the-originals.in/admin/order/placed/success/'+order_id,
   send_sms: true,
