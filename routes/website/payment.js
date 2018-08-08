@@ -1,33 +1,17 @@
-var request= require('request');
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var mysql = require('mysql');
-var pool = require(path.join(__dirname, '/../../dependencies/connection.js'));
-var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin.js'));
-var passport = require(path.join(__dirname,'/../../dependencies/passportlogin.js'));
+var express=require('express');
+var mysql=require('mysql');
+var router=express.Router();
 
 
-function payment(order_id,purpose,amount,phone,buyer_name,email)
-{
-    
-var headers = { 'X-Api-Key': 'd82016f839e13cd0a79afc0ef5b288b3', 'X-Auth-Token': '3827881f669c11e8dad8a023fd1108c2'}
-var payload = {
-  purpose: purpose,
-  amount: amount,
-  phone: phone,
-  buyer_name: buyer_name,
-  redirect_url: '/orderplaced/'+order_id,
-  send_email: true,
-  webhook: 'http://www.example.com/webhook/',
-  send_sms: true,
-  email: email,
-  allow_repeated_payments: false}
+router.post('/admin/order/placed/success',function(req,res){
 
-request.post('https://www.test.instamojo.com/api/1.1/payment-requests/', {form: payload,  headers: headers}, function(error, response, body){
-  if(!error && response.statusCode == 201){
-    console.log(body);
-  }
+    console.log("web hook");
+    console.log(req.body.payment_request);
+
+var q="INSERT INTO "+mysql.escape(req.body.payment_id)+" "+mysql.escape(req.body.status)+" "+mysql.escape(req.body.longurl)+" "+mysql.escape(req.body.amount)+" "+mysql.escape(req.body.fees)+" "+mysql.escape(req.body.buyer)+" "+mysql.escape(req.body.buyer_name)+" "+mysql.escape(req.body.buyer_phone)+" "+mysql.escape(req.body.payment_request_id)+" "+mysql.escape(req.body.mac);
+
+
 });
-}
 
+
+module.exports=router;
