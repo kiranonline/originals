@@ -40,21 +40,24 @@ if(error) console.log(error);
         var cart_items_array=cart["items"];
 
         
-        var TotalPrice;
+        var TotalPrice,TotalPriceWithDeliveryCharge;
         getTotalPrice(cart_items_array,function(sum){
             TotalPrice=sum;
+            TotalPriceWithDeliveryCharge=parseInt(TotalPrice)+deliveryCharge;
+            var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
+            conn.query(q1,(err2,res1)=>{
+                if(err2){
+                    console.log(err2);
+                }
+                console.log(res1);
+                res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
+            });
         });
-        var TotalPriceWithDeliveryCharge=parseInt(TotalPrice)+deliveryCharge;
+       
 
-        var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
-        conn.query(q1,(err2,res1)=>{
-            if(err2){
-                console.log(err2);
-            }
-            console.log(res1);
-            res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
-        });
+        
     });
+    conn.release();
 });
 
 });
@@ -528,6 +531,9 @@ var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type
 
 
 
+
+
+
 function remove(req,id,cart_items_array)
 {
     for(var i=0;i<cart_items_array.length;i++)
@@ -543,6 +549,10 @@ function remove(req,id,cart_items_array)
         }       
     }
 }
+
+
+
+
 function increase_decrease(req,id,cart_items_array,value)
 {
     for(var i=0;i<cart_items_array.length;i++)
@@ -572,6 +582,12 @@ function increase_decrease(req,id,cart_items_array,value)
         }        
     }
 }
+
+
+
+
+
+
 function getTotalPrice(cart_items_array,callback)
 {
     var sum=0;
@@ -585,6 +601,9 @@ function getTotalPrice(cart_items_array,callback)
    // console.log("Total Price "+sum);
      callback(sum);
 }
+
+
+
 
 
 function updateQuery(dict,req)

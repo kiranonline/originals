@@ -5,7 +5,7 @@ var router = express.Router();
 var path = require('path');
 var mysql = require('mysql');
 var md5 = require('md5');
-var conn = require(path.join(__dirname,'/../../dependencies/connection.js'));
+var pool = require(path.join(__dirname,'/../../dependencies/connection.js'));
 
 
 
@@ -24,6 +24,7 @@ router.get('/login',function(req,res){
 
 
 router.post('/login',function(req,res){
+    
     //store the data got from frontend
     var phone = req.body.phone;
     var password = req.body.password;
@@ -36,7 +37,7 @@ router.post('/login',function(req,res){
         res.render('admin/adminregisterpage',{layout: false,error:'Incorrect Details !'});
      }
      else{
-
+        console.log('I am in');
         //hashing password
         var hashedpassword=md5(password);
 
