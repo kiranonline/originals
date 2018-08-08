@@ -45,12 +45,6 @@ var pool_p  = mysql.createPool({
   password        : 'TheOriginals@13579',
   database        : 'theoriginals_db1'
 });
-
-
-
-
-
-
   
 module.exports = pool_p;
 

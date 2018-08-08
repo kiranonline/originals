@@ -12,10 +12,10 @@
                 </div>
                 <hr>
                 <div class="body-body">
-                    <p class="basic">ORDER STATUS : <span></span></p>
-                    <p class="basic">ORDER ID : <span></span></p>
-                    <p class="basic">PAYMENT ID : <span></span></p>
-                    <p class="basic">TIME STAMP : <span></span></p>
+                    <p class="basic">ORDER STATUS : <span>{{this.order_status}}</span></p>
+                    <p class="basic">ORDER ID : <span>{{order_id}}</span></p>
+                    <p class="basic">PAYMENT ID : <span>{{payment_id}}</span></p>
+                    <p class="basic">TIME STAMP : <span>{{timestamp}}</span></p>
                     <p>ITEMS</p>
                     <table class="striped centered table">
                         <thead>
@@ -26,24 +26,17 @@
                         </thead>
 
                         <tbody>
+                            {{#each this.items}}
                             <tr>
-                                <td>Alvin</td>
-                                <td>&#8377 100</td>
+                                <td>this.item_name</td>
+                                <td>this.price</td>
                             </tr>
-                            <tr>
-                                <td>Alan</td>
-                                <td>&#8377 300</td>
-                            </tr>
-                            <tr>
-                                <td>Jonathan</td>
-                                <td>&#8377 400</td>
-                            </tr>
-                            
+                            {{/each}}
                         </tbody>                       
                     </table>
-                    <p>TOTAL : <span>&#8377 800 </span></p>
-                    <p>DELEVERY CHARGE : <span>&#8377 40 </span></p>
-                    <p>PAID: <span>&#8377 840 </span></p>
+                    <p>TOTAL : <span>{{this.total}}</span></p>
+                    <p>DELEVERY CHARGE : <span>{{this.delivery_charge} </span></p>
+                    <p>PAID: <span>{{paid}}</span></p>
                     <div class="download-c">
                         <a class="waves-effect waves-light btn download"><i class="material-icons right">file_download</i>Download Invoice</a
                     </div>
