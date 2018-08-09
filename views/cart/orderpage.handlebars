@@ -23,7 +23,7 @@
                                 
                                 <p>Quantity : &nbsp <a class="btn" id="quantity">{{this.no_of_items}}</a></p>                                    
                                 
-                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.no_of_items}} x {{this.delivery_charge}}={{this.total}}</span> </p>
+                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.no_of_items}} x {{this.price}}={{this.total}}</span> </p>
                                 <p class="price ">Total Delivery Charge: <span>{{this.no_of_items}} x {{this.delivery_charge}}={{this.total_delivery_charge}}</span> </p>
                                 
                             </div>
@@ -174,13 +174,11 @@ function apply()
        {
            var success=res["success"];
            console.log(success);
-           if(success=="true")
+           if(success=="discount")
            {
-               var net_amount=res['net_amount'];
-               var deliveryCharge=res['deliveryCharge'];
-
-                net_amount=+net_amount+deliveryCharge;
-
+                var net_amount=res['net_amount'];
+                var delivery_charge=res["delivery_charge"];
+                net_amount=+net_amount+delivery_charge;
                 $("#NetAmountDiv").css('display','block');
                 $("#NetAmount").html(net_amount);
 
@@ -190,7 +188,21 @@ function apply()
            {
                $('#promocode').val("");
                M.toast({html:"Promocode Invalid",classes:"rounded"});
-               $("#NetAmountDiv").css('display','none')
+               $("#NetAmountDiv").css('display','none');
+           }
+           else if(success=="cashback")
+           {
+                M.toast({html:"You will receive "+res["cashback"]+" cashback on successful order",classes:"rounded"});
+                $("#NetAmountDiv").css('display','none');
+           }
+           else if(success=="wallet_point")
+           {
+                var net_amount=res['net_amount'];
+                var delivery_charge=res["delivery_charge"];
+                net_amount=+net_amount+delivery_charge;
+                $("#NetAmountDiv").css('display','block');
+                $("#NetAmount").html(net_amount);
+                M.toast({html:res["wallet_point"]+" point will be used from your wallet",classes:"rounded"});
            }
        },
        error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
