@@ -46,5 +46,5 @@ var pool_p  = mysql.createPool({
   database        : 'theoriginals_db1'
 });
   
-module.exports = pool_d;
+module.exports = pool_p;
 
