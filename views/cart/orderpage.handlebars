@@ -174,13 +174,11 @@ function apply()
        {
            var success=res["success"];
            console.log(success);
-           if(success=="true")
+           if(success=="discount")
            {
-               var net_amount=res['net_amount'];
-               var deliveryCharge=res['deliveryCharge'];
-
-                net_amount=+net_amount+deliveryCharge;
-
+                var net_amount=res['net_amount'];
+                var delivery_charge=res["delivery_charge"];
+                net_amount=+net_amount+delivery_charge;
                 $("#NetAmountDiv").css('display','block');
                 $("#NetAmount").html(net_amount);
 
@@ -190,7 +188,21 @@ function apply()
            {
                $('#promocode').val("");
                M.toast({html:"Promocode Invalid",classes:"rounded"});
-               $("#NetAmountDiv").css('display','none')
+               $("#NetAmountDiv").css('display','none');
+           }
+           else if(success=="cashback")
+           {
+                M.toast({html:"You will receive "+res["cashback"]+" cashback on successful order",classes:"rounded"});
+                $("#NetAmountDiv").css('display','none');
+           }
+           else if(success=="wallet_point")
+           {
+                var net_amount=res['net_amount'];
+                var delivery_charge=res["delivery_charge"];
+                net_amount=+net_amount+delivery_charge;
+                $("#NetAmountDiv").css('display','block');
+                $("#NetAmount").html(net_amount);
+                M.toast({html:res["wallet_point"]+" point will be used from your wallet",classes:"rounded"});
            }
        },
        error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}

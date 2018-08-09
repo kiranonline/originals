@@ -99,6 +99,7 @@ function increase_decrease(req,id,cart_items_array,value,callback)
             {
                 console.log("no_of_items() is less than 0.Hence removed");
                 cart_items_array.splice(i,1);
+                total_no=0;
             }
             else{
                 cart_items_array[i]["no_of_items"]=total_no;
@@ -111,7 +112,7 @@ function increase_decrease(req,id,cart_items_array,value,callback)
             updateQuery(dict,req,function(){
                 console.log('updateQuery() callback');
             });
-            return callback(total_price);        
+            return callback(total_price,total_no);        
         }        
     }
 }

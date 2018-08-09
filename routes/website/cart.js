@@ -170,11 +170,13 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                         var cart=JSON.parse(result2[0]['cart']);
                         var cart_items_array=cart["items"];
                         var total_price;
-                        increase_decrease(req,id,cart_items_array,value,function(total){
+                        var no_of_items;
+                        increase_decrease(req,id,cart_items_array,value,function(total,no){
                             console.log('increase_decrease() callback');
                             total_price=total;
+                            no_of_items=no;
                         });
-                        res.send({done:'done',total_price:total_price});
+                        res.send({done:'done',total_price:total_price,no_of_items:no_of_items});
                     }
                     else{
                         console.log('invalid user');

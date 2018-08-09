@@ -121,8 +121,8 @@ var x= $('#footer_').position().top;
             success:function(res){
                 if(res["done"]=="done")
                 {
-                        x.html(+x.html()+1);
-                        total_price_item=res["total_price"];
+                        x.html(res["no_of_items"]);
+                        var total_price_item=res["total_price"];
                         $(price_span).html(total_price_item);
                         M.toast({html:"No of items increased successfully",classes:"rounded"});
                 }
@@ -151,7 +151,7 @@ var x= $('#footer_').position().top;
                     success:function(res){
                         if(res["done"]=="done")
                         {
-                            x.html(+x.html() - 1);
+                            x.html(res["no_of_items"]);
                             total_price_item=res["total_price"];
                             $(price_span).html(total_price_item);
                             M.toast({html:"No of items decreased successfully",classes:"rounded"});
