@@ -20,7 +20,7 @@ router.get('/order/payment/success',function(req,res){
 
     pool.getConnection(function(err,conn){
 
-        var q="SELECT * FROM order_table WHERE payment_id="+mysql.escape(req.params.payment_id)+" && payment_request_id="+mysql.escape(req.params.payment_request_id);
+        var q="SELECT * FROM order_table WHERE payment_id="+mysql.escape(req.query.payment_id)+" && payment_request_id="+mysql.escape(req.query.payment_request_id);
         conn.query(q,function(err,res2){
             if(err) console.log(err);
 
