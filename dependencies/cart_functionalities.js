@@ -17,6 +17,7 @@ class items{
         this.image=image;
         this.cashback=cashback;
         this.delivery_charge=delivery_charge;
+        this.total_delivery_charge=parseInt(no_of_items)*parseInt(delivery_charge);
     }
 }
 
@@ -30,16 +31,13 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
             {
                 if(cart_items_array[i]["color"]==color)
                 {    
-                    console.log("increase no_of_items");            
-                    
                     var no_of_items=cart_items_array[i]["no_of_items"]+1;
                     cart_items_array[i]["no_of_items"]=no_of_items;
                     cart_items_array[i]["price"]=price;
                     cart_items_array[i]["cashback"]=cashback;
                     cart_items_array[i]["delivery_charge"]=delivery_charge;
-                    
-                    
                     cart_items_array[i]["total"]=parseInt(no_of_items)*parseInt(price);
+                    cart_items_array[i]["total_delivery_charge"]=parseInt(no_of_items)*parseInt(delivery_charge);
                     var dict={"items":cart_items_array};
 
                     updateQuery(dict,req,function(){
@@ -54,17 +52,15 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
 }
 
 function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge)
-{
-    
-    console.log("new itam added");
+{    
     var obj=new items(item_id,item_name,item_type,1,size,color,price,image,cashback,delivery_charge);
-var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type":item_type,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"total":obj.total,"image":obj.image,"cashback":cashback,"delivery_charge":delivery_charge};
+var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type":obj.item_type,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"total":obj.total,"image":obj.image,"cashback":obj.cashback,"delivery_charge":obj.delivery_charge,"total_delivery_charge":obj.total_delivery_charge};
     
     cart_items_array.push(dict);    
     var dict={"items":cart_items_array};
 
     updateQuery(dict,req,function(){
-
+        console.log("new itam added to cart");
         console.log("updateQuery() callback");
     });
                   
@@ -78,11 +74,11 @@ function remove(req,id,cart_items_array,callback)
     {
         if(cart_items_array[i]["id"]==id)
         {
-            console.log("items removed");
             cart_items_array.splice(i,1);                
             var dict={"items":cart_items_array};
             var len=cart_items_array.length;
             updateQuery(dict,req,function(){
+                console.log("item removed from cart");
                 console.log('updateQuery() callback');
             });
             return callback(len);           
@@ -95,10 +91,10 @@ function increase_decrease(req,id,cart_items_array,value,callback)
     {
         if(cart_items_array[i]["id"]==id)
         {
-            console.log("No of items increased by "+value);
             var no_of_items=cart_items_array[i]["no_of_items"];
             var total_no=parseInt(no_of_items)+parseInt(value);
             var total_price=0;
+            var total_delivery_charge=0;
             if(total_no<=0)
             {
                 console.log("no_of_items() is less than 0.Hence removed");
@@ -107,7 +103,9 @@ function increase_decrease(req,id,cart_items_array,value,callback)
             else{
                 cart_items_array[i]["no_of_items"]=total_no;
                 total_price=total_no*parseInt(cart_items_array[i]["price"]);
+                total_delivery_charge=total_no*parseInt(cart_items_array[i]["delivery_charge"]);
                 cart_items_array[i]["total"]=total_price;
+                cart_items_array[i]["total_delivery_charge"]=total_delivery_charge;
             }
             var dict={"items":cart_items_array};
             updateQuery(dict,req,function(){
@@ -129,23 +127,33 @@ function getTotalPrice(cart_items_array,callback)
     }
     callback(sum);
 }
-
+function getTotalDeliveryCharge(cart_items_array,callback)
+{
+    var sum=0;
+    for(var i=0;i<cart_items_array.length;i++)
+    {
+        var delivery_charge=parseInt(cart_items_array[i]["delivery_charge"]);
+        var no_of_items=parseInt(cart_items_array[i]["no_of_items"]);
+        var x=delivery_charge*no_of_items;
+        sum+=x;
+    }
+    callback(sum);
+}
 
 function updateQuery(dict,req,callback)
 {
-    console.log("New Cart:\n");
-    console.log(dict);
     pool.getConnection((err,conn)=>{
         if(err){
             console.log(err);
         }
-        var query="UPDATE  userlist SET cart='"+JSON.stringify(dict)+"' WHERE phone='"+req.session.passport["user"]+"'";
+        var query="UPDATE  userlist SET cart="+mysql.escape(JSON.stringify(dict))+" WHERE phone="+mysql.escape(req.session.passport["user"]);
         conn.query(query,function(err,result){
     
             if(err) throw err
             if(result.affectedRows==1)
             {
-                console.log("Data Updated in the cart column");
+                console.log("New Cart:\n");
+                console.log(dict);
             }
             else{
                 console.log("Data Not updated");
@@ -164,3 +172,4 @@ exports.add=add;
 exports.remove=remove;
 exports.increase_decrease=increase_decrease;
 exports.getTotalPrice=getTotalPrice;
+exports.getTotalDeliveryCharge=getTotalDeliveryCharge;

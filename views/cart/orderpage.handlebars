@@ -23,7 +23,8 @@
                                 
                                 <p>Quantity : &nbsp <a class="btn" id="quantity">{{this.no_of_items}}</a></p>                                    
                                 
-                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.total}}</span> </p>
+                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.no_of_items}} x {{this.delivery_charge}}={{this.total}}</span> </p>
+                                <p class="price ">Total Delivery Charge: <span>{{this.no_of_items}} x {{this.delivery_charge}}={{this.total_delivery_charge}}</span> </p>
                                 
                             </div>
                         </div>
@@ -69,13 +70,13 @@
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address left-align">
                             <p class="billing-large-text"><span>Price : </span>
                             <span id="total">{{this.TotalPrice}}</span></p> 
-                            <p class="billing-medium-text"><span>Delivery Charge : </span>40 
+                            <p class="billing-medium-text"><span>Delivery Charge : {{this.TotalDeliveryCharge}}</span> 
                             <span style="color:red">*</span>
                             <span style="font-size:12px">(If the delivery address is in Kalyani , then you will get delivery charge as cashback)</span>
                             </p> 
                             <hr>
                             <p class="billing-large-text" ><span >Total : <span>
-                                {{this.TotalPriceWithDeliveryCharge}}</span></span></p> 
+                                {{this.total_amount}}</span></span></p> 
                         </div>
                     
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
