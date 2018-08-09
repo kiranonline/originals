@@ -18,15 +18,12 @@ var payload = {
   send_sms: true,
   email: email,
   allow_repeated_payments: false};
-  console.log("haha");
 request.post('https://test.instamojo.com/api/1.1/payment-requests/', {form: payload,  headers: headers}, function(error, response, body){
 if(!error && response.statusCode == 201){
     var j=JSON.parse(response.body);
-    console.log(j.payment_request["longurl"]);
     res.redirect(j.payment_request["longurl"]);
   }
 });
-
 return callback();
 
 }

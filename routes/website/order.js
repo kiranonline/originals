@@ -171,7 +171,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                       
                             //console.log(buyer_name+"  "+email);
     makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){
-
+        
     });
                             
                         });
