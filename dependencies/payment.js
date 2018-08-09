@@ -9,9 +9,7 @@ var payload = {
   amount: amount.toString(),
   phone: phone,
   buyer_name: buyer_name,
-  order_id:order_id,
-  /*redirect_url: '/orderplaced/'+order_id,*/
-  
+  order_id:order_id,  
   redirect_url: 'http://the-originals.in/order/payment/success',
   send_email: true,
   webhook: 'http://www.the-originals.in/admin/order/placed/success/'+order_id,
@@ -20,7 +18,6 @@ var payload = {
   allow_repeated_payments: false};
 request.post('https://test.instamojo.com/api/1.1/payment-requests/', {form: payload,  headers: headers}, function(error, response, body){
 if(!error && response.statusCode == 201){
-    var j=JSON.parse(response.body);
     res.redirect(j.payment_request["longurl"]);
   }
 });
