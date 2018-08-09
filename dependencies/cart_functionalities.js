@@ -140,6 +140,18 @@ function getTotalDeliveryCharge(cart_items_array,callback)
     }
     callback(sum);
 }
+function getTotalCashback(cart_items_array,callback)
+{
+    var sum=0;
+    for(var i=0;i<cart_items_array.length;i++)
+    {
+        var cashback=parseInt(cart_items_array[i]["cashback"]);
+        var no_of_items=parseInt(cart_items_array[i]["no_of_items"]);
+        var x=cashback*no_of_items;
+        sum+=x;
+    }
+    callback(sum);
+}
 
 function updateQuery(dict,req,callback)
 {
@@ -174,3 +186,4 @@ exports.remove=remove;
 exports.increase_decrease=increase_decrease;
 exports.getTotalPrice=getTotalPrice;
 exports.getTotalDeliveryCharge=getTotalDeliveryCharge;
+exports.getTotalCashback=getTotalCashback;
