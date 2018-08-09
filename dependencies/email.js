@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 
 
 
-function sendMail(f_name,email,link){
+function sendMail(email,subject,email_body){
 
 
 
@@ -26,9 +26,9 @@ function sendMail(f_name,email,link){
     let mailOptions = {
         from: 'originals.email.confirmation@gmail.com', // sender address
         to: email, // list of receivers
-        subject: 'Originals - Email confirmation', // Subject line
-        html: 'Hola, ' + f_name + "!<br>Click on the link below to validate your Originals account.<br>Confirmation Link: " + link // html body
-    };
+        subject: subject,
+        html: email_body
+        };
     
 
 

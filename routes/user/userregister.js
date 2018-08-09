@@ -88,9 +88,9 @@ router.post('/register', function(req, res){
                                 if (err) throw err;
                                 else{
                                 console.log("1 record inserted");
-                                
+                                var email_body="<h2>You are one step ahead from registration in The Originals</h2><br>Click on the link to activate your account "+link;
     
-                                sendEmail(name,email,link);
+                                sendEmail(email,"Originsla - User Registration Confirmation",email_body);
                             
                                 
                                 //rendering the page for resending verification mail if not yet recieved
@@ -121,7 +121,9 @@ router.post('/register', function(req, res){
                                     console.log("1 record inserted");
                                     
         
-                                    sendEmail(name,email,link);
+                                    var email_body="<h2>You are one step ahead from registration in The Originals</h2><br>Click on the link to activate your account "+link;
+    
+                                    sendEmail(email,"Originsla - User Registration Confirmation",email_body);
                                     
                                     res.render('user/verification.handlebars', {layout:false,email : email});
                                 }
@@ -155,33 +157,47 @@ router.post('/register', function(req, res){
 router.get('/verify', function(req, res){
     var link = req.protocol + '://' + req.get('host') + req.originalUrl;
     var q = 'select otp from tempuserlist where otp = ' + mysql.escape(link);
-    conn.query(q, function (err, result) {
-        if (err) throw err;
-        else{
-        if (result.length>0){
-            console.log('verified');
-            var cart="{\"items\":'[]'}";
-            var q1 = "insert userlist (name, phone, password, email, gender, age, timeofquery,cart) select name, phone, password, email, gender, age, current_timestamp(),"+mysql.escape(cart)+ "from tempuserlist where otp = " + mysql.escape(link);
-            var q2 = "delete from tempuserlist where otp = " + mysql.escape(link);
-            conn.query(q1, function (err, result){
-                if (err) throw err;
-                else{
-                    conn.query(q2, function (err, result) {
+    console.log(link);
+    pool.getConnection((err,conn)=>{
+        if(err){
+            console.log(err);
+        }
+        conn.query(q, function (err, result) {
+            if (err) throw err;
+            else{
+                if (result.length>0){
+                    console.log('verified');
+                    var cart="{\"items\":'[]'}";
+                    console.log('i am called');
+                    var q1 = "insert userlist (name, phone, password, email, gender, age, timeofquery,cart) select name, phone, password, email, gender, age, current_timestamp(),"+mysql.escape(cart)+ "from tempuserlist where otp = " + mysql.escape(link);
+                    var q2 = "delete from tempuserlist where otp = " + mysql.escape(link);
+                    conn.query(q1, function (err, result){
                         if (err) throw err;
                         else{
-                            console.log('successful registration');
-                            res.render('user/userlogin.handlebars', {msg : 'E-mail id successfully is verified!'});
+                            conn.query(q2, function (err, result) {
+                                if (err) throw err;
+                                else{
+                                    console.log('successful registration');
+                                    res.render('user/userlogin.handlebars', {msg : 'E-mail id successfully is verified!'});
+                                }
+                            })
                         }
                     })
                 }
-            })
-        }
-        else{
-            console.log('bad request');
-            res.send('Oops! User authentication failed or link expired.');
-        }
-        }
-})
+                else{
+                    console.log('bad request');
+                    res.send('Oops! User authentication failed or link expired.');
+                }
+            }
+
+            conn.release();
+    });
+
+
+    });
+   
+
+    
 });    
 
 
