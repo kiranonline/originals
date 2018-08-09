@@ -36,6 +36,8 @@ router.get('/', function (req, res) {
                         id:result[i].id,
                         name:result[i].name,
                         price:result[i].price,
+                        cashback:result[i].cashback,
+                        effective_price:result[i].price-result[i].cashback,
                         image:JSON.parse(result[i].images)['1']
                     });
                 }
@@ -50,6 +52,8 @@ router.get('/', function (req, res) {
                             id:result[i].id,
                             name:result[i].name,
                             price:result[i].price,
+                            cashback:result[i].cashback,
+                            effective_price:result[i].price-result[i].cashback,
                             image:JSON.parse(result[i].images)['1']
                         });
                     }
@@ -65,6 +69,8 @@ router.get('/', function (req, res) {
                                 id:result[i].id,
                                 name:result[i].name,
                                 price:result[i].price,
+                                cashback:result[i].cashback,
+                                effective_price:result[i].price-result[i].cashback,
                                 image:JSON.parse(result[i].images)['1']
                             });
                         }

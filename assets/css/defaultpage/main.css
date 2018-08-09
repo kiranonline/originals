@@ -254,6 +254,38 @@
     color: black;
     font-size: 16px;
 }
+.cashback-holder{
+    display: none;
+}
+.cashback-tag{
+    color: green;
+    font-size: 20px;
+}
+.offer{
+    color: green;
+    margin-top: -100px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

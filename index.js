@@ -106,6 +106,11 @@ app.set('views',path.join(__dirname,'views'));
 app.engine('handlebars',exphbs({extname:'handlebars', defaultLayout:'../main.handlebars'}));
 app.set('view engine','handlebars');
 
+
+
+
+
+
 //for morgan
 app.use(morgan('dev'));
 
