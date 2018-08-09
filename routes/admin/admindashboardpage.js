@@ -1041,6 +1041,8 @@ router.post('/dashboard/item/new',function(req,res){
    else{
        var name=req.body.name;
        var price=req.body.price;
+       var cashback=req.body.cashback;
+       var delevery_charge=req.body.delevery_charge;
        var id=uniqid('item-'); 	
        var size_id=req.body.size.split(",")[0];
        var size_name=req.body.size.split(",")[1];
@@ -1096,7 +1098,7 @@ router.post('/dashboard/item/new',function(req,res){
                              }
                              
                               function do_it(){
-                                 var query ="INSERT INTO items (id,name,price,size_id,size_name,color_id,color_name,gender,event_id,event_name,type_id,type_name,tags,images,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(color_id)+","+mysql.escape(color_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+","+mysql.escape(str)+","+mysql.escape(JSON.stringify(item_image_list))+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
+                                 var query ="INSERT INTO items (id,name,price,cashback,delevery_charge,size_id,size_name,color_id,color_name,gender,event_id,event_name,type_id,type_name,tags,images,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(cashback)+","+mysql.escape(delevery_charge)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(color_id)+","+mysql.escape(color_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+","+mysql.escape(str)+","+mysql.escape(JSON.stringify(item_image_list))+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
                                  console.log(query); 
                                  conn.query(query,function(err,result){
                                      if(err) throw err;
