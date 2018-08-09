@@ -6,15 +6,9 @@ var pool = require(path.join(__dirname, '/../../dependencies/connection.js'));
 var makePayment = require(path.join(__dirname, '/../../dependencies/payment.js'));
 var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin.js'));
 var uniqid=require('uniqid');
-
-
-
 var  cart_functionalities= require(path.join(__dirname,'/../../dependencies/cart_functionalities.js'));
 var getTotalPrice=cart_functionalities.getTotalPrice;
 
-
-
-var deliveryCharge=40;
 router.get('/order',isLoggedIn,(req,res)=>{
 
     pool.getConnection(function(error,conn){
@@ -26,34 +20,35 @@ if(error) console.log(error);
         if(result.length==1)
         {
             var cart=JSON.parse(result[0]['cart']);
-
             console.log(cart);
             var cart_items_array=cart["items"];
-
-
-            var TotalPrice;
-            getTotalPrice(cart_items_array,function(sum){
-                TotalPrice=sum;
-            });
-            var TotalPriceWithDeliveryCharge=parseInt(TotalPrice)+deliveryCharge;
-
-            var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
-            conn.query(q1,(err2,res1)=>{
-                if(err2){
-                    console.log(err2);
-                }
-
-                if(res1.length==1)
-                {
-                    console.log(res1);
-                    res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
-                }
-                else{
-                    res.redirect('/');
-                    return;
-                }
-               
+            if(cart_items_array.length==0)
+            {
+                res.redirect('/');
+                return;
+            }
+            else{
+                var TotalPrice;
+                getTotalPrice(cart_items_array,function(sum){
+                    TotalPrice=sum;
                 });
+                var TotalPriceWithDeliveryCharge=parseInt(TotalPrice)+deliveryCharge;
+                var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
+                conn.query(q1,(err2,res1)=>{
+                    if(err2){
+                        console.log(err2);
+                    }
+                    if(res1.length==1)
+                    {
+                        console.log(res1);
+                        res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
+                    }
+                    else{
+                        res.redirect('/');
+                        return;
+                    }
+                });
+            }
         }
         else{
             res.redirect('/');
@@ -201,11 +196,6 @@ router.post('/order/place',isLoggedIn,function(req,res){
     //end get pool connection 
 });
 
-
-router.get('/dummy',function(req,res){
-
-    res.render('cart/dummy.handlebars');
-});
 
 
 module.exports = router;
