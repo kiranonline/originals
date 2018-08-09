@@ -31,13 +31,15 @@
                 </div>
                 {{/each}}
                 {{#btnEnable}}
-                    <button class="checkoutbtn center-align chkbtn"><p>CHECKOUT</p></button>
+                    <button class="checkoutbtn checkoutbtn1 center-align chkbtn"><p class="checkoutbtn1">CHECKOUT</p></button>
                 {{else}}
-                <div class="card row center-align">
+                <div   class="card row center-align">
                     <h5>Your cart is empty</h5>
                 </div>
-                
                 {{/btnEnable}}
+                <div  id="empty_cart" style="display:none" class="card row center-align">
+                    <h5>Your cart is empty</h5>
+                </div>
 
             </div>
             
@@ -51,18 +53,16 @@
 <script>
 
 
+$(document).ready(function(){
 
-
-
-$('.checkoutbtn').on('click',function(){
-    console.log("clicked");
-    window.location.replace('/order');
+    $('#empty_cart').hide();
 });
 
 
-
-
-
+$('.checkoutbtn1').on('click',function(){
+    console.log("going to checkout page");
+    window.location.replace('/order');
+});
 
 
 $(document).on('scroll', function() {
@@ -79,49 +79,57 @@ var x= $('#footer_').position().top;
 
     function removeBtn(id)
     {
-        console.log("clicked");
+        console.log("item removed");
         console.log(id);
         $.ajax({
             method:"post",
             url:"/cart/remove",
             data:{id:id},
-            success:function(){
-            $('.'+id).remove();
-            M.toast({html:"item removed successfully from cart",classes:"rounded"});
+            success:function(res){
+
+                if(res["done"]=="done")
+                {
+                    $('.'+id).remove();
+                    M.toast({html:"item removed successfully from cart",classes:"rounded"});
+                    if(res["length"]==0)
+                    {
+                        $('#empty_cart').css('display','block');
+                        $('.checkoutbtn1').hide();
+                    }
+                }
+                else{
+                    M.toast({html:"Something is wrong",classes:"rounded"});
+                }
+            
             },
             error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
         });
     } 
-
-    function increase(id,value)
-    {
-        console.log(value);
-        $('.cart-i9fbl4wsjkcyfu2g #minus i').innerhtml="haha";
-    }
 
 
     $('.plus').click(function () {
         console.log("plus");
 
         var x=$(this).prev();
-
         var y=x.attr("class").split(' ')[1];
         var z=x.attr("class").split(' ')[2];
         var price_span=".price"+y;
-
-
        $.ajax({
             method:"post",
             url:"/cart/change",
             data:{id:y,item_id:z,value:1},
             success:function(res){
-                x.html(+x.html()+1);
-
-                total_price_item=res["total_price"];
-                $(price_span).html(total_price_item);
-
-            
-            M.toast({html:"No of items increased successfully",classes:"rounded"});
+                if(res["done"]=="done")
+                {
+                        x.html(+x.html()+1);
+                        total_price_item=res["total_price"];
+                        $(price_span).html(total_price_item);
+                        M.toast({html:"No of items increased successfully",classes:"rounded"});
+                }
+                else{
+                        M.toast({html:"Something is wrong",classes:"rounded"});
+                }
+                
             },
             error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
 
@@ -131,30 +139,26 @@ var x= $('#footer_').position().top;
         console.log("minus");
 
         var x=$(this).next();
-
-        
-
         var y=x.attr("class").split(' ')[1];
         var z=x.attr("class").split(' ')[2];
-
-
         var price_span=".price"+y;
-        //console.log(price_span);
-        //console.log(z);
+       
         if (x.html() > 1){
                 $.ajax({
                     method:"post",
                     url:"/cart/change",
                     data:{id:y,item_id:z,value:-1},
                     success:function(res){
-
-                        x.html(+x.html() - 1);
-
-                        total_price_item=res["total_price"];
-                        $(price_span).html(total_price_item);
-
-
-                    M.toast({html:"No of items decreased successfully",classes:"rounded"});
+                        if(res["done"]=="done")
+                        {
+                            x.html(+x.html() - 1);
+                            total_price_item=res["total_price"];
+                            $(price_span).html(total_price_item);
+                            M.toast({html:"No of items decreased successfully",classes:"rounded"});
+                        }
+                        else{
+                            M.toast({html:"Something is wrong",classes:"rounded"});      
+                        }
                     },
                     error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
 

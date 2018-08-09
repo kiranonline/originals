@@ -112,15 +112,12 @@
             url: "/cart/add",
             data: {item_id:id,size:$("input[name='size']:checked").val(),color:$("input[name='color']:checked").val()},
             success: function(result){
-                if(result=='hello'){
+                if(result=='done'){
                     M.toast({html: 'Item Added to cart', classes: 'rounded'});
                 }
-            
                 else{
-                    //console.log(result.redirect);
                     window.location.replace('/login');
                 }
-                
             },
             error: function(error){
                 M.toast({html: 'internal Server Error', classes: 'rounded'});
