@@ -147,6 +147,8 @@ router.get("/item/:itemId", function (req, res) {
                                                 id: result[0].id,
                                                 name: result[0].name,
                                                 price: result[0].price,
+                                                cashback:result[0].cashback,
+                                                effective_price:result[0].price-result[0].cashback,
                                                 sizes: sizes,
                                                 colors:colors,
                                                 gender: gender,
@@ -210,6 +212,8 @@ router.get('/products/all',(req,res)=>{
                     id:result[i].id,
                     name:result[i].name,
                     price:result[i].price,
+                    cashback:result[i].cashback,
+                    effective_price:result[i].price-result[i].cashback,
                     image:JSON.parse(result[i].images)['1']
                 });
             }

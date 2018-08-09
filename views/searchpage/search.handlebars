@@ -70,11 +70,19 @@
                                         <div class="card-action center-align extra-section-in-item">
                                             <div class="row">
                                                 <div class="col s6 center-align">
-                                                    <p class="price-tag"><span class="green-text">&nbsp &#8377 {{this.price}}</span></p>
+                                                     <p class="price-tag">
+														<del class="red-text">&#8377 {{this.price}}</del>
+														<span class="green-text">&nbsp &#8377 {{this.effective_price}}</span>
+													</p>
                                                 </div>
                                                 <div class="col s6">
                                                     <button class="waves-effect waves-light add-to-cart-button white-text tooltipped"  data-tooltip="Add to cart" onclick="getItem('{{this.id}}')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
                                                 </div>
+												{{#if this.cashback}}
+													<div class="col s12 m12 l12 ">
+														<i class="material-icons cashback-tag">local_offer</i><i class="offer">Flat &#8377 {{this.cashback}} cashback</i>
+													</div>                                
+												{{/if}}
                                             </div>
                                         </div>
                                     </div>
