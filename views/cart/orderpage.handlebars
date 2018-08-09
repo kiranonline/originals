@@ -164,7 +164,6 @@ function apply()
    var x= $('#promocode').val();
 
    var y=$("#total").html();
-   
    //console.log(y);
    $.ajax({
        method:"post",
@@ -172,8 +171,6 @@ function apply()
        data:{name:x,totalPrice:y},
        success:function(res)
        {
-
-           
            var success=res["success"];
            console.log(success);
            if(success=="true")
@@ -192,6 +189,7 @@ function apply()
            {
                $('#promocode').val("");
                M.toast({html:"Promocode Invalid",classes:"rounded"});
+               $("#NetAmountDiv").css('display','none')
            }
        },
        error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}

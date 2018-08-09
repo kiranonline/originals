@@ -23,26 +23,42 @@ if(error) console.log(error);
     conn.query(query,function(err,result){
         if(err) console.log(err);
 
-        var cart=JSON.parse(result[0]['cart']);
+        if(result.length==1)
+        {
+            var cart=JSON.parse(result[0]['cart']);
 
-        console.log(cart);
-        var cart_items_array=cart["items"];
+            console.log(cart);
+            var cart_items_array=cart["items"];
 
-        
-        var TotalPrice;
-        getTotalPrice(cart_items_array,function(sum){
-            TotalPrice=sum;
-        });
-        var TotalPriceWithDeliveryCharge=parseInt(TotalPrice)+deliveryCharge;
 
-        var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
-        conn.query(q1,(err2,res1)=>{
-            if(err2){
-                console.log(err2);
-            }
-            console.log(res1);
-            res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
-        });
+            var TotalPrice;
+            getTotalPrice(cart_items_array,function(sum){
+                TotalPrice=sum;
+            });
+            var TotalPriceWithDeliveryCharge=parseInt(TotalPrice)+deliveryCharge;
+
+            var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
+            conn.query(q1,(err2,res1)=>{
+                if(err2){
+                    console.log(err2);
+                }
+
+                if(res1.length==1)
+                {
+                    console.log(res1);
+                    res.render('cart/orderpage.handlebars',{cart:cart_items_array,address:res1,TotalPrice:TotalPrice,TotalPriceWithDeliveryCharge:TotalPriceWithDeliveryCharge});
+                }
+                else{
+                    res.redirect('/');
+                    return;
+                }
+               
+                });
+        }
+        else{
+            res.redirect('/');
+            return;
+        }
     });
 });
 
@@ -86,7 +102,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
 
                 buyer_name=res2[0].name;
                 email=res2[0].email;
-                items=res2[0].cart;//var
+                items=res2[0].cart;
 
                 var x=JSON.parse(items);
                 var cart_items_array=x["items"];
@@ -125,12 +141,15 @@ router.post('/order/place',isLoggedIn,function(req,res){
                             net_amount=total_price;//var
                         }
                     }
+                    //if promocode valid
                     else{
                         promocode="";
                         discount=0;
                         cashback=0;
                         net_amount=total_price;
+
                     }
+                    //promocode invalid
 
                     delivery_charge=deliveryCharge;
                     net_amount_with_delivery_charge=net_amount+delivery_charge;
@@ -146,59 +165,40 @@ router.post('/order/place',isLoggedIn,function(req,res){
                             address=res4[0].address;
                             address_contact=res4[0].contact;
                         }
+                        //end  if address valid
                         else{
-                            res.status(404).render('404page');
+                            res.redirect('/');
                             return;
                         }
-
-                        //console.log("order_id: "+order_id);
-                        //console.log("User:  "+user_phone);
-                        //console.log("items: "+items);
-                        //console.log("total price: "+total_price);
-                        //console.log("Promocode: "+promocode);
-                        //console.log("Discount: "+discount );
-                        //console.log("Cashback: "+cashback);
-                        //console.log("Net Amount: "+net_amount);
-                        //console.log("Delivery charge: "+delivery_charge);
-                        //console.log("Net Amount With Delivery Charge: "+net_amount_with_delivery_charge);
-                        //console.log("Address: "+address);
-                        //console.log("Address Contact: "+address_contact);
+                        //end  if address not valid
                         var q4="INSERT INTO temp_order (id,user_phone,items,total_price,promocode,discount,cashback,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_phone)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+")";
                         console.log(q4);                        
                         conn.query(q4,function(err5,res5){
                             if(err5) console.log(err5);
                             console.log("data inserted in temporary table");
-                      
-                            //console.log(buyer_name+"  "+email);
-    makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){
-        
-    });
+                            makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){});
                             
                         });
-
-
+                        //end insert query
                     });
-
-
-                    
-
-
+                    //end get address query
             });
+            //end promocode query
 
         }
+        //end  if user exists
         else
         {
-            res.status(404).render('404page');
+            res.redirect('/');
+            return;
         }
-
-
-
+        //end  if user does not exist
         });
-        conn.end();
+        //end  get user details
+        conn.release();
 
     });
-    //res.send("place order");
-
+    //end get pool connection 
 });
 
 
