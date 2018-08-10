@@ -11,10 +11,8 @@ var request= require('request');
 router.get('/order/payment/success/:order_id',function(req,res){
 
 	console.log('Waiting for order details');
-	setTimeout(function() {
 		pool.getConnection(function(err,conn){
 			if(err) console.log(err);
-
 
 			var payment_id=req.query.payment_id;
 			var payment_request_id=req.query.payment_request_id;
@@ -27,36 +25,52 @@ router.get('/order/payment/success/:order_id',function(req,res){
 				if(!error && response.statusCode == 200)
 				{
 					var payment_details=JSON.parse(response.body);
-					console.log(payment_details);
 					var status=payment_details.payment["status"];
-					console.log(status);
 					if(status=="Credit")
 					{
-
+						var  q2="SELECT payment_status FROM temp_order WHERE id="+mysql.escape(order_id);
+						conn.query(q2,function(err3,res3){
+							if(err3) console.log(err3);
+							if(res3.length==1)
+							{
+								if(res3[0].payment_status=='Credit')
+								{
+									console.log('payment Successful');
+								}
+								else if(res3[0].payment_status=="pending"){
+									console.log("payment is processing");
+								}
+								else{
+									console.log("Something is Wrong");
+									res.redirect('/');
+								}
+							}
+							else{
+								console.log("Something is Wrong");
+								res.redirect('/');
+							}
+						});
 					}
 					else{
-
+						console.log("Payment failed");
 					}
 					var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE id="+mysql.escape(order_id);
-					console.log(q);
 					conn.query(q,function(err2,res2){
 						if(err2) console.log(err2);
-console.log(res2);
 						if(res2.affectedRows==1)
 						{
 							console.log("payment status updated in temp_order table");
+							res.send("success");
 						}
 						else{
 							console.log("Something is Wrong");
 							res.redirect('/');
 							return;
 						}
-
 					});
 				}
 			});
 
-			res.send("success");
 			/*
 			var q="SELECT * FROM order_table WHERE payment_id="+mysql.escape(req.query.payment_id)+" && payment_request_id="+mysql.escape(req.query.payment_request_id);
 >>>>>>> 616deb483941097e91259d5260deb6e027b23ba2
@@ -83,7 +97,10 @@ console.log(res2);
 			conn.release();
 		});
 
+<<<<<<< HEAD
 	}, 15000);
+=======
+>>>>>>> 982caf8702c8c7f25ec3c848bfe3dc29ed4201f5
 
 });
 
