@@ -26,6 +26,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 				{
 					var payment_details=JSON.parse(response.body);
 					var status=payment_details.payment["status"];
+					
 					payment_status_from_instamojoFunction(status,order_id,function(){
 						console.log("front--> payment_status_from_instamojoFunction() called");
 						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE id="+mysql.escape(order_id);
@@ -130,10 +131,10 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
 		var q="SELECT * FROM temp_order WHERE id="+mysql.escape(order_id);
-		console.log("back-->"+q);
+		console.log("back-->query for order details "+q);
 		conn.query(q,function(err2,res){
 			if(err2) console.log(err2);
-			console.log("back-->"+res[0]);
+			console.log("back--> temp order details"+res[0]);
 			if(res.length==1)
 			{
 				var user_phone=res[0].user_phone;
@@ -162,6 +163,8 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				var amount_paid=req.body.amount;
 				var instamojo_fees=req.body.fees;
 				var mac=req.body.mac;
+
+				console.log(" webhook??status==> " +status);
 
 				if(payment_status_from_instamojo=="Credit")
 				{
