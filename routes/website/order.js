@@ -191,7 +191,9 @@ router.post('/order/place',isLoggedIn,function(req,res){
                         conn.query(q4,function(err5,res5){
                             if(err5) console.log(err5);
                             console.log("data inserted in temporary table");
-                            makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){});
+                            makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){
+                                console.log("makePayment() callback");
+                            });
                             
                         });
                         //end insert query
