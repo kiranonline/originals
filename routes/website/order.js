@@ -17,7 +17,7 @@ if(error) console.log(error);
     var query="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
     conn.query(query,function(err,result){
         if(err) console.log(err);
-
+        
         if(result.length==1)
         {
             var cart=JSON.parse(result[0]['cart']);
