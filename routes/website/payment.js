@@ -101,6 +101,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 
 
 router.post('/admin/order/placed/success/:order_id',function(req,res2){
+	console.log("webhook post request");
 	var order_id=req.params.order_id;
 	console.log("webhook post request");
 
@@ -142,37 +143,9 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 
 				if(payment_status_from_instamojo=="Credit")
 				{
-					if(status=='Credit')
-					{
-						payment_status="Credit";
-						order_status='placed';
-						console.log("order placed");
-						insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(ans){
-							if(ans==1)
-								console.log("Data inserted in order table");
-							else{
-									console.log("Something happened wrong");
-									console.log("data not updated in order table");
-								}
-						});
-
-
-					}
-					else{
-						payment_status="conflict";
-						order_status='conflict';
-						console.log('order_status is in conflict');
-						updateTempOrderTable(order_id,payment_status,order_status,function(ans){
-							if(ans==1)
-								console.log("Data updated in the temp_order");
-							else{
-									console.log("Something happened wrong");
-									console.log("data not updated in temp_order table");
-							}
-						});
-
-					}
-
+					check(status,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
+						console.log("When payment_status_from_instamojo==Credit");
+					});
 				}
 				//end   payment_status_from_instamojo=="Credit" case
 				else if(payment_status_from_instamojo=='"not_checked"')
@@ -187,98 +160,23 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 							var status_from_instamojo=payment_details.payment["status"];
 							if(status_from_instamojo=="Credit")
 							{
-								if(status=='Credit')
-								{
-									payment_status="Credit";
-									order_status='placed';
-									console.log("order placed");
-									insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(ans){
-										if(ans==1)
-											console.log("Data inserted in order table");
-										else{
-												console.log("Something happened wrong");
-												console.log("data not inserted in order table");
-											}
-									});									
-
-								}
-								else{
-									payment_status="conflict";
-									order_status='conflict';
-									console.log('order_status is in conflict');
-									updateTempOrderTable(order_id,payment_status,order_status,function(ans){
-										if(ans==1)
-											console.log("Data updated in the temp_order");
-										else{
-												console.log("Something happened wrong");
-												console.log("data not updated in temp_order table");
-										}
-									});
-								}
+								check(status,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
+									console.log("When payment_status_from_instamojo==Credit & api response=Credit");
+								});
 
 							}
 							else{
-									if(status=='Credit')
-									{
-										payment_status="conflict";
-										order_status='conflict';
-										console.log('order_status is in conflict');
-										updateTempOrderTable(order_id,payment_status,order_status,function(ans){
-											if(ans==1)
-												console.log("Data updated in the temp_order");
-											else{
-													console.log("Something happened wrong");
-													console.log("data not updated in temp_order table");
-											}
-										});
-
-									}
-									else{
-										payment_status="failed";
-										order_status='not placed';
-										console.log('order not placed');
-										updateTempOrderTable(order_id,payment_status,order_status,function(ans){
-											if(ans==1)
-												console.log("Data updated in the temp_order");
-											else{
-													console.log("Something happened wrong");
-													console.log("data not updated in temp_order table");
-											}
-										});
-									}
+								failed_conflict(status,order_id,order_status,payment_status,function(){
+									console.log("When payment_status_from_instamojo==not_checked & api response=failed");
+								});
 
 							}
 						}
 						//end if instamojo get request responds
 						else{
-							if(status=='Credit')
-							{
-								payment_status="conflict";
-								order_status='conflict';
-								console.log('order_status is in conflict');
-								updateTempOrderTable(order_id,payment_status,order_status,function(ans){
-									if(ans==1)
-										console.log("Data updated in the temp_order");
-									else{
-											console.log("Something happened wrong");
-											console.log("data not updated in temp_order table");
-									}
-								});
-							}
-							else{
-								payment_status="failed";
-								order_status='not placed';
-								console.log('order not placed');
-								updateTempOrderTable(order_id,payment_status,order_status,function(ans){
-									if(ans==1)
-										console.log("Data updated in the temp_order");
-									else{
-											console.log("Something happened wrong");
-											console.log("data not updated in temp_order table");
-									}
-								});
-
-							}
+							failed_conflict(status,order_id,order_status,payment_status,function(){
+								console.log("When payment_status_from_instamojo==not_checked &  & api response=nothing");
+							});
 
 						}
 						//end if instamojo get request does not responds
@@ -288,8 +186,13 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				}
 				//end   payment_status_from_instamojo=="not_checked" case
 				else{
+					failed_conflict(status,order_id,order_status,payment_status,function(){
+						console.log("When payment_status_from_instamojo==failed");
+					});
+
 
 				}
+				//end   payment_status_from_instamojo=="failed" case
 
 			}
 			//end order details found
@@ -381,6 +284,78 @@ function deleteRowFromTempOrderTable(order_id,callback){
 		});
 		
 	});
+}
+
+
+function check(status,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,callback)
+{
+	if(status=='Credit')
+	{
+		payment_status="Credit";
+		order_status='placed';
+		console.log("order placed.");
+		insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(ans){
+			if(ans==1)
+				console.log("Data inserted in order table");
+			else{
+					console.log("Something happened wrong");
+					console.log("data not updated in order table");
+				}
+				return callback();
+		});
+	}
+	else{
+		payment_status="conflict";
+		order_status='conflict';
+		console.log('order_status is in conflict.');
+		updateTempOrderTable(order_id,payment_status,order_status,function(ans){
+			if(ans==1)
+				console.log("Data updated in the temp_order");
+			else{
+					console.log("Something happened wrong");
+					console.log("data not updated in temp_order table");
+			}
+			return callback();
+		});
+
+	}
+	
+}
+
+function failed_conflict(status,order_id,order_status,payment_status,callback)
+{
+	if(status=='Credit')
+	{
+		payment_status="conflict";
+		order_status='conflict';
+		console.log('order_status is in conflict. ');
+		updateTempOrderTable(order_id,payment_status,order_status,function(ans){
+			if(ans==1)
+				console.log("Data updated in the temp_order");
+			else{
+					console.log("Something happened wrong");
+					console.log("data not updated in temp_order table");
+			}
+			return callback();
+		});
+	}
+	else{
+		payment_status="failed";
+		order_status='not placed';
+		console.log('order not placed');
+		updateTempOrderTable(order_id,payment_status,order_status,function(ans){
+			if(ans==1)
+				console.log("Data updated in the temp_order");
+			else{
+					console.log("Something happened wrong");
+					console.log("data not updated in temp_order table");
+			}
+			return callback();
+		});
+
+
+	}
+
 }
 
 module.exports=router;
