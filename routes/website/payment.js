@@ -13,7 +13,8 @@ router.get('/order/payment/success',function(req,res){
 	setTimeout(function() {
 		pool.getConnection(function(err,conn){
 			if(err) console.log(err);
-			var q="SELECT * FROM order_table WHERE payment_id="+mysql.escape(req.query.payment_id)+" && payment_request_id="+mysql.escape(req.query.payment_request_id);
+			console.log("hahahah");
+			var q="SELECT * FROM order_table WHERE payment_id="+mysql.escape(req.query.payment_id);
 			conn.query(q,function(err2,res2){
 				if(err2) console.log(err2);
 				if(res2.length==1)
@@ -36,7 +37,7 @@ router.get('/order/payment/success',function(req,res){
 			conn.release();
 		});
 
-	}, 7000);
+	}, 15000);
 
 });
 

@@ -25,16 +25,16 @@ const csp = require('express-csp-header');
 var ExpressBrute = require('express-brute');
 var SequelizeStore = require('express-brute-sequelize');
 var Sequelize = require('sequelize');
-/*
+
 var sequelize = new Sequelize('theoriginals_db1', 'admin_theoriginals', 'TheOriginals@13579', {                                                          host: "localhost",                                                    
     dialect: "mysql",                                                          
 logging: false                                                         
-  });  */
-  var sequelize = new Sequelize('localhost', 'root', '', {                                                          host: "localhost",                                                    
+  });  
+/*  var sequelize = new Sequelize('localhost', 'root', '', {                                                          host: "localhost",                                                    
     dialect: "mysql",                                                          
 logging: false                                                         
   });  
-
+*/
 
 //app initialization
 var app = express();
@@ -146,16 +146,16 @@ app.use(session({
         httpOnly: true
     },
     store:new MySQLStore({
-        host:'localhost',
+/*        host:'localhost',
         user:'root',
         password:'',
         database:'originals',
-        /*
+  */      
         host:'localhost',
         user:'admin_theoriginals',
         password:'TheOriginals@13579',
         database:'theoriginals_db1',
-        */
+        
         clearExpired: true,
         checkExpirationInterval: 6000,
         expiration: 3600000,
