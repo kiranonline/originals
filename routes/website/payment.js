@@ -10,7 +10,7 @@ var request= require('request');
 
 router.get('/order/payment/success/:order_id',function(req,res){
 
-	console.log('Waiting for order details');
+	console.log('front-->Waiting for order details');
 		pool.getConnection(function(err,conn){
 			if(err) console.log(err);
 
@@ -26,80 +26,98 @@ router.get('/order/payment/success/:order_id',function(req,res){
 				{
 					var payment_details=JSON.parse(response.body);
 					var status=payment_details.payment["status"];
-					if(status=="Credit")
-					{
-						var  q2="SELECT payment_status FROM temp_order WHERE id="+mysql.escape(order_id);
-						conn.query(q2,function(err3,res3){
-							if(err3) console.log(err3);
-							if(res3.length==1)
+					payment_status_from_instamojoFunction(status,order_id,function(){
+						console.log("front--> payment_status_from_instamojoFunction() called");
+						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE id="+mysql.escape(order_id);
+						conn.query(q,function(err2,res2){
+							if(err2) console.log(err2);
+							if(res2.affectedRows==1)
 							{
-								if(res3[0].payment_status=='Credit')
-								{
-									console.log('payment Successful');
-									var q="SELECT * FROM order_table WHERE id="+mysql.escape(order_id);
-									conn.query(q,function(err4,res2){
-										if(err4) console.log(err4);
-										if(res2.length==1)
-										{
-											var order_status=res2[0].order_status;
-											var order_id=res2[0].order_id;
-											var payment_id=res2[0].payment_id;
-											var timestamp=res2[0].date;
-											var total=res2[0].net_amount;
-											var delivery_charge=res2[0].delivery_charge;
-											var paid=res2[0].amount_paid;
-											var items_all=JSON.parse(res2[0].items);
-											var items=items_all["items"];
-											//res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,timestamp:timestamp,total:total,delivery_charge:delivery_charge,paid:paid,items:items});
-										}
-										else{
-											console.log("Something is Wrong");
-											res.redirect('/');
-											return;
-										}
-									});
-								}
-								else if(res3[0].payment_status=="pending"){
-									console.log("payment is processing");
-								}
-								else{
-									console.log("Something is Wrong");
-									res.redirect('/');
-									return;
-								}
+								console.log("front-->payment status updated in temp_order table");
+								//res.send("success");
 							}
 							else{
-								console.log("Something is Wrong");
-								res.redirect('/');
-								return;
+								console.log("front-->Something is Wrong");
+								//res.redirect('/');
+								//return;
 							}
 						});
-					}
-					else{
-						console.log("Payment failed");
-					}
-					var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE id="+mysql.escape(order_id);
-					conn.query(q,function(err2,res2){
-						if(err2) console.log(err2);
-						if(res2.affectedRows==1)
-						{
-							console.log("payment status updated in temp_order table");
-							res.send("success");
-						}
-						else{
-							console.log("Something is Wrong");
-							res.redirect('/');
-							return;
-						}
+
 					});
+					
+					
 				}
 			});
 			conn.release();
 		});
 
-
+		res.send("success");
 });
 
+
+function payment_status_from_instamojoFunction(status,order_id,callback)
+{
+	console.log("front-->payment_status_from_instamojoFunction() called");
+	if(status=="Credit")
+	{
+		var  q2="SELECT payment_status FROM temp_order WHERE id="+mysql.escape(order_id);
+		conn.query(q2,function(err3,res3){
+			if(err3) console.log(err3);
+			if(res3.length==1)
+			{
+				if(res3[0].payment_status=='Credit')
+				{
+					console.log('front-->payment Successful');
+					/*var q="SELECT * FROM order_table WHERE id="+mysql.escape(order_id);
+					conn.query(q,function(err4,res2){
+						if(err4) console.log(err4);
+						if(res2.length==1)
+						{
+							
+							var order_status=res2[0].order_status;
+							var order_id=res2[0].order_id;
+							var payment_id=res2[0].payment_id;
+							var timestamp=res2[0].date;
+							var total=res2[0].net_amount;
+							var delivery_charge=res2[0].delivery_charge;
+							var paid=res2[0].amount_paid;
+							var items_all=JSON.parse(res2[0].items);
+							var items=items_all["items"];
+
+							
+							//res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,timestamp:timestamp,total:total,delivery_charge:delivery_charge,paid:paid,items:items});
+						}
+						else{
+							console.log("Something is Wrong");
+							//res.redirect('/');
+							return;
+						}
+					});*/
+				}
+				else if(res3[0].payment_status=="pending"){
+					console.log("front-->payment is processing..pending+credit=processing");
+				}
+				else{
+					console.log("front-->Something is Wrong..failed+creadit=??");
+					//res.redirect('/');
+					//return;
+				}
+			}
+			else{
+				console.log("front-->Something is Wrong.invalid order_id");
+				//res.redirect('/');
+				//return;
+			}
+			return callback();
+		});
+	}
+	//end if status Credit
+	else{
+		console.log("front-->Payment failed..api gives failed response");
+		return callback();
+	}
+	
+}
 
 router.post('/admin/order/placed/success/:order_id',function(req,res2){
 	console.log("webhook post request");
