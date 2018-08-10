@@ -53,7 +53,7 @@ router.get('/profile',isLoggedIn,(req,res)=>{
 
 //get wallet page
 router.get('/wallet',isLoggedIn,(req,res)=>{
-    res.send('My wallet');
+    res.render('user/wallet',{});
 });
 
 
