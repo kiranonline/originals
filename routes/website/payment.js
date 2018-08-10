@@ -97,11 +97,6 @@ router.get('/order/payment/success/:order_id',function(req,res){
 			conn.release();
 		});
 
-<<<<<<< HEAD
-	}, 15000);
-=======
->>>>>>> 982caf8702c8c7f25ec3c848bfe3dc29ed4201f5
-
 });
 
 
