@@ -4,6 +4,7 @@ var path = require('path');
 var mysql = require('mysql');
 var pool = require(path.join(__dirname, '/../../dependencies/connection.js'));
 var router=express.Router();
+var request= require('request');
 
 
 
@@ -13,8 +14,24 @@ router.get('/order/payment/success',function(req,res){
 	setTimeout(function() {
 		pool.getConnection(function(err,conn){
 			if(err) console.log(err);
-			console.log("hahahah");
-			var q="SELECT * FROM order_table WHERE payment_id="+mysql.escape(req.query.payment_id);
+
+
+			var payment_id=req.query.payment_id;
+			var payment_request_id=req.query.payment_request_id;
+
+
+			var headers = { 'X-Api-Key': 'test_da22573aae638ce3fcb53c15f4f', 'X-Auth-Token': 'test_a0e09af12f77bfc6acded07115c'}
+			request.get(
+			'https://test.instamojo.com/api/1.1/payments/'+payment_id+"/",
+			{form: payload,  headers: headers}, function(error, response, body){
+				if(!error && response.statusCode == 200)
+					{console.log(body)}
+			});
+
+			res.send("success");
+			/*
+			var q="SELECT * FROM order_table WHERE payment_id="+mysql.escape(req.query.payment_id)+" && payment_request_id="+mysql.escape(req.query.payment_request_id);
+>>>>>>> 616deb483941097e91259d5260deb6e027b23ba2
 			conn.query(q,function(err2,res2){
 				if(err2) console.log(err2);
 				if(res2.length==1)
@@ -34,6 +51,7 @@ router.get('/order/payment/success',function(req,res){
 					res.res(404);
 				}
 			});
+			*/
 			conn.release();
 		});
 
