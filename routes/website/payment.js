@@ -8,7 +8,7 @@ var request= require('request');
 
 
 
-router.get('/order/payment/success:order_id',function(req,res){
+router.get('/order/payment/success/:order_id',function(req,res){
 
 	console.log('Waiting for order details');
 	setTimeout(function() {
@@ -26,18 +26,16 @@ router.get('/order/payment/success:order_id',function(req,res){
 			{ headers: headers}, function(error, response, body){
 				if(!error && response.statusCode == 200)
 				{
-					var payment_details=JSON.parse(request.body);
-					console.log(payment_details);
+					var payment_details=JSON.parse(response.body);
 					var status=payment_details.payment["status"];
-					console.log(status);
 					if(status=="Credit")
 					{
-
+						console.log("Payment status pending");
 					}
 					else{
-
+						console.log("Payment failed");
 					}
-					var q="INSERT INTO temp_order (payment_status_from_instamojo) VALUES ("+mysql.escape(status)+") WHERE order_id="+mysql.escape(order_id);
+					var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE id="+mysql.escape(order_id);
 					conn.query(q,function(err2,res2){
 						if(err2) console.log(err2);
 						if(res2.affectedRows==1)
@@ -46,7 +44,7 @@ router.get('/order/payment/success:order_id',function(req,res){
 						}
 						else{
 							console.log("Something is Wrong");
-							res.redirect('/');
+							res.redirect('http://the-originals.in/');
 							return;
 						}
 
