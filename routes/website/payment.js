@@ -126,7 +126,6 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 router.post('/admin/order/placed/success/:order_id',function(req,res2){
 	console.log("webhook post request");
 	var order_id=req.params.order_id;
-	console.log("webhook post request");
 
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
