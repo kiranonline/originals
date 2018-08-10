@@ -27,10 +27,12 @@ router.get('/order/payment/success:order_id',function(req,res){
 				if(!error && response.statusCode == 200)
 				{
 					var payment_details=JSON.parse(request.body);
+					console.log(payment_details);
 					var status=payment_details.payment["status"];
 					console.log(status);
 					if(status=="Credit")
 					{
+
 					}
 					else{
 
