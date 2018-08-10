@@ -20,11 +20,12 @@ var payload = {
 request.post('https://test.instamojo.com/api/1.1/payment-requests/', {form: payload,  headers: headers}, function(error, response, body){
 var x=JSON.parse(response.body);
 if(!error && response.statusCode == 201){
-    con.log('i will redirect you to success page');
+    console.log('i will redirect you to success page');
     res.redirect(x.payment_request["longurl"]);
+    return callback();
+
   }
 });
-return callback();
 
 }
 

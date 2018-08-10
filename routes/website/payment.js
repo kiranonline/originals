@@ -50,7 +50,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 											var paid=res2[0].amount_paid;
 											var items_all=JSON.parse(res2[0].items);
 											var items=items_all["items"];
-											res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,timestamp:timestamp,total:total,delivery_charge:delivery_charge,paid:paid,items:items});
+											//res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,timestamp:timestamp,total:total,delivery_charge:delivery_charge,paid:paid,items:items});
 										}
 										else{
 											console.log("Something is Wrong");
@@ -160,13 +160,13 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 							if(status_from_instamojo=="Credit")
 							{
 								check(status,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
-									console.log("When payment_status_from_instamojo==Credit & api response=Credit");
+									console.log("When payment_status_from_instamojo==not_checked status==Credit & api response=Credit");
 								});
 
 							}
 							else{
 								failed_conflict(status,order_id,order_status,payment_status,function(){
-									console.log("When payment_status_from_instamojo==not_checked & api response=failed");
+									console.log("When payment_status_from_instamojo==not_checked & status=failed & api response=failed");
 								});
 
 							}
