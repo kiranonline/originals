@@ -423,7 +423,7 @@ function failed_conflict(status_var,order_id,order_status,payment_status,callbac
 }
 function emptyCart(user_phone,callback)
 {
-	var cart="{'items':'[]'}";
+	var cart="{\"items\":[]}";
 	pool.getConnection(function(err,conn){
 		if(err)  console.log(err);
 		var q="UPDATE  user_list SET cart="+mysql.escape(cart)+" WHERE phone="+user_phone;
