@@ -116,7 +116,7 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 					}
 				}
 				else{
-					console.log("front-->Something is Wrong.invalid order_id");
+					console.log("front-->Something is Wrong.invalid order_id....or row deleted");
 					//res.redirect('/');
 					//return;
 				}
@@ -253,6 +253,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 		//end get order details from temp_order
 		conn.release();
 	});
+	res.send("done");
 	//end pool
 });
 
