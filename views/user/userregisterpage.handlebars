@@ -46,6 +46,9 @@
                
                 </div>
             </form>
+            <button class="btn login waves-effect waves-light light-blue darken-4" onclick="login('/login/facebook')"><i class="fa fa-facebook-f"></i> LOGIN WITH FACEBOOK</button>
+               
+            <button class="btn login waves-effect waves-light deep-orange darken-3" onclick="login('/login/google')" ><i class="fa fa-google-plus"></i> LOGIN WITH GOOGLE</button>
         </div>
         
         
@@ -117,6 +120,7 @@
                   
                 </div>
             </form>
+            
         </div>
     </div>
 </body>
@@ -125,4 +129,9 @@
     <script src="/js/defaultpage/materialize.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
 <script src="/js/user/userreg.js"></script>
+<script>
+    function login(target){
+        window.location.replace(target);
+    }
+</script>
 </html>

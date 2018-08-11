@@ -39,7 +39,7 @@ router.post('/new',isLoggedIn,(req,res)=>{
             if(err){
                 console.log(err);
             }
-            res.redirect('/profile');
+            res.redirect('/profile/?msg=Address Added&s=address');
         });
 
 
@@ -72,7 +72,7 @@ router.get('/delete/:id',isLoggedIn,(req,res)=>{
                 if(res1.length==1){
                     var q2="DELETE FROM address WHERE id="+mysql.escape(id);
                     conn.query(q2,(err,res2)=>{
-                        res.redirect('/profile');
+                        res.redirect('/profile/?msg=Address Deleted Successfully&s=address');
                     });
                 }
             });

@@ -13,10 +13,12 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const fileUpload = require('express-fileupload');
 const fs =  require('fs');
-const flash = require('express-flash');
+var flash = require('connect-flash');
 var uniqid = require('uniqid');
 var passport = require('passport');
 var LocalStrategy  = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 // var csurf = require('csurf');
 var helmet = require('helmet');
 const csp = require('express-csp-header');
@@ -122,7 +124,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 //cookie parsor
 app.use(expressValidator());
-app.use(cookieParser('secret'));
+
 
 /*
 var csrf = csurf({ cookie: true });
@@ -133,11 +135,11 @@ app.use(csrf);
 app.use(fileUpload());
 
 
-
+app.use(cookieParser('secret_The_Originals'));
 //session
 app.use(session({
     key: 'session_originals',
-    secret: 'keyboard cat',
+    secret: 'secret_The_Originals',
     resave: false,
     saveUninitialized: false,
     unset: 'destroy',
@@ -175,6 +177,9 @@ app.use(session({
 
 
   }));
+ 
+  app.use(flash());
+
 
 
   //
@@ -183,7 +188,6 @@ app.use(session({
 
 
     //flash message
-    app.use(flash());
 
 
 
