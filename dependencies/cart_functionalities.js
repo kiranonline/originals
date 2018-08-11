@@ -50,7 +50,7 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
         }
     };
     add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
-
+        return callback();
     });
 }
 
