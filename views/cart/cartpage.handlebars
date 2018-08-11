@@ -70,10 +70,10 @@ $(document).on('scroll', function() {
 var x= $('#footer_').position().top;
 
     if( $(this).scrollTop() >=( x-100) ){
-        $('.chkbtn').fadeOut();
+        $('.checkoutbtn').fadeOut();
     }
     if( $(this).scrollTop() < (x-100) ){
-        $('.chkbtn').fadeIn();
+        $('.checkoutbtn').fadeIn();
     }
 });
 
@@ -94,7 +94,7 @@ var x= $('#footer_').position().top;
                     if(res["length"]==0)
                     {
                         $('#empty_cart').css('display','block');
-                        //$('.checkoutbtn').hide();
+                        $('.checkoutbtn').hide();
                         $('.checkoutbtn').css('display','none');
                     }
                 }
