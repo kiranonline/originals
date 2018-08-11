@@ -426,7 +426,7 @@ function emptyCart(user_phone,callback)
 	var cart="{\"items\":[]}";
 	pool.getConnection(function(err,conn){
 		if(err)  console.log(err);
-		var q="UPDATE  user_list SET cart="+mysql.escape(cart)+" WHERE phone="+user_phone;
+		var q="UPDATE  userlist SET cart="+mysql.escape(cart)+" WHERE phone="+user_phone;
 		conn.query(q,function(err2,res){
 			if(err2) console.log(err2);
 			if(res.affectedRows==1){
