@@ -145,7 +145,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 			console.log("temp order details length ="+res.length);
 			if(res.length==1)
 			{
-				var user_phone=res[0].user_phone;
+				var user_id=res[0].user_id;
 				var items=res[0].items;
 				var total_price=res[0].total_price;
 				var promocode=res[0].promocode;
@@ -172,7 +172,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				var instamojo_fees=req.body.fees;
 				var mac=req.body.mac;
 
-				console.log("back--> from temp-->user_phone= "+user_phone);
+				console.log("back--> from temp-->user_id= "+user_id);
 				console.log("back--> from temp-->payment_status_from_instamojo= "+payment_status_from_instamojo);
 				
 				console.log(" webhook??status_var==> " +status_var);
@@ -182,7 +182,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				if(payment_status_from_instamojo=="Credit")
 				{
 					console.log("back-->case1");
-					check(status_var,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
+					check(status_var,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
 						console.log("back-->When payment_status_from_instamojo==Credit");
 						res2.send("done");
 					});
@@ -204,7 +204,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 							if(status_from_instamojo=="Credit")
 							{
 								console.log("back-->status_from_instamojo"+status_from_instamojo);
-								check(status_var,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
+								check(status_var,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
 									console.log("back-->When payment_status_from_instamojo==not_checked status_var==Credit & api response=Credit");
 									res2.send("done");
 								});
@@ -264,7 +264,7 @@ function insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,di
 {
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
-		var q1="INSERT INTO order_table VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_phone)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+","+mysql.escape(payment_id)+","+mysql.escape(longurl)+","+mysql.escape(amount_paid)+","+mysql.escape(instamojo_fees)+","+mysql.escape(mac)+");";
+		var q1="INSERT INTO order_table VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+","+mysql.escape(payment_id)+","+mysql.escape(longurl)+","+mysql.escape(amount_paid)+","+mysql.escape(instamojo_fees)+","+mysql.escape(mac)+");";
 		console.log(q1);				
 		conn.query(q1,function(err3,res3)
 		{
@@ -274,15 +274,16 @@ function insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,di
 				deleteRowFromTempOrderTable(order_id,function(ans){
 					if(ans==1)
 					{
-						emptyCart(user_phone,function(ans){
+						emptyCart(user_id,function(ans){
 							if(ans==1){
 								console.log("cart is emptied");
 							}
 							else{
 								console.log("cart was not emptied");
 							}
+							console.log("row deleted from temp_order");
 						});
-						console.log("row deleted from temp_order");
+						
 					}
 					else{
 						console.log("row was not deleted from temp_order");
@@ -347,7 +348,7 @@ function deleteRowFromTempOrderTable(order_id,callback){
 }
 
 
-function check(status_var,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,callback)
+function check(status_var,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,callback)
 {
 	if(status_var=='Credit')
 	{
@@ -355,7 +356,7 @@ function check(status_var,order_id,user_phone,items,total_price,promocode,discou
 		payment_status="Credit";
 		order_status='placed';
 		console.log("order placed.");
-		insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(ans){
+		insertIntoOrderTable(order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(ans){
 			if(ans==1)
 				console.log("Data inserted in order table");
 			else{
@@ -418,12 +419,12 @@ function failed_conflict(status_var,order_id,order_status,payment_status,callbac
 		});
 	}
 }
-function emptyCart(user_phone,callback)
+function emptyCart(user_id,callback)
 {
 	var cart="{\"items\":[]}";
 	pool.getConnection(function(err,conn){
 		if(err)  console.log(err);
-		var q="UPDATE  userlist SET cart="+mysql.escape(cart)+" WHERE phone="+user_phone;
+		var q="UPDATE  userlist SET cart="+mysql.escape(cart)+" WHERE user_id="+mysql.escape(user_id);
 		conn.query(q,function(err2,res){
 			if(err2) console.log(err2);
 			if(res.affectedRows==1){
