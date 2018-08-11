@@ -121,7 +121,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                         delivery_charge=sum2;
                         getTotalCashback(cart_items_array,function(sum3){
                             cashback_for_items=sum3;
-                            promocodeAddressValidation(user_phone,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,function(){
+                            promocodeAddressValidation(user_phone,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,function(){
 
                             });
                         });
@@ -144,7 +144,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
 });
 
 
-function promocodeAddressValidation(user_phone,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,callback)
+function promocodeAddressValidation(user_phone,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,callback)
 {
     pool.getConnection(function(errr,conn){
         if(errr) console.log(errr);
@@ -203,6 +203,9 @@ function promocodeAddressValidation(user_phone,order_id,user_id,items,total_pric
 
             }
             //end if promocode invalid
+
+            var address;
+            var address_contact;
             net_amount_with_delivery_charge=net_amount+delivery_charge;
             var q3="SELECT * FROM address WHERE id="+mysql.escape(address_id)+" && user_id="+mysql.escape(user_id);
             conn.query(q3,function(err4,res4){
