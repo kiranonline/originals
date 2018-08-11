@@ -1,6 +1,5 @@
 var request= require('request');
 
-
 function makePayment(res,order_id,purpose,amount,phone,buyer_name,email,callback)
 {  
   console.log("makePayment() called");
