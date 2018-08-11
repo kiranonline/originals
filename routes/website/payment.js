@@ -73,8 +73,8 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 			console.log(q2);
 			conn.query(q2,function(err3,res3){
 				if(err3) console.log(err3);
-				console.log(res3[0]);
-				console.log("payment_status from temp_order"+res3);
+				console.log("json payment_status from temp_order"+res3[0]);
+				console.log("payment_status from temp_order"+res3[0].payment_status);
 				if(res3.length==1)
 				{
 					if(res3[0].payment_status=='Credit')
