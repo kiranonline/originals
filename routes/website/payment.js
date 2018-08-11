@@ -184,7 +184,6 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				if(payment_status_from_instamojo=="Credit")
 				{
 					console.log("back-->case1");
-					console.log("back-->payment_status_from_instamojo ="+payment_status_from_instamojo+" status_var"+status_var);
 					check(status_var,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
 						console.log("back-->When payment_status_from_instamojo==Credit");
 					});
@@ -199,10 +198,10 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 					{ headers: headers}, function(error, response, body){
 						if(!error && response.statusCode == 200)
 						{
-							console.log("back-->payment_status_from_instamojo"+payment_status_from_instamojo);
+							console.log("back--> api responded");
 							var payment_details=JSON.parse(response.body);
-							console.log("back-->"+payment_details);
 							var status_from_instamojo=payment_details.payment["status"];
+							console.log("status_from_instamojo ="+status_from_instamojo);
 							if(status_from_instamojo=="Credit")
 							{
 								console.log("back-->status_from_instamojo"+status_from_instamojo);
@@ -212,7 +211,6 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 
 							}
 							else{
-								console.log("back-->status_from_instamojo"+status_from_instamojo);
 								failed_conflict(status_var,order_id,order_status,payment_status,function(){
 									console.log("back-->When payment_status_from_instamojo==not_checked & status_var=failed & api response=failed");
 								});
