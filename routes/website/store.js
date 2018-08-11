@@ -12,6 +12,7 @@ var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin
 
 //fetching homepage
 router.get('/', function (req, res) {
+    console.log('I am');
     var q1 = "SELECT * FROM carousel_main";
     var carouseldata, card_, tee_, choco_;
     pool.getConnection((err,conn)=>{

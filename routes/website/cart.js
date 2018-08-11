@@ -22,13 +22,13 @@ router.get('/cart',isLoggedIn,(req,res)=>{
         if(err){
             console.log(err);
         }
-        var query="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
+        var query="SELECT cart FROM userlist WHERE user_id="+mysql.escape(req.session.passport["user"]);
         conn.query(query,function(err,result){
             if(err) console.log(err);
-
             if(result.length==1)
             {
-                var cart=JSON.parse(result[0]['cart']);
+                console.log(result[0]);
+                var cart=JSON.parse(result[0]["cart"]);
                 console.log(cart);
                 var cart_items_array=cart["items"];
                 var btnEnable=false;
@@ -48,6 +48,18 @@ router.get('/cart',isLoggedIn,(req,res)=>{
     });
     
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 router.post('/cart/add',function(req,res){
@@ -83,7 +95,7 @@ else{
                 var cashback=result[0].cashback;
                 var delivery_charge=result[0].delivery_charge;
     
-                var q="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
+                var q="SELECT cart FROM userlist WHERE user_id="+mysql.escape(req.session.passport["user"]);
                 conn.query(q,function(err2,result2){
     
                     if(err2) console.log(err2);
@@ -120,7 +132,7 @@ router.post('/cart/remove',isLoggedIn,(req,res)=>{
         if(err){
             console.log(err);
         }
-        var q="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
+        var q="SELECT cart FROM userlist WHERE user_id="+mysql.escape(req.session.passport["user"]);
         conn.query(q,function(err2,result2){
     
             if(err2) console.log(err2);
@@ -161,7 +173,7 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                 var id=req.body.id;
                 var value=req.body.value;
     
-                var q="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
+                var q="SELECT cart FROM userlist WHERE user_id="+mysql.escape(req.session.passport["user"]);
                 conn.query(q,function(err2,result2){
                     if(err2) console.log(err2);
                         
@@ -200,7 +212,7 @@ router.post('/cart/total',isLoggedIn,(req,res)=>{
         if(err){
             console.log(err);
         }
-        var q="SELECT cart FROM userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
+        var q="SELECT cart FROM userlist WHERE user_id="+mysql.escape(req.session.passport["user"]);
         conn.query(q,function(err2,result2){
             if(err2) console.log(err2);
 
