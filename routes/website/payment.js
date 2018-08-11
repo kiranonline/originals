@@ -416,10 +416,7 @@ function failed_conflict(status_var,order_id,order_status,payment_status,callbac
 			}
 			return callback();
 		});
-
-
 	}
-
 }
 function emptyCart(user_phone,callback)
 {
@@ -441,5 +438,6 @@ function emptyCart(user_phone,callback)
 		});
 	});
 }
+
 
 module.exports=router;

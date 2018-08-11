@@ -23,7 +23,6 @@ if(!error && response.statusCode == 201){
     return callback();
   }
 });
-
 }
 
 module.exports=makePayment;
