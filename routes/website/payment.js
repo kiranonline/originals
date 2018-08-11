@@ -185,6 +185,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 					console.log("back-->case1");
 					check(status_var,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
 						console.log("back-->When payment_status_from_instamojo==Credit");
+						res2.send("done");
 					});
 				}
 				//end   payment_status_from_instamojo=="Credit" case
@@ -206,12 +207,14 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 								console.log("back-->status_from_instamojo"+status_from_instamojo);
 								check(status_var,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
 									console.log("back-->When payment_status_from_instamojo==not_checked status_var==Credit & api response=Credit");
+									res2.send("done");
 								});
 
 							}
 							else{
 								failed_conflict(status_var,order_id,order_status,payment_status,function(){
 									console.log("back-->When payment_status_from_instamojo==not_checked & status_var=failed & api response=failed");
+									res2.send("done");
 								});
 
 							}
@@ -221,6 +224,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 							console.log("back-->api response X");
 							failed_conflict(status_var,order_id,order_status,payment_status,function(){
 								console.log("back-->When payment_status_from_instamojo==not_checked &  & api response=nothing");
+								res2.send("done");
 							});
 
 						}
@@ -235,6 +239,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 					console.log("back-->payment_status_from_instamojo"+payment_status_from_instamojo);
 					failed_conflict(status_var,order_id,order_status,payment_status,function(){
 						console.log("back-->When payment_status_from_instamojo==failed");
+						res2.send("done");
 					});
 
 
@@ -252,7 +257,6 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 		//end get order details from temp_order
 		conn.release();
 	});
-	res.send("done");
 	//end pool
 });
 
