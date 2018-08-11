@@ -159,7 +159,7 @@ function updateQuery(dict,req,callback)
         if(err){
             console.log(err);
         }
-        var query="UPDATE  userlist SET cart="+mysql.escape(JSON.stringify(dict))+" WHERE phone="+mysql.escape(req.session.passport["user"]);
+        var query="UPDATE  userlist SET cart="+mysql.escape(JSON.stringify(dict))+" WHERE user_id="+mysql.escape(req.session.passport["user"]);
         conn.query(query,function(err,result){
     
             if(err) throw err

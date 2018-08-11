@@ -8,8 +8,7 @@
 .wallet-amount{
     margin: auto;
     width:300px;
-    /*background: url('/logos/wallet.png');*/
-    background:linear-gradient(0deg,rgba(255,0,150,0.3),rgba(255,0,150,0.3)),url(http://lorempixel.com/800/600/nature/2);
+    background: url('/logos/wallet.png');
     background-position: center; 
     background-repeat: no-repeat;
     background-origin: content-box;
@@ -17,6 +16,40 @@
     height:300px;
     border-radius: 50%;
 }
+.amount{
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+        
+}
+.amount span{
+    color:white;
+    font-size: 80px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+.wallet-body{
+
+}
+.wallet-header{
+    font-size: 40px;
+    padding:20px;
+}
+.transactions{
+    text-align: left !important;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -31,6 +64,10 @@
         width:250px;
         height:250px;
     }
+    .amount span{
+        font-size: 50px;
+        
+    }
 
     
     
@@ -39,6 +76,8 @@
 
 
 }
+
+
 
 
 
@@ -54,6 +93,11 @@
         width:200px;
         height:200px;
     }
+    .amount span{
+        font-size: 40px;
+        
+    }
+
 
 
 

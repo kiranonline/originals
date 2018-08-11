@@ -10,7 +10,7 @@
 			<ul class="collection card my-account-left-slot">
 
 				<li class="collection-item avatar valign-wrapper">
-					<img src="logos/user.png" alt="user" class="circle my-account-icon">
+					<img src="/logos/user.png" alt="user" class="circle my-account-icon">
 					<span class="title">Kiran Kumar Das</span>
 				</li>
 
@@ -47,7 +47,7 @@
 
 
 				<li class="collection-item avatar valign-wrapper" onclick="GoTo('/logout')">
-						<img src="logos/log_out.png" alt="user" class="circle my-account-icon">
+						<img src="/logos/log_out.png" alt="user" class="circle my-account-icon">
 						<span class="title">Log Out</span>
 				</li>
 
@@ -70,13 +70,13 @@
 				
 				<hr>
 				
-				<form method="POST" class="my-account-form">
+				<form method="POST" class="my-account-form" action="/profile/update">
 					
 					<div class="row">
 							
 						<div class="input-field col s12 m12 l12 xl12">
 							<i class="material-icons prefix">account_circle</i>
-							<input disabled value="{{user.name}}" id="user_first_name" type="text" class="validate editable">
+							<input disabled value="{{user.name}}" id="user_first_name" name="name" type="text" class="validate editable">
 							<label for="user_first_name" class="purple-text text-darken-4">Name </label>
 						</div>
 
@@ -87,15 +87,14 @@
 							
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">event</i>
-							<input disabled value="{{user.age}}" id="dob" type="number" class="validate editable">
+							<input disabled value="{{user.age}}" id="dob" name="age" type="number" class="validate editable">
 							<label for="dob" class="purple-text text-darken-4">Age</label>
 						</div>
 	
 						<div class="input-field col s12 m6 l6 xl6">
-							<i class=" prefix"><img src="logos/gender.png" width="28" height="28"></i>
-							<select id="gender" disabled class="validate editable">
-								<option disabled selected>{{user.gender}}</option>
-								<option value="male">male</option>
+							<i class=" prefix"><img src="/logos/gender.png" width="28" height="28"></i>
+							<select id="gender" disabled class="validate editable" name="gender">
+								<option selected value="{{user.gender}}">{{user.gender}}</option>
 								<option value="female">female</option>
 							</select>
 							<label class="purple-text text-darken-4">Gender</label>
@@ -107,13 +106,13 @@
 							
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">phone</i>
-							<input disabled value="{{user.phone}}" id="user_phone_number" type="number" class="validate">
+							<input disabled value="{{user.phone}}" id="user_phone_number" name="phone" type="number" class="validate" >
 							<label for="user_phone_number" class="purple-text text-darken-4">Phone Number </label>
 						</div>
 	
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">email</i>
-							<input disabled value="{{user.email}}" id="user_email_id" type="email" class="validate">
+							<input disabled value="{{user.email}}" id="user_email_id" name="email" type="email" class="validate">
 							<label for="user_email_id" class="purple-text text-darken-4">Email Id</label>
 						</div>
 	
@@ -126,7 +125,7 @@
 					</div>
 
 					<div class="row right-align">
-						<button class="waves-effect waves-light btn submit-button modal-trigger" href="#passwordchange">Change Password
+						<button class="waves-effect waves-light btn submit-button modal-trigger changepassword" href="#passwordchange">Change Password
 							<i class="material-icons right">edit</i>
 						</button>
 					</div>
@@ -445,18 +444,114 @@
 <script src="/js/user/profile.js"></script>
 <script>
 
-
-	function GoTo(url){
-        window.location.replace(url);
-    }
-
-
 	//delete request
     function deleteAddress(id){
         window.location.replace('/address/delete/'+id);
     }
+		function GoTo(url){
+        window.location.replace(url);
+    }
 
 
+
+$(document).ready(function(){
+
+	
+
+	
+
+	$('#activate-edit').on('click',function(){
+        $('.editable').removeAttr("disabled");
+        $('.submit-button').removeClass('hide');
+        $('#gender').formSelect();
+		if($('#user_phone_number').val()==''){
+			$('#user_phone_number').removeAttr('disabled');
+		}
+		if($('#user_email_id').val()==''){
+			$('#user_email_id').removeAttr('disabled');
+		}
+	
+        //M.Modal.getInstance($('#passwordchange')).open();
+    });
+
+
+
+
+
+
+	{{#if msg}}
+		var msg='{{msg}}';
+		console.log(msg);
+		M.toast({html:msg ,classes:'rounded padding'});
+	{{/if}}
+
+
+
+
+
+
+
+    var pages = ["#personaldetails","#addresssection","#referalsection","#myordersection"]
+    var page_controllers =[".openpersonaldetails",".openaddresssection",".openreferalsection",".openmyordersection"];
+    //initiating page changing function
+    function alterpage(activebutton,activepage){
+        var array_len = pages.length;
+       for(var i=0;i<array_len;i++){
+           $(pages[i]).css('display','none');
+           $(page_controllers[i]).removeClass('active-menu');
+       }
+       $(activepage).css('display','block');
+       $(activebutton).addClass('active-menu');
+    }
+    
+
+    $(".openpersonaldetails").on("click",function(){
+        alterpage(".openpersonaldetails",'#personaldetails');
+    });
+    $(".openaddresssection").on("click",function(){
+        alterpage(".openaddresssection","#addresssection");
+    });
+    $(".openreferalsection").on("click",function(){
+        alterpage(".openreferalsection","#referalsection");
+    });
+    $(".openmyordersection").on("click",function(){
+        alterpage(".openmyordersection","#myordersection");
+    });
+
+
+
+
+	
+    console.log('{{section}}');
+	if('{{section}}'=='address'){
+		alterpage(".openaddresssection","#addresssection");
+	}
+	else if('{{section}}'=='order'){
+		alterpage(".openmyordersection","#myordersection");
+	}
+	else{
+		alterpage(".openpersonaldetails",'#personaldetails');
+	}
+
+
+
+
+
+	if('{{userType}}'=='google' || '{{userType}}'=='facebook'){
+		$('.changepassword').css('display','none');
+	}
+	else{
+		$('.changepassword').css('display','block');	
+	}
+	
+
+
+
+});
+	
+
+
+	
 
 
 </script>

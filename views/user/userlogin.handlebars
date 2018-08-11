@@ -28,6 +28,9 @@
                 <div class="form-container form-holder">
                      <img class="responsive-img login-logo" src="/logos/logo2.png">
                     <div class="row">
+                        {{#if error}}
+                            <p class="center red-text">{{error}}</p>
+                        {{/if}}
                         <div class="input-field col s12">
                             <input id="phone" name="phone" type="number" class="validate">
                             <label for="phone">Phone Number</label>
@@ -42,10 +45,15 @@
                     <br>
              
                         <button class="btn login waves-effect waves-light purple darken-2" type="submit" name="action">Login</button>
-                        <br>
-               
+                      
+
+                         
+
                 </div>
             </form>
+            <button class="btn login waves-effect waves-light light-blue darken-4" onclick="login('/login/facebook')"><i class="fa fa-facebook-f"></i> LOGIN WITH FACEBOOK</button>
+               
+            <button class="btn login waves-effect waves-light deep-orange darken-3" onclick="login('/login/google')" ><i class="fa fa-google-plus"></i> LOGIN WITH GOOGLE</button>
         </div>
         
         
@@ -125,4 +133,11 @@
     {{!-- <script src="/js/defaultpage/materialize.min.js"></script> --}}
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
 <script src="/js/user/userreg.js"></script>
+
+
+<script>
+    function login(target){
+        window.location.replace(target);
+    }
+</script>
 </html>

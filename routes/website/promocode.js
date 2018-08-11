@@ -11,7 +11,7 @@ router.post('/check',isLoggedIn,function(req,res){
 
     pool.getConnection(function(err,conn){
         if(err) console.log(err);
-        var q="SELECT * from userlist WHERE phone="+mysql.escape(req.session.passport["user"]);
+        var q="SELECT * from userlist WHERE user_id="+mysql.escape(req.session.passport["user"]);
         conn.query(q,function(err2,res2){
         if(err2) console.log(err2);
 
