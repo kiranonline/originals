@@ -42,16 +42,19 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
 
                     updateQuery(dict,req,function(){
                         console.log("updateQuery() callback");
+                        return callback();
                     });
-                    return callback();
+                    
                 }
             }
         }
     };
-    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge);
+    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+        return callback();
+    });
 }
 
-function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge)
+function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {    
     var obj=new items(item_id,item_name,item_type,1,size,color,price,image,cashback,delivery_charge);
 var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type":obj.item_type,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"total":obj.total,"image":obj.image,"cashback":obj.cashback,"delivery_charge":obj.delivery_charge,"total_delivery_charge":obj.total_delivery_charge};
@@ -62,6 +65,7 @@ var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type
     updateQuery(dict,req,function(){
         console.log("new itam added to cart");
         console.log("updateQuery() callback");
+        return callback();
     });
                   
 }
@@ -80,8 +84,9 @@ function remove(req,id,cart_items_array,callback)
             updateQuery(dict,req,function(){
                 console.log("item removed from cart");
                 console.log('updateQuery() callback');
+                return callback(len); 
             });
-            return callback(len);           
+                      
         }       
     }
 }
@@ -111,8 +116,9 @@ function increase_decrease(req,id,cart_items_array,value,callback)
             var dict={"items":cart_items_array};
             updateQuery(dict,req,function(){
                 console.log('updateQuery() callback');
+                return callback(total_price,total_no);
             });
-            return callback(total_price,total_no);        
+                    
         }        
     }
 }
@@ -167,16 +173,18 @@ function updateQuery(dict,req,callback)
             {
                 console.log("New Cart:\n");
                 console.log(dict);
+                
             }
             else{
                 console.log("Data Not updated");
             }
+            return callback();
         });
         conn.release();
 
     });
 
-    return callback();
+    
     
 }
 
