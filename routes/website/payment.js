@@ -133,7 +133,7 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 
 router.post('/admin/order/placed/success/:order_id',function(req,res2){
 	console.log("back-->webhook post request");
-	var order_id=req.params.order_id;
+	var order_id=req.params.order_id;	
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
 		var q="SELECT * FROM temp_order WHERE id="+mysql.escape(order_id);
@@ -274,6 +274,14 @@ function insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,di
 				deleteRowFromTempOrderTable(order_id,function(ans){
 					if(ans==1)
 					{
+						emptyCart(user_phone,function(ans){
+							if(ans==1){
+								console.log("cart is emptied");
+							}
+							else{
+								console.log("cart was not emptied");
+							}
+						});
 						console.log("row deleted from temp_order");
 					}
 					else{
@@ -412,6 +420,26 @@ function failed_conflict(status_var,order_id,order_status,payment_status,callbac
 
 	}
 
+}
+function emptyCart(user_phone,callback)
+{
+	var cart="{'items':[]}";
+	pool.getConnection(function(err,conn){
+		if(err)  console.log(err);
+		var q="UPDATE  user_list SET cart="+mysql.escape(cart)+" WHERE phone="+user_phone;
+		conn.query(q,function(err2,res){
+			if(err2) console.log(err2);
+			if(res.affectedRows==1){
+				conn.release();
+				return callback(1);
+			}
+			else{
+				conn.release();
+				return callback(0);
+			}
+
+		});
+	});
 }
 
 module.exports=router;
