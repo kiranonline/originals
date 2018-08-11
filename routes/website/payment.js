@@ -26,33 +26,36 @@ router.get('/order/payment/success/:order_id',function(req,res){
 				{
 					var payment_details=JSON.parse(response.body);
 					var status=payment_details.payment["status"];
+					console.log("front->payment status from success page"+status);
 					
 					payment_status_from_instamojoFunction(status,order_id,function(){
-						console.log("front--> payment_status_from_instamojoFunction() called");
+						console.log("front--> payment_status_from_instamojoFunction() callback");
 						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE id="+mysql.escape(order_id);
+						console.log("front--> update temp_order insta status query"+q);
 						conn.query(q,function(err2,res2){
 							if(err2) console.log(err2);
 							if(res2.affectedRows==1)
 							{
-								console.log("front-->payment status updated in temp_order table");
+								console.log("front-->instamojo payment status updated in temp_order table");
 								//res.send("success");
 							}
 							else{
-								console.log("front-->Something is Wrong");
+								console.log("front-->Something is Wrong.instamojo payment status not updated in temp order");
 								//res.redirect('/');
 								//return;
 							}
+							conn.release();
+							res.send("success");
+							
 						});
 
-					});
-					
-					
+					}); 					
 				}
 			});
-			conn.release();
+			
 		});
 
-		res.send("success");
+		
 });
 
 
@@ -65,8 +68,10 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 		if(status=="Credit")
 		{
 			var  q2="SELECT payment_status FROM temp_order WHERE id="+mysql.escape(order_id);
+			console.log(q2);
 			conn.query(q2,function(err3,res3){
 				if(err3) console.log(err3);
+				console.log("payment_status from temp_order"+res3);
 				if(res3.length==1)
 				{
 					if(res3[0].payment_status=='Credit')
