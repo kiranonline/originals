@@ -69,6 +69,8 @@ $(document).on('scroll', function() {
 
 var x= $('#footer_').position().top;
 
+    var y=$('.checkoutbtn').css('display');
+    console.log(y);
     if( $(this).scrollTop() >=( x-100) ){
         $('.checkoutbtn').fadeOut();
     }
@@ -95,7 +97,7 @@ var x= $('#footer_').position().top;
                     {
                         $('#empty_cart').css('display','block');
                         $('.checkoutbtn').hide();
-                        $('.checkoutbtn').css('display','none');
+                        //$('.checkoutbtn').css('display','none');
                     }
                 }
                 else{
