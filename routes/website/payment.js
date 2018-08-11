@@ -283,8 +283,6 @@ function insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,di
 					conn.release();
 					return callback(1);
 				});
-				conn.release();
-				return callback(1);
 				
 			}
 			else{
