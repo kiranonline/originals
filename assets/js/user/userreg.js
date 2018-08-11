@@ -4,11 +4,9 @@ $(function(){
     $("#loginform").validate({
 
     rules: {
-        phone:{
+        email:{
             required: true,
-            number:true,
-            minlength:10,
-            maxlength:10
+            email:true
         },
         password: {
             required: true,
@@ -17,10 +15,9 @@ $(function(){
     },
     //For custom messages
     messages: {
-        phone:{
-            required: "Please enter your phone number",
-            minlength: "Enter a valid phone number",
-            maxlength: "Enter a valid phone number"
+        email:{
+            required: "Please enter a valid email",
+            email:"Please enter a valid email"
         },
         password:{
             required: "Please enter your password",
