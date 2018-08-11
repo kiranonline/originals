@@ -105,8 +105,8 @@ else{
                         var cart_items_array=cart["items"];
                         checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
                            console.log("checkExistence() callback"); 
+                           res.send("done");
                         });
-                        res.send("done");
                         
                     }
                     else{
@@ -146,8 +146,9 @@ router.post('/cart/remove',isLoggedIn,(req,res)=>{
                 remove(req,id,cart_items_array,function(length){
                     console.log("remove() callback");
                     len=length;
+                    res.send({done:"done",length:len});
                 });
-                res.send({done:"done",length:len});
+                
             }
             else{
                 console.log('invalid user');
@@ -187,8 +188,9 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                             console.log('increase_decrease() callback');
                             total_price=total;
                             no_of_items=no;
+                            res.send({done:'done',total_price:total_price,no_of_items:no_of_items});
                         });
-                        res.send({done:'done',total_price:total_price,no_of_items:no_of_items});
+                        
                     }
                     else{
                         console.log('invalid user');
@@ -223,15 +225,19 @@ router.post('/cart/total',isLoggedIn,(req,res)=>{
                 var x;
                 getTotalPrice(cart_items_array,function(total){
                     x=total;
+                    console.log("total price "+x);
+                    res.send("hello");
                 });
-                console.log("total price "+x);
+                
             }
             else{
                 console.log('invalid user');
+                conn.release();
                 res.redirect('/');
+                return;
             }
         });
-        res.send("hello");
+        
         conn.release();
     });
 });
