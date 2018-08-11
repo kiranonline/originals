@@ -71,7 +71,7 @@ var x= $('#footer_').position().top;
 
     var y=$('.checkoutbtn').css('display');
     console.log(y);
-    if(y=='block'){
+    if(y!='none'){
         if( $(this).scrollTop() >=( x-100) ){
         $('.checkoutbtn').fadeOut();
         }
@@ -100,8 +100,8 @@ var x= $('#footer_').position().top;
                     if(res["length"]==0)
                     {
                         $('#empty_cart').css('display','block');
-                        $('.checkoutbtn').hide();
-                        //$('.checkoutbtn').css('display','none');
+                        //$('.checkoutbtn').hide();
+                        $('.checkoutbtn').css('display','none');
                     }
                 }
                 else{
