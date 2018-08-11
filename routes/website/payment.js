@@ -157,7 +157,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				
 				var payment_status_from_instamojo=res[0].payment_status_from_instamojo;
 				
-				var status_var=req.body.payment_status;
+				var status_var=req.body.status;
 				var payment_id=req.body.payment_id;
 				var longurl=req.body.longurl;
 				var amount_paid=req.body.amount;
