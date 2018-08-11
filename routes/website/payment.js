@@ -273,7 +273,7 @@ function insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,di
 			if(err3) console.log(err3);
 			if(res3.affectedRows==1)
 			{
-				/*deleteRowFromTempOrderTable(order_id,function(ans){
+				deleteRowFromTempOrderTable(order_id,function(ans){
 					if(ans==1)
 					{
 						console.log("row deleted from temp_order");
@@ -283,7 +283,7 @@ function insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,di
 					}
 					conn.release();
 					return callback(1);
-				});*/
+				});
 				conn.release();
 				return callback(1);
 				
