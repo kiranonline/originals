@@ -22,11 +22,13 @@ router.get('/order/payment/success/:order_id',function(req,res){
 			request.get(
 			'https://test.instamojo.com/api/1.1/payments/'+payment_id+"/",
 			{ headers: headers}, function(error, response, body){
+				
 				if(!error && response.statusCode == 200)
 				{
+					console.log('api responded');
 					var payment_details=JSON.parse(response.body);
 					var status=payment_details.payment["status"];
-					console.log("front->payment status from success page"+status);
+					console.log("front->status from api response"+status);
 					
 					payment_status_from_instamojoFunction(status,order_id,function(){
 						console.log("front--> payment_status_from_instamojoFunction() callback");
@@ -71,6 +73,7 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 			console.log(q2);
 			conn.query(q2,function(err3,res3){
 				if(err3) console.log(err3);
+				console.log(res3[0]);
 				console.log("payment_status from temp_order"+res3);
 				if(res3.length==1)
 				{
