@@ -11,8 +11,8 @@ var payload = {
   phone: phone,
   buyer_name: buyer_name,
   redirect_url: 'http://the-originals.in/order/payment/success/'+order_id,
-  send_email: true,
-  webhook: 'http://www.the-originals.in/admin/order/placed/success/'+order_id,
+  send_email: true,/*
+  webhook: 'http://www.the-originals.in/admin/order/placed/success/'+order_id,*/
   send_sms: true,
   email: email,
   allow_repeated_payments: false};
