@@ -31,7 +31,7 @@
                 </div>
                 {{/each}}
                 {{#btnEnable}}
-                    <button style="display:block" class="checkoutbtn checkoutbtn1 center-align chkbtn"><p class="checkoutbtn1">CHECKOUT</p></button>
+                    <button value="1" class="checkoutbtn checkoutbtn1 center-align chkbtn"><p class="checkoutbtn1">CHECKOUT</p></button>
                 {{else}}
                 <div   class="card row center-align">
                     <h5>Your cart is empty</h5>
@@ -69,9 +69,9 @@ $(document).on('scroll', function() {
 
 var x= $('#footer_').position().top;
 
-    var y=$('.checkoutbtn').css('display');
+    var y=$('.checkoutbtn').value();
     console.log(y);
-    if(y!='none'){
+    if(y==1){
         if( $(this).scrollTop() >=( x-100) ){
         $('.checkoutbtn').fadeOut();
         }
@@ -102,6 +102,8 @@ var x= $('#footer_').position().top;
                         $('#empty_cart').css('display','block');
                         //$('.checkoutbtn').hide();
                         $('.checkoutbtn').css('display','none');
+                        $('.checkoutbtn').value(0);
+                        
                     }
                 }
                 else{
