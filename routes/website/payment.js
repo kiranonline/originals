@@ -26,33 +26,36 @@ router.get('/order/payment/success/:order_id',function(req,res){
 				{
 					var payment_details=JSON.parse(response.body);
 					var status=payment_details.payment["status"];
+					console.log("front->payment status from success page"+status);
 					
 					payment_status_from_instamojoFunction(status,order_id,function(){
-						console.log("front--> payment_status_from_instamojoFunction() called");
+						console.log("front--> payment_status_from_instamojoFunction() callback");
 						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE id="+mysql.escape(order_id);
+						console.log("front--> update temp_order insta status query"+q);
 						conn.query(q,function(err2,res2){
 							if(err2) console.log(err2);
 							if(res2.affectedRows==1)
 							{
-								console.log("front-->payment status updated in temp_order table");
+								console.log("front-->instamojo payment status updated in temp_order table");
 								//res.send("success");
 							}
 							else{
-								console.log("front-->Something is Wrong");
+								console.log("front-->Something is Wrong.instamojo payment status not updated in temp order");
 								//res.redirect('/');
 								//return;
 							}
+							conn.release();
+							res.send("success");
+							
 						});
 
-					});
-					
-					
+					}); 					
 				}
 			});
-			conn.release();
+			
 		});
 
-		res.send("success");
+		
 });
 
 
@@ -65,8 +68,10 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 		if(status=="Credit")
 		{
 			var  q2="SELECT payment_status FROM temp_order WHERE id="+mysql.escape(order_id);
+			console.log(q2);
 			conn.query(q2,function(err3,res3){
 				if(err3) console.log(err3);
+				console.log("payment_status from temp_order"+res3);
 				if(res3.length==1)
 				{
 					if(res3[0].payment_status=='Credit')
@@ -131,10 +136,10 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
 		var q="SELECT * FROM temp_order WHERE id="+mysql.escape(order_id);
-		console.log("back-->query for order details "+q);
+		//console.log("back-->query for order details "+q);
 		conn.query(q,function(err2,res){
 			if(err2) console.log(err2);
-			console.log("back--> temp order details"+res);
+			//console.log("back--> temp order details"+res);
 			if(res.length==1)
 			{
 				var user_phone=res[0].user_phone;
@@ -164,10 +169,12 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				var instamojo_fees=req.body.fees;
 				var mac=req.body.mac;
 
+				console.log(payment_status_from_instamojo);
 				console.log(" webhook??status_var==> " +status_var);
 
 				if(payment_status_from_instamojo=="Credit")
 				{
+					console.log("back-->case1");
 					console.log("back-->payment_status_from_instamojo ="+payment_status_from_instamojo+" status_var"+status_var);
 					check(status_var,order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(){
 						console.log("back-->When payment_status_from_instamojo==Credit");
@@ -176,6 +183,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				//end   payment_status_from_instamojo=="Credit" case
 				else if(payment_status_from_instamojo=='"not_checked"')
 				{
+					console.log("back-->case2")
 					var headers = { 'X-Api-Key': 'test_da22573aae638ce3fcb53c15f4f', 'X-Auth-Token': 'test_a0e09af12f77bfc6acded07115c'}
 					request.get(
 					'https://test.instamojo.com/api/1.1/payments/'+payment_id+"/",
@@ -217,6 +225,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				}
 				//end   payment_status_from_instamojo=="not_checked" case
 				else{
+					console.log("back-->case3");
 					console.log("back-->payment_status_from_instamojo"+payment_status_from_instamojo);
 					failed_conflict(status_var,order_id,order_status,payment_status,function(){
 						console.log("back-->When payment_status_from_instamojo==failed");
