@@ -17,19 +17,18 @@ var uniqid = require('uniqid');
 //------------------local--------------------------
 passport.use('local', new LocalStrategy({
 
-    usernameField: 'phone',
-  
+    usernameField: 'email',
     passwordField: 'password',
   
     passReqToCallback: true //passback entire req to call back
-  } , function (req, phone, password, done){
+  } , function (req, email, password, done){
   
-        if(!phone || !password ) { return done(null, false, req.flash('message','All fields are required.')); }
+        if(!email || !password ) { return done(null, false, req.flash('message','All fields are required.')); }
         pool.getConnection((err,conn)=>{
             if(err){
                 console.log(err);
             }
-            conn.query("SELECT * FROM userlist WHERE phone = ?", [phone], function(err, rows){
+            conn.query("SELECT * FROM userlist WHERE email = ?", [email], function(err, rows){
   
                 console.log(err);
       
