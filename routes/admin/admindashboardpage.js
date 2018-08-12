@@ -1414,8 +1414,8 @@ router.get('/dashboard/orders',(req,res)=>{
                 if(err){
                     console.log(err);
                 }
-                res.send("hello");
-                res.render('admin/adminorder',{orders:result1});
+                //res.send("hello");
+                res.render('admin/adminorder',{layout:false,orders:result1});
             });
             conn.release();
         });
@@ -1424,6 +1424,35 @@ router.get('/dashboard/orders',(req,res)=>{
 
 });
 
+
+
+
+
+
+router.get('/dashboard/temporders',(req,res)=>{
+
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        pool.getConnection((err,conn)=>{
+            if(err){
+                console.log(err);
+            }
+            var q1="SELECT * FROM temp_order";
+            conn.query(q1,(err,result1)=>{
+                if(err){
+                    console.log(err);
+                }
+                //res.send("hello");
+                res.render('admin/admin_temporder',{layout:false,orders:result1});
+            });
+            conn.release();
+        });
+
+    }
+
+});
 
 
 

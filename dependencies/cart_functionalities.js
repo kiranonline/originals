@@ -21,6 +21,10 @@ class items{
     }
 }
 
+
+
+
+
 function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
     console.log("checkExistence() called");
@@ -43,6 +47,12 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
     
 
 }
+
+
+
+
+
+
 
 function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,callback){
     console.log("checkExistenceCheck() called");
@@ -92,6 +102,9 @@ function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cash
 
 
 
+
+
+
 function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {    
     var obj=new items(item_id,item_name,item_type,1,size,color,price,image,cashback,delivery_charge);
@@ -107,6 +120,12 @@ var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type
     });
                   
 }
+
+
+
+
+
+
 
 
 
@@ -128,6 +147,19 @@ function remove(req,id,cart_items_array,callback)
         }       
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 function increase_decrease(req,id,cart_items_array,value,callback)
 {
     for(var i=0;i<cart_items_array.length;i++)
@@ -160,6 +192,13 @@ function increase_decrease(req,id,cart_items_array,value,callback)
         }        
     }
 }
+
+
+
+
+
+
+
 function getTotalPrice(cart_items_array,callback)
 {
     var sum=0;
@@ -172,6 +211,13 @@ function getTotalPrice(cart_items_array,callback)
     }
     callback(sum);
 }
+
+
+
+
+
+
+
 function getTotalDeliveryCharge(cart_items_array,callback)
 {
     var sum=0;
@@ -184,6 +230,14 @@ function getTotalDeliveryCharge(cart_items_array,callback)
     }
     callback(sum);
 }
+
+
+
+
+
+
+
+
 function getTotalCashback(cart_items_array,callback)
 {
     var sum=0;
@@ -196,6 +250,13 @@ function getTotalCashback(cart_items_array,callback)
     }
     callback(sum);
 }
+
+
+
+
+
+
+
 
 function updateQuery(dict,req,callback)
 {

@@ -281,22 +281,22 @@
                             <th>ITEMS</th>
                             <th>TOTAL PRICE</th>
                             <th>PROMOCODE</th>
-			    <th>DISCOUNT</th>
-			    <th>CASHBACK</th>
-			    <th>USED WALLET POINT</th>
-			    <th>CASHBACK FOR ITEMS</th>
-	                    <th>NET AMOUNT</th>
-			    <th>DELIVERY CHARGE</th>
-			    <th>NET AMOUNT WITH DELIVERY CHARGE</th>
+                            <th>DISCOUNT</th>
+                            <th>CASHBACK</th>
+                            <th>USED WALLET POINT</th>
+                            <th>CASHBACK FOR ITEMS</th>
+	                          <th>NET AMOUNT</th>
+                            <th>DELIVERY CHARGE</th>
+                            <th>NET AMOUNT WITH DELIVERY CHARGE</th>
                             <th>ADDRESS</th>
                             <th>ADDRESS CONTACT</th>
-			    <th>ORDER DATE</th>
-			    <th>ORDER STATUS</th>
-			    <th>PAYMENT STATUS</th>
-			    <th>PAYMENT ID</th>
+                            <th>ORDER DATE</th>
+                            <th>ORDER STATUS</th>
+                            <th>PAYMENT STATUS</th>
+                            <th>PAYMENT ID</th>
                             <th>AMOUNT PAID IN GETWAY</th>
-			    <th>INSTAMOJO FEES</th>
-			    <th>OPERATIONS</th>	
+                            <th>INSTAMOJO FEES</th>
+                            <th>OPERATIONS</th>	
                         </tr>
                     </thead>
                     <tfoot>
@@ -321,34 +321,32 @@
                             <th>PAYMENT ID</th>
                             <th>AMOUNT PAID IN GETWAY</th>
                             <th>INSTAMOJO FEES</th> 
-			    <th>OPERATIONS</th>                       
+			                      <th>OPERATIONS</th>                       
                         </tr>
 
                     </tfoot>
                     <tbody>
                         {{#each orders}}
                           <tr>
-                            <th>{{this.order_id}}</th>
-                            <th>{{thsi.user_id}}</th>
-                            <th>{{this.items}}</th>
-                            <th>{{this.total_price}}</th>
-                            <th>{{this.promocode}}</th>
-                            <th>{{this.discount}}</th>
-                            <th>{{this.cashback}}</th>
-                            <th>{{this.used_wallet_point}}</th>
-                            <th>{{this.cashback_for_items}}</th>
-                            <th>{{this.net_amount}}</th>
-                            <th>{{this.delivery_charge}}</th>
-                            <th>{{this.net_amount_with_delivery_charge}}</th>
-                            <th>{{this.address}}</th>
-                            <th>{{this.address_contact}}</th>
-                            <th>{{this.date}}</th>
-                            <th>{{this.order_status}}</th>
-                            <th>{{this.payment_status}}</th>
-                            <th>{{this.payment_id}}</th>
-                            <th>{{this.amount_paid}}</th>
-                            <th>{{this.instamojo_fees}}</th>                             
-			    <th></th>
+                            <td>{{this.order_id}}</td>
+                            <td>{{this.user_id}}</td>
+                            <td>{{this.items}}</td>
+                            <td>{{this.total_price}}</td>
+                            <td>{{this.promocode}}</td>
+                            <td>{{this.discount}}</td>
+                            <td>{{this.cashback}}</td>
+                            <td>{{this.used_wallet_point}}</td>
+                            <td>{{this.cashback_for_items}}</td>
+                            <td>{{this.net_amount}}</td>
+                            <td>{{this.delivery_charge}}</td>
+                            <td>{{this.net_amount_with_delivery_charge}}</td>
+                            <td>{{this.address}}</td>
+                            <td>{{this.address_contact}}</td>
+                            <td>{{this.date}}</td>
+                            <td>{{this.order_status}}</td>
+                            <td>{{this.payment_status}}</td>
+                                                       
+			                      <th></th>
                         </tr>
 
                         {{/each}}
