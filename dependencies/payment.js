@@ -3,6 +3,8 @@ var request= require('request');
 function makePayment(res,order_id,purpose,amount,phone,buyer_name,email,callback)
 {  
   console.log("makePayment() called");
+
+  console.log(`res=${res} order_id =${order_id} purpose=${purpose} amount=${amount} phone=${phone} buer_name=${buyer_name} email=${email}`);
 var headers = { 'X-Api-Key': 'test_da22573aae638ce3fcb53c15f4f', 'X-Auth-Token': 'test_a0e09af12f77bfc6acded07115c'}
 var payload = {
   purpose: purpose,
@@ -15,7 +17,6 @@ var payload = {
   send_sms: true,
   email: email,
   allow_repeated_payments: false};
-  console.log("before requesting");
 request.post('https://test.instamojo.com/api/1.1/payment-requests/', {form: payload,  headers: headers}, function(error, response, body){
 var x=JSON.parse(response.body);
 if(!error && response.statusCode == 201){
@@ -25,7 +26,6 @@ if(!error && response.statusCode == 201){
 
   }
 });
-console.log("after requesting");
 
 }
 
