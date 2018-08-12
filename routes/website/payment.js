@@ -32,7 +32,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 					
 					payment_status_from_instamojoFunction(status,order_id,function(){
 						console.log("front--> payment_status_from_instamojoFunction() callback");
-						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE id="+mysql.escape(order_id);
+						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
 						console.log("front--> update temp_order insta status query"+q);
 						conn.query(q,function(err2,res2){
 							if(err2) console.log(err2);
@@ -69,7 +69,7 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 		console.log("front-->payment_status_from_instamojoFunction() called");
 		if(status=="Credit")
 		{
-			var  q2="SELECT payment_status FROM temp_order WHERE id="+mysql.escape(order_id);
+			var  q2="SELECT payment_status FROM temp_order WHERE order_id="+mysql.escape(order_id);
 			console.log(q2);
 			conn.query(q2,function(err3,res3){
 				if(err3) console.log(err3);
@@ -136,7 +136,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 	var order_id=req.params.order_id;	
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
-		var q="SELECT * FROM temp_order WHERE id="+mysql.escape(order_id);
+		var q="SELECT * FROM temp_order WHERE order_id="+mysql.escape(order_id);
 		console.log("back-->query for order details "+q);
 		conn.query(q,function(err2,res){
 			if(err2) console.log(err2);
@@ -264,42 +264,60 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 {
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
-		var q1="INSERT INTO order_table VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+","+mysql.escape(payment_id)+","+mysql.escape(longurl)+","+mysql.escape(amount_paid)+","+mysql.escape(instamojo_fees)+","+mysql.escape(mac)+");";
-		console.log(q1);				
-		conn.query(q1,function(err3,res3)
-		{
-			if(err3) console.log(err3);
-			if(res3.affectedRows==1)
-			{
-				deleteRowFromTempOrderTable(order_id,function(ans){
-					if(ans==1)
+		
+		var q="SELECT wallet_point FROM userlist WHERE user_id="+mysql.escape(user_id);
+		conn.query(q,function(errr,resu){
+			if(errr) console.log(errr);
+			if(resu.length==1){
+				var wallet_point_now=parseInt(resu[0].wallet_point);
+				console.log(`wallet_point_now=${wallet_point_now}`);
+				if(wallet_point_now<parseInt(used_wallet_point))
+				{
+					console.log("You don't have enough wallet balance");
+					console.log("please contact @RK");
+					order_status="contact";
+				}
+				var q1="INSERT INTO order_table VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+","+mysql.escape(payment_id)+","+mysql.escape(longurl)+","+mysql.escape(amount_paid)+","+mysql.escape(instamojo_fees)+","+mysql.escape(mac)+");";
+				console.log(q1);				
+				conn.query(q1,function(err3,res3){
+					if(err3) console.log(err3);
+					if(res3.affectedRows==1)
 					{
-						emptyCart(user_id,function(ans){
-							if(ans==1){
-								console.log("cart is emptied");
+						deleteRowFromTempOrderTable(order_id,function(ans){
+							if(ans==1)
+							{
+								emptyCart(user_id,function(ans){
+									if(ans==1){
+										console.log("cart is emptied");
+									}
+									else{
+										console.log("cart was not emptied");
+									}
+									console.log("row deleted from temp_order");
+								});
+								
 							}
 							else{
-								console.log("cart was not emptied");
+								console.log("row was not deleted from temp_order");
 							}
-							console.log("row deleted from temp_order");
+							conn.release();
+							return callback(1);
 						});
 						
 					}
 					else{
-						console.log("row was not deleted from temp_order");
+						conn.release();
+						return callback(0);
+						
 					}
-					conn.release();
-					return callback(1);
+					
 				});
-				
-			}
-			else{
-				conn.release();
-				return callback(0);
+
 				
 			}
 			
 		});
+		
 		
 	});
 }
@@ -307,7 +325,7 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 function updateTempOrderTable(order_id,payment_status,order_status,callback)
 {
 	pool.getConnection(function(err,conn){
-		var q1="UPDATE temp_order SET payment_status="+mysql.escape(payment_status)+",order_status="+mysql.escape(order_status)+" WHERE id="+mysql.escape(order_id);		
+		var q1="UPDATE temp_order SET payment_status="+mysql.escape(payment_status)+",order_status="+mysql.escape(order_status)+" WHERE order_id="+mysql.escape(order_id);		
 		console.log(q1);				
 		conn.query(q1,function(err3,res3)
 		{
@@ -328,7 +346,7 @@ function updateTempOrderTable(order_id,payment_status,order_status,callback)
 
 function deleteRowFromTempOrderTable(order_id,callback){
 	pool.getConnection(function(err,conn){
-		var q1="DELETE FROM temp_order WHERE id="+mysql.escape(order_id);		
+		var q1="DELETE FROM temp_order WHERE order_id="+mysql.escape(order_id);		
 		console.log(q1);				
 		conn.query(q1,function(err3,res3)
 		{

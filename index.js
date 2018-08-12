@@ -23,6 +23,25 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var helmet = require('helmet');
 const csp = require('express-csp-header');
 
+
+
+
+
+
+//----------------------webpush notification-------------------
+const webpush = require('web-push');
+const publicVapidKey = 'BNSNBlyOuhqiVdXpNeykqQeuW1teX5UMtvKKmpFf3Xp5XmCKwX4o23Se9u5I2DGZImTmkxuMm-G2BLNZYdvmgoo';
+const privateVapidKey = '0PA3A5mym1C_fW62zah-8MbQ1Nm-K_CsBC5tQAypZe0';
+webpush.setVapidDetails('mailto:test@test.com',publicVapidKey,privateVapidKey);
+
+
+
+
+
+
+
+
+
 // Brute Force protection
 var ExpressBrute = require('express-brute');
 var SequelizeStore = require('express-brute-sequelize');
@@ -80,7 +99,7 @@ app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
 
 // Feature Policy
 app.use(function(req, res, next) {
-    res.header("Feature-Policy","geolocation '*'; midi 'none'; notifications '*'; push '*'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment '*'")
+    res.header("Feature-Policy","geolocation '*'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment '*'")
     next();
 });
 
