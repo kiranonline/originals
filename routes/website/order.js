@@ -117,11 +117,11 @@ router.post('/order/place',isLoggedIn,function(req,res){
                         getTotalCashback(cart_items_array,function(sum3){
                             cashback_for_items=sum3;
 
-    console.log(`order_phone=${user_phone} buyer_name=${buyer_name} email=${email} wallet_point=${wallet_point} user_id=${user_id} 
+    console.log(`user_phone=${user_phone} buyer_name=${buyer_name} email=${email} wallet_point=${wallet_point} user_id=${user_id} 
     items=${items} 
-    total_price=${total_price} promocode=${promocode} cashback_for_items=${cashback_for_items} net_amount=${net_amount} delivery_charge=${delivery_charge} net_amount_with_delivery_charge=${net_amount_with_delivery_charge}  date=${date} order_status=${order_status} payment_status=${payment_status} address_id=${address_id}`);    
+    total_price=${total_price} promocode=${promocode} cashback_for_items=${cashback_for_items}  delivery_charge=${delivery_charge}  date=${date} order_status=${order_status} payment_status=${payment_status} address_id=${address_id}`);    
         
-                            promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,function(){
+                            promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,delivery_charge,date,order_status,payment_status,address_id,function(){
                                 console.log(`promocodeAddressValidation() callback`);
                             });
                         });
@@ -144,12 +144,13 @@ router.post('/order/place',isLoggedIn,function(req,res){
 });
 
 
-function promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,callback)
+function promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,delivery_charge,date,order_status,payment_status,address_id,callback)
 {
     var discount;
     var cashback;
     var used_wallet_point;
-
+    var net_amount;
+    var net_amount_with_delivery_charge;
     
     pool.getConnection(function(errr,conn){
         if(errr) console.log(errr);
@@ -232,6 +233,7 @@ function promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point
                 conn.query(q4,function(err5,res5){
                     if(err5) console.log(err5);
                     console.log("data inserted in temporary table");
+                    
                     makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){
                         console.log("makePayment() callback");
                         return callback();
