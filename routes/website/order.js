@@ -107,7 +107,11 @@ router.post('/order/place',isLoggedIn,function(req,res){
                 if(user_phone==null)
                 {
                     res.redirect('/profile/?msg=Please Add Your Phone Number');
-                    return;
+                }
+                else if(email===null)
+                {
+                    res.redirect('/profile/?msg=Please Add Your Email');
+                   
                 }
                 else{
                     buyer_name=res2[0].name;
