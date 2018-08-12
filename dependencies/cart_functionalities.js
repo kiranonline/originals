@@ -23,12 +23,20 @@ class items{
 
 function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
-    checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,function(){
-        add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+    checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,function(ans){
+        if(ans==1)
+        {
+            console.log("checkExistenceCheck()  callback with value 1");
             return callback();
-        });
+        }
+        else{
+            console.log("checkExistenceCheck()  callback with value 0");
+            add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+                console.log("add() callback");
+                return callback();
+            });
+        }
     });
-    
 }
 
 function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,callback){
@@ -51,13 +59,14 @@ function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cash
 
                     updateQuery(dict,req,function(){
                         console.log("updateQuery() callback");
-                        return callback();
+                        return callback(1);
                     });
                     
                 }
             }
         }
     }
+    return callback(0);
 }
 
 
