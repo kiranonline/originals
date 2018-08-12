@@ -86,15 +86,10 @@ router.post('/order/place',isLoggedIn,function(req,res){
         var items;
         var total_price;
         var promocode=req.body.promocode;
-        var discount;
-        var cashback;
-        var used_wallet_point;
         var cashback_for_items;
         var net_amount;
         var delivery_charge;
         var net_amount_with_delivery_charge;
-        var address;
-        var address_contact;
         var date=new Date();
         var order_status="pending";
         var payment_status="pending";
@@ -121,7 +116,12 @@ router.post('/order/place',isLoggedIn,function(req,res){
                         delivery_charge=sum2;
                         getTotalCashback(cart_items_array,function(sum3){
                             cashback_for_items=sum3;
-                            promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,function(){
+
+    console.log(`order_phone=${user_phone} buyer_name=${buyer_name} email=${email} wallet_point=${wallet_point} user_id=${user_id} 
+    items=${items} 
+    total_price=${total_price} promocode=${promocode} cashback_for_items=${cashback_for_items} net_amount=${net_amount} delivery_charge=${delivery_charge} net_amount_with_delivery_charge=${net_amount_with_delivery_charge}  date=${date} order_status=${order_status} payment_status=${payment_status} address_id=${address_id}`);    
+        
+                            promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,function(){
                                 console.log(`promocodeAddressValidation() callback`);
                             });
                         });
@@ -144,8 +144,13 @@ router.post('/order/place',isLoggedIn,function(req,res){
 });
 
 
-function promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,callback)
+function promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,callback)
 {
+    var discount;
+    var cashback;
+    var used_wallet_point;
+
+    
     pool.getConnection(function(errr,conn){
         if(errr) console.log(errr);
         var q2="SELECT * FROM promocode WHERE promocode="+mysql.escape(promocode);
