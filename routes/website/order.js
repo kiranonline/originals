@@ -106,7 +106,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                 user_phone=res2[0].phone; 
                 if(user_phone==null)
                 {
-                    res.redirect('/profile/');
+                    res.redirect('/profile/?msg=Please Add Your Phone Number');
                     return;
                 }
                 else{
