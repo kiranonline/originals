@@ -20,8 +20,9 @@ var x=JSON.parse(response.body);
 if(!error && response.statusCode == 201){
     console.log('i will redirect you to success page');
     res.redirect(x.payment_request["longurl"]);
-    return callback();
+   
   }
+  return callback();
 });
 }
 
