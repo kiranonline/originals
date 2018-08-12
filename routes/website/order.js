@@ -104,6 +104,8 @@ router.post('/order/place',isLoggedIn,function(req,res){
             if(res2.length==1)
             {           
                 user_phone=res2[0].phone; 
+                buyer_name=res2[0].name;
+                email=res2[0].email;
                 if(user_phone==null)
                 {
                     res.redirect('/profile/?msg=Please Add Your Phone Number');
@@ -114,8 +116,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                    
                 }
                 else{
-                    buyer_name=res2[0].name;
-                    email=res2[0].email;
+                    
                     items=res2[0].cart;
                     wallet_point=res2[0].wallet;
                     var x=JSON.parse(items);

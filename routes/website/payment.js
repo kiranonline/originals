@@ -265,11 +265,11 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
 		
-		var q="SELECT wallet_point FROM userlist WHERE user_id="+mysql.escape(user_id);
+		var q="SELECT wallet FROM userlist WHERE user_id="+mysql.escape(user_id);
 		conn.query(q,function(errr,resu){
 			if(errr) console.log(errr);
 			if(resu.length==1){
-				var wallet_point_now=parseInt(resu[0].wallet_point);
+				var wallet_point_now=parseInt(resu[0].wallet);
 				console.log(`wallet_point_now=${wallet_point_now}`);
 				if(wallet_point_now<parseInt(used_wallet_point))
 				{
