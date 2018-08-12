@@ -104,7 +104,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
             if(res2.length==1)
             {           
                 user_phone=res2[0].phone; 
-                if(user_phone==NULL)
+                if(user_phone==null)
                 {
                     res.redirect('/profile/');
                     return;
