@@ -46,7 +46,7 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
 
 function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,callback){
     console.log("checkExistenceCheck() called");
-    
+    console.log(cart_items_array);
     for(var i=0;i<cart_items_array.length;i++)
     {
         if(cart_items_array[i]["item_id"]==item_id)
