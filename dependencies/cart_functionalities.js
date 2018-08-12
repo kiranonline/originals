@@ -27,13 +27,13 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
         if(ans==1)
         {
             console.log("checkExistenceCheck()  callback with value 1");
-            return callback();
+            callback();
         }
         else{
             console.log("checkExistenceCheck()  callback with value 0");
             add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
                 console.log("add() callback");
-                return callback();
+                callback();
             });
         }
     });
@@ -59,14 +59,14 @@ function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cash
 
                     updateQuery(dict,req,function(){
                         console.log("updateQuery() callback");
-                        return callback(1);
+                        callback(1);
                     });
                     
                 }
             }
         }
     }
-    return callback(0);
+  callback(0);
 }
 
 
@@ -84,9 +84,9 @@ var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type
     var dict={"items":cart_items_array};
 
     updateQuery(dict,req,function(){
-        console.log("new itam added to cart");
+        console.log("new item added to cart");
         console.log("updateQuery() callback");
-        return callback();
+        callback();
     });
                   
 }
@@ -194,7 +194,7 @@ function updateQuery(dict,req,callback)
             {
                 console.log("New Cart:\n");
                 console.log(dict);
-                return callback();
+                callback();
             }
             else{
                 console.log("Data Not updated");
