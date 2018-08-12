@@ -111,13 +111,14 @@ else{
                     }
                     else{
                         console.log('invalid user');
-                        res.send('invalid');
+                       // res.send('invalid');
                     }
                 });
             }
             else{
+                
                 console.log('invalid item');
-                res.send('invalid');
+              //  res.send('invalid');
             }
         });
         conn.release();

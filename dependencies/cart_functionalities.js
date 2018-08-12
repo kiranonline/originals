@@ -23,6 +23,35 @@ class items{
 
 function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
+    console.log("checkExistence() called");
+    checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,function(ans){
+        if(ans==1)
+        {
+            console.log("checkExistenceCheck()  callback with value 1");
+            callback();
+        }
+        else{
+            console.log("checkExistenceCheck()  callback with value 0");
+            add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+                console.log("add() callback");
+                callback();
+            });
+        }
+        return;
+
+    });
+    
+
+}
+
+function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,callback){
+    console.log("checkExistenceCheck() called");
+    console.log(cart_items_array);
+    if(cart_items_array.length==0)
+    {
+        callback(0);
+    }
+    console.log("cart_items_array.length is not 0");
     for(var i=0;i<cart_items_array.length;i++)
     {
         if(cart_items_array[i]["item_id"]==item_id)
@@ -31,6 +60,7 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
             {
                 if(cart_items_array[i]["color"]==color)
                 {    
+                    console.log("item match found");
                     var no_of_items=cart_items_array[i]["no_of_items"]+1;
                     cart_items_array[i]["no_of_items"]=no_of_items;
                     cart_items_array[i]["price"]=price;
@@ -42,17 +72,25 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
 
                     updateQuery(dict,req,function(){
                         console.log("updateQuery() callback");
-                        return callback();
+                        callback(1);
                     });
                     
                 }
             }
         }
-    };
-    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
-        return callback();
-    });
+        
+        if(i==cart_items_array.length-1){
+            console.log("reached i==cart_items_array.length-1");
+            callback(0);
+        }
+    }
 }
+
+
+
+
+
+
 
 function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {    
@@ -63,9 +101,9 @@ var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type
     var dict={"items":cart_items_array};
 
     updateQuery(dict,req,function(){
-        console.log("new itam added to cart");
+        console.log("new item added to cart");
         console.log("updateQuery() callback");
-        return callback();
+        callback();
     });
                   
 }
@@ -161,24 +199,25 @@ function getTotalCashback(cart_items_array,callback)
 
 function updateQuery(dict,req,callback)
 {
+    console.log("updateQuery() called");
     pool.getConnection((err,conn)=>{
         if(err){
             console.log(err);
         }
         var query="UPDATE  userlist SET cart="+mysql.escape(JSON.stringify(dict))+" WHERE user_id="+mysql.escape(req.session.passport["user"]);
-        conn.query(query,function(err,result){
+        conn.query(query,function(err2,result){
     
-            if(err) throw err
+            if(err2) console.log(err2);
             if(result.affectedRows==1)
             {
                 console.log("New Cart:\n");
                 console.log(dict);
-                
+                callback();
             }
             else{
                 console.log("Data Not updated");
             }
-            return callback();
+            
         });
         conn.release();
 

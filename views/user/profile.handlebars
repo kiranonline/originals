@@ -281,24 +281,23 @@
 				<hr>
 					
 				<div class="my-account-form">
-							
+					
+				    {{#each orders}}		
 					<div class="card order-container">
 						<div class="order-header">
-							<p><span>ORDER ID : </span> ord-123456<br>
-							<span>STATUS : </span> Shipped</p>
+							<p><span>ORDER ID : </span> {{this.order_id}}<br>
+							<span>STATUS : </span> {{this.order_status}}</p>
 						</div>
 						<hr>
 						<div class="order-body row">
 							
 							<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
-								<img src="logos/watch.jpg" class="responsive-img ordered-img">	
+								<img src="/logos/download.png" class="responsive-img ordered-img">	
 							</div>
 
 							<div class="col s12 m12 l8 xl8 left-align order-details">
 								<p>
-									<span>ITEM NAME : </span>Watch<br>
-									<span>ITEM ID : </span>ITM-123445<br>
-									<span>PRICE : </span> 200<br>
+									<span>PRICE : </span> {{this.net_amout_with_delivary_charge}}<br>
 									<span>ORDERED ON :</span>17/04/2018<br>
 									<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
 								
@@ -308,60 +307,7 @@
 
 						</div>
 					</div>
-
-					<div class="card order-container">
-							<div class="order-header">
-								<p><span>ORDER ID : </span> ord-123456<br>
-								<span>STATUS : </span> Shipped</p>
-							</div>
-							<hr>
-							<div class="order-body row">
-								
-								<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
-									<img src="icons/watch.jpg" class="responsive-img ordered-img">	
-								</div>
-	
-								<div class="col s12 m12 l8 xl8 left-align order-details">
-									<p>
-										<span>ITEM NAME : </span>Watch<br>
-										<span>ITEM ID : </span>ITM-123445<br>
-										<span>PRICE : </span> 200<br>
-										<span>ORDERED ON :</span>17/04/2018<br>
-										<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
-									
-									
-									</p>
-								</div>
-	
-							</div>
-						</div>
-
-						<div class="card order-container">
-								<div class="order-header">
-									<p><span>ORDER ID : </span> ord-123456<br>
-									<span>STATUS : </span> Shipped</p>
-								</div>
-								<hr>
-								<div class="order-body row">
-									
-									<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
-										<img src="icons/watch.jpg" class="responsive-img ordered-img">	
-									</div>
-		
-									<div class="col s12 m12 l8 xl8 left-align order-details">
-										<p>
-											<span>ITEM NAME : </span>Watch<br>
-											<span>ITEM ID : </span>ITM-123445<br>
-											<span>PRICE : </span> 200<br>
-											<span>ORDERED ON :</span>17/04/2018<br>
-											<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
-										
-										
-										</p>
-									</div>
-		
-								</div>
-							</div>
+				    {{/each}}
 
 				</div>
 			</div>

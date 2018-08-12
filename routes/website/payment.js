@@ -262,6 +262,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 
 function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,callback)								
 {
+	var wallet_point_was_to_use=used_wallet_point;
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
 		
@@ -276,33 +277,45 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 					console.log("You don't have enough wallet balance");
 					console.log("please contact @RK");
 					order_status="contact";
+					wallet_point_was_to_use=used_wallet_point;
+					used_wallet_point=wallet_point_now;
 				}
-				var q1="INSERT INTO order_table VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+","+mysql.escape(payment_id)+","+mysql.escape(longurl)+","+mysql.escape(amount_paid)+","+mysql.escape(instamojo_fees)+","+mysql.escape(mac)+");";
+				var q1="INSERT INTO order_table (order_id, user_id,items,total_price ,promocode,discount,cashback,used_wallet_point,wallet_point_was_to_use,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge, address,address_contact, date,order_status,payment_status,payment_id, longurl,amount_paid,instamojo_fees, mac) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(wallet_point_was_to_use)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+","+mysql.escape(payment_id)+","+mysql.escape(longurl)+","+mysql.escape(amount_paid)+","+mysql.escape(instamojo_fees)+","+mysql.escape(mac)+");";
 				console.log(q1);				
 				conn.query(q1,function(err3,res3){
 					if(err3) console.log(err3);
 					if(res3.affectedRows==1)
 					{
-						deleteRowFromTempOrderTable(order_id,function(ans){
-							if(ans==1)
-							{
-								emptyCart(user_id,function(ans){
-									if(ans==1){
-										console.log("cart is emptied");
+						wallet_point_now=parseInt(wallet_point_now)-parseInt(used_wallet_point);
+						var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point_now)+" WHERE user_id="+mysql.escape(user_id);
+						console.log(q3);
+						conn.query(q3,function(err3,res3){
+							if(err3) console.log(err3);
+							if(res3.affectedRows==1){
+								deleteRowFromTempOrderTable(order_id,function(ans){
+									if(ans==1)
+									{
+										emptyCart(user_id,function(ans){
+											if(ans==1){
+												console.log("cart is emptied");
+											}
+											else{
+												console.log("cart was not emptied");
+											}
+											console.log("row deleted from temp_order");
+										});
+										
 									}
 									else{
-										console.log("cart was not emptied");
+										console.log("row was not deleted from temp_order");
 									}
-									console.log("row deleted from temp_order");
+									conn.release();
+									return callback(1);
 								});
-								
+
 							}
-							else{
-								console.log("row was not deleted from temp_order");
-							}
-							conn.release();
-							return callback(1);
 						});
+						
 						
 					}
 					else{
