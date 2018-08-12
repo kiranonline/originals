@@ -23,6 +23,15 @@ class items{
 
 function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
+    checkExistenceCheck(req,cart_items_array, item_id,size,color,no_of_items,price,cashback,delivery_charge,function(){
+        add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+            return callback();
+        });
+    });
+    
+}
+
+function checkExistenceCheck(req,cart_items_array, item_id,size,color,no_of_items,price,cashback,delivery_charge,callback){
     for(var i=0;i<cart_items_array.length;i++)
     {
         if(cart_items_array[i]["item_id"]==item_id)
@@ -48,11 +57,14 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
                 }
             }
         }
-    };
-    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
-        return callback();
-    });
+    }
 }
+
+
+
+
+
+
 
 function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {    
@@ -166,19 +178,19 @@ function updateQuery(dict,req,callback)
             console.log(err);
         }
         var query="UPDATE  userlist SET cart="+mysql.escape(JSON.stringify(dict))+" WHERE user_id="+mysql.escape(req.session.passport["user"]);
-        conn.query(query,function(err,result){
+        conn.query(query,function(err2,result){
     
-            if(err) throw err
+            if(err2) console.log(err2);
             if(result.affectedRows==1)
             {
                 console.log("New Cart:\n");
                 console.log(dict);
-                
+                return callback();
             }
             else{
                 console.log("Data Not updated");
             }
-            return callback();
+            
         });
         conn.release();
 
