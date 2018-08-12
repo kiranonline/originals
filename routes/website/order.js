@@ -86,15 +86,10 @@ router.post('/order/place',isLoggedIn,function(req,res){
         var items;
         var total_price;
         var promocode=req.body.promocode;
-        var discount;
-        var cashback;
-        var used_wallet_point;
         var cashback_for_items;
         var net_amount;
         var delivery_charge;
         var net_amount_with_delivery_charge;
-        var address;
-        var address_contact;
         var date=new Date();
         var order_status="pending";
         var payment_status="pending";
@@ -109,24 +104,40 @@ router.post('/order/place',isLoggedIn,function(req,res){
             if(res2.length==1)
             {           
                 user_phone=res2[0].phone; 
-                buyer_name=res2[0].name;
-                email=res2[0].email;
-                items=res2[0].cart;
-                wallet_point=res2[0].wallet;
-                var x=JSON.parse(items);
-                var cart_items_array=x["items"];
-                getTotalPrice(cart_items_array,function(sum){
-                    total_price=sum;
-                    getTotalDeliveryCharge(cart_items_array,function(sum2){
-                        delivery_charge=sum2;
-                        getTotalCashback(cart_items_array,function(sum3){
-                            cashback_for_items=sum3;
-                            promocodeAddressValidation(user_phone,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,function(){
+                if(user_phone==null)
+                {
+                    res.redirect('/profile/?msg=Please Add Your Phone Number');
+                }
+                else if(email==null)
+                {
+                    res.redirect('/profile/?msg=Please Add Your Email');
+                   
+                }
+                else{
+                    buyer_name=res2[0].name;
+                    email=res2[0].email;
+                    items=res2[0].cart;
+                    wallet_point=res2[0].wallet;
+                    var x=JSON.parse(items);
+                    var cart_items_array=x["items"];
+                    getTotalPrice(cart_items_array,function(sum){
+                        total_price=sum;
+                        getTotalDeliveryCharge(cart_items_array,function(sum2){
+                            delivery_charge=sum2;
+                            getTotalCashback(cart_items_array,function(sum3){
+                                cashback_for_items=sum3;
 
+                                /*console.log(`user_phone=${user_phone} buyer_name=${buyer_name} email=${email} wallet_point=${wallet_point} user_id=${user_id} 
+                                items=${items} 
+                                total_price=${total_price} promocode=${promocode} cashback_for_items=${cashback_for_items}  delivery_charge=${delivery_charge}  date=${date} order_status=${order_status} payment_status=${payment_status} address_id=${address_id}`);    
+                                */  
+                                promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,delivery_charge,date,order_status,payment_status,address_id,function(){
+                                    console.log(`promocodeAddressValidation() callback`);
+                                });
                             });
                         });
                     });
-                });
+                }
             }
             //end  if user exists
             else
@@ -144,8 +155,14 @@ router.post('/order/place',isLoggedIn,function(req,res){
 });
 
 
-function promocodeAddressValidation(user_phone,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,callback)
+function promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,delivery_charge,date,order_status,payment_status,address_id,callback)
 {
+    var discount;
+    var cashback;
+    var used_wallet_point;
+    var net_amount;
+    var net_amount_with_delivery_charge;
+    
     pool.getConnection(function(errr,conn){
         if(errr) console.log(errr);
         var q2="SELECT * FROM promocode WHERE promocode="+mysql.escape(promocode);
@@ -203,6 +220,9 @@ function promocodeAddressValidation(user_phone,order_id,user_id,items,total_pric
 
             }
             //end if promocode invalid
+
+            var address;
+            var address_contact;
             net_amount_with_delivery_charge=net_amount+delivery_charge;
             var q3="SELECT * FROM address WHERE id="+mysql.escape(address_id)+" && user_id="+mysql.escape(user_id);
             conn.query(q3,function(err4,res4){
@@ -219,14 +239,14 @@ function promocodeAddressValidation(user_phone,order_id,user_id,items,total_pric
                     return;
                 }
                 //end  if address not valid
-                var q4="INSERT INTO temp_order (id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+")";
+                var q4="INSERT INTO temp_order (order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+")";
                 console.log(q4);                        
                 conn.query(q4,function(err5,res5){
                     if(err5) console.log(err5);
                     console.log("data inserted in temporary table");
+
                     makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){
                         console.log("makePayment() callback");
-                        conn.release();
                         return callback();
 
                     });

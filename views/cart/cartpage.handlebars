@@ -31,7 +31,7 @@
                 </div>
                 {{/each}}
                 {{#btnEnable}}
-                    <button class="checkoutbtn checkoutbtn1 center-align chkbtn"><p class="checkoutbtn1">CHECKOUT</p></button>
+                    <button value="1" class="checkoutbtn checkoutbtn1 center-align chkbtn"><p class="checkoutbtn1">CHECKOUT</p></button>
                 {{else}}
                 <div   class="card row center-align">
                     <h5>Your cart is empty</h5>
@@ -69,12 +69,18 @@ $(document).on('scroll', function() {
 
 var x= $('#footer_').position().top;
 
-    if( $(this).scrollTop() >=( x-100) ){
-        $('.chkbtn').fadeOut();
+    var y=$('.checkoutbtn').val();
+    console.log(y);
+    if(y==1){
+        if( $(this).scrollTop() >=( x-100) ){
+        $('.checkoutbtn').fadeOut();
+        }
+        if( $(this).scrollTop() < (x-100) ){
+            $('.checkoutbtn').fadeIn();
+        }
+
     }
-    if( $(this).scrollTop() < (x-100) ){
-        $('.chkbtn').fadeIn();
-    }
+    
 });
 
     function removeBtn(id)
@@ -94,7 +100,10 @@ var x= $('#footer_').position().top;
                     if(res["length"]==0)
                     {
                         $('#empty_cart').css('display','block');
-                        $('.checkoutbtn1').hide();
+                        //$('.checkoutbtn').hide();
+                        $('.checkoutbtn').css('display','none');
+                        $('.checkoutbtn').val(0);
+                        
                     }
                 }
                 else{
