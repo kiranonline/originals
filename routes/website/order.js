@@ -108,7 +108,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                 {
                     res.redirect('/profile/?msg=Please Add Your Phone Number');
                 }
-                else if(email===null)
+                else if(email==null)
                 {
                     res.redirect('/profile/?msg=Please Add Your Email');
                    
