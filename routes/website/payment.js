@@ -286,26 +286,36 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 					if(err3) console.log(err3);
 					if(res3.affectedRows==1)
 					{
-						deleteRowFromTempOrderTable(order_id,function(ans){
-							if(ans==1)
-							{
-								emptyCart(user_id,function(ans){
-									if(ans==1){
-										console.log("cart is emptied");
+						wallet_point_now=parseInt(wallet_point_now)-parseInt(used_wallet_point);
+						var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point_now)+" WHERE user_id="+mysql.escape(user_id);
+						console.log(q3);
+						conn.query(q3,function(err3,res3){
+							if(err3) console.log(err3);
+							if(res3.affectedRows==1){
+								deleteRowFromTempOrderTable(order_id,function(ans){
+									if(ans==1)
+									{
+										emptyCart(user_id,function(ans){
+											if(ans==1){
+												console.log("cart is emptied");
+											}
+											else{
+												console.log("cart was not emptied");
+											}
+											console.log("row deleted from temp_order");
+										});
+										
 									}
 									else{
-										console.log("cart was not emptied");
+										console.log("row was not deleted from temp_order");
 									}
-									console.log("row deleted from temp_order");
+									conn.release();
+									return callback(1);
 								});
-								
+
 							}
-							else{
-								console.log("row was not deleted from temp_order");
-							}
-							conn.release();
-							return callback(1);
 						});
+						
 						
 					}
 					else{
