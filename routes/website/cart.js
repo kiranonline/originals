@@ -106,18 +106,21 @@ else{
                         checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
                            console.log("checkExistence() callback"); 
                            res.send("done");
+                           return;
                         });
                         
                     }
                     else{
                         console.log('invalid user');
                         res.send('invalid');
+                        return;
                     }
                 });
             }
             else{
                 console.log('invalid item');
                 res.send('invalid');
+                return;
             }
         });
         conn.release();
