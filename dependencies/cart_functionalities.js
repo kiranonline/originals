@@ -23,7 +23,7 @@ class items{
 
 function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
-    checkExistenceCheck(req,cart_items_array, item_id,size,color,no_of_items,price,cashback,delivery_charge,function(){
+    checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,function(){
         add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
             return callback();
         });
@@ -31,7 +31,7 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
     
 }
 
-function checkExistenceCheck(req,cart_items_array, item_id,size,color,no_of_items,price,cashback,delivery_charge,callback){
+function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,callback){
     for(var i=0;i<cart_items_array.length;i++)
     {
         if(cart_items_array[i]["item_id"]==item_id)
