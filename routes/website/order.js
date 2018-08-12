@@ -104,29 +104,36 @@ router.post('/order/place',isLoggedIn,function(req,res){
             if(res2.length==1)
             {           
                 user_phone=res2[0].phone; 
-                buyer_name=res2[0].name;
-                email=res2[0].email;
-                items=res2[0].cart;
-                wallet_point=res2[0].wallet;
-                var x=JSON.parse(items);
-                var cart_items_array=x["items"];
-                getTotalPrice(cart_items_array,function(sum){
-                    total_price=sum;
-                    getTotalDeliveryCharge(cart_items_array,function(sum2){
-                        delivery_charge=sum2;
-                        getTotalCashback(cart_items_array,function(sum3){
-                            cashback_for_items=sum3;
+                if(user_phone==NULL)
+                {
+                    res.redirect('/profile/');
+                    return;
+                }
+                else{
+                    buyer_name=res2[0].name;
+                    email=res2[0].email;
+                    items=res2[0].cart;
+                    wallet_point=res2[0].wallet;
+                    var x=JSON.parse(items);
+                    var cart_items_array=x["items"];
+                    getTotalPrice(cart_items_array,function(sum){
+                        total_price=sum;
+                        getTotalDeliveryCharge(cart_items_array,function(sum2){
+                            delivery_charge=sum2;
+                            getTotalCashback(cart_items_array,function(sum3){
+                                cashback_for_items=sum3;
 
-    console.log(`user_phone=${user_phone} buyer_name=${buyer_name} email=${email} wallet_point=${wallet_point} user_id=${user_id} 
-    items=${items} 
-    total_price=${total_price} promocode=${promocode} cashback_for_items=${cashback_for_items}  delivery_charge=${delivery_charge}  date=${date} order_status=${order_status} payment_status=${payment_status} address_id=${address_id}`);    
-        
-                            promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,delivery_charge,date,order_status,payment_status,address_id,function(){
-                                console.log(`promocodeAddressValidation() callback`);
+                                /*console.log(`user_phone=${user_phone} buyer_name=${buyer_name} email=${email} wallet_point=${wallet_point} user_id=${user_id} 
+                                items=${items} 
+                                total_price=${total_price} promocode=${promocode} cashback_for_items=${cashback_for_items}  delivery_charge=${delivery_charge}  date=${date} order_status=${order_status} payment_status=${payment_status} address_id=${address_id}`);    
+                                */  
+                                promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point,user_id,order_id,user_id,items,total_price,promocode,cashback_for_items,delivery_charge,date,order_status,payment_status,address_id,function(){
+                                    console.log(`promocodeAddressValidation() callback`);
+                                });
                             });
                         });
                     });
-                });
+                }
             }
             //end  if user exists
             else
@@ -233,7 +240,7 @@ function promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point
                 conn.query(q4,function(err5,res5){
                     if(err5) console.log(err5);
                     console.log("data inserted in temporary table");
-                    
+
                     makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){
                         console.log("makePayment() callback");
                         return callback();
