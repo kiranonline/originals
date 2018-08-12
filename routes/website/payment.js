@@ -260,7 +260,7 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 });
 
 
-function insertIntoOrderTable(order_id,user_phone,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,callback)								
+function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,callback)								
 {
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
