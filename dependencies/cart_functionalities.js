@@ -23,6 +23,7 @@ class items{
 
 function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
+    console.log("checkExistence() called");
     checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,function(ans){
         if(ans==1)
         {
@@ -36,10 +37,16 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
                 callback();
             });
         }
+        return;
+
     });
+    
+
 }
 
 function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,callback){
+    console.log("checkExistenceCheck() called");
+    
     for(var i=0;i<cart_items_array.length;i++)
     {
         if(cart_items_array[i]["item_id"]==item_id)
@@ -48,6 +55,7 @@ function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cash
             {
                 if(cart_items_array[i]["color"]==color)
                 {    
+                    console.log("item match found");
                     var no_of_items=cart_items_array[i]["no_of_items"]+1;
                     cart_items_array[i]["no_of_items"]=no_of_items;
                     cart_items_array[i]["price"]=price;
@@ -65,8 +73,12 @@ function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cash
                 }
             }
         }
+        
+        if(i==cart_items_array.length-1){
+            console.log("reached i==cart_items_array.length-1");
+            callback(0);
+        }
     }
-  callback(0);
 }
 
 
@@ -182,6 +194,7 @@ function getTotalCashback(cart_items_array,callback)
 
 function updateQuery(dict,req,callback)
 {
+    console.log("updateQuery() called");
     pool.getConnection((err,conn)=>{
         if(err){
             console.log(err);
