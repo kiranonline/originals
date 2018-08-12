@@ -1,5 +1,8 @@
 $( document ).ready(function() {
     
+
+    
+
     //search auto complete
     $('input.autocomplete').autocomplete({
         data: {
@@ -89,13 +92,7 @@ $( document ).ready(function() {
         $('#nav-bar-controller').removeClass('navbar-fixed');
 
 
-        
-
-        
-
-
-
-
+    
 
         //scroll check and lock search bar
         $(window).scroll(function(){
@@ -112,6 +109,21 @@ $( document ).ready(function() {
 
 
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   });

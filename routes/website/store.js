@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var pool = require(path.join(__dirname, '/../../dependencies/connection.js'));
 const fs = require('fs');
 var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin.js'));
+var SendPushNotification = require(path.join(__dirname, '/../../dependencies/pushnotification.js'));
 
 
 
@@ -232,6 +233,31 @@ router.get('/products/all',(req,res)=>{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+router.post('/notification',(req,res)=>{
+    console.log('i am called');
+    const subscription = req.body;
+    
+    res.status(201).json({});
+
+    const payload = JSON.stringify({title:'Welcome to The Originals',body:'How my we help you?'});
+
+    SendPushNotification(subscription,payload,()=>{
+        console.log('push sent');
+    });
+
+
+});
 
 
 
