@@ -122,7 +122,7 @@ router.post('/order/place',isLoggedIn,function(req,res){
                         getTotalCashback(cart_items_array,function(sum3){
                             cashback_for_items=sum3;
                             promocodeAddressValidation(res,buyer_name,email,wallet_point,user_phone,order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,date,order_status,payment_status,address_id,function(){
-
+                                console.log(`promocodeAddressValidation() callback`);
                             });
                         });
                     });
