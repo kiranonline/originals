@@ -229,7 +229,6 @@ function promocodeAddressValidation(res,user_phone,buyer_name,email,wallet_point
                     console.log("data inserted in temporary table");
                     makePayment(res,order_id,"online shopping",net_amount_with_delivery_charge,user_phone,buyer_name,email,function(){
                         console.log("makePayment() callback");
-                        conn.release();
                         return callback();
 
                     });
