@@ -24,34 +24,7 @@ class items{
 function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
     console.log("checkExistence() called");
-    checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,function(ans){
-        if(ans==1)
-        {
-            console.log("checkExistenceCheck()  callback with value 1");
-            callback();
-        }
-        else{
-            console.log("checkExistenceCheck()  callback with value 0");
-            add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
-                console.log("add() callback");
-                callback();
-            });
-        }
-        return;
 
-    });
-    
-
-}
-
-function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cashback,delivery_charge,callback){
-    console.log("checkExistenceCheck() called");
-    console.log(cart_items_array);
-    if(cart_items_array.length==0)
-    {
-        callback(0);
-    }
-    console.log("cart_items_array.length is not 0");
     for(var i=0;i<cart_items_array.length;i++)
     {
         if(cart_items_array[i]["item_id"]==item_id)
@@ -72,28 +45,44 @@ function checkExistenceCheck(req,cart_items_array, item_id,size,color,price,cash
 
                     updateQuery(dict,req,function(){
                         console.log("updateQuery() callback");
-                        callback(1);
+                        console.log("no of items increased");
+                        return callback();
+                        
                     });
+                    return;
+                    
                     
                 }
             }
         }
-        
-        if(i==cart_items_array.length-1){
-            console.log("reached i==cart_items_array.length-1");
-            callback(0);
+        if(i==(cart_items_array.length-1)){
+                console.log("State -->i==cart_items_array.length-1")
+            add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+                console.log("add() callback");
+                return callback();
+                
+            });
+            return;
+            
         }
     }
+    console.log("state cart_items_array.length==0")
+    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+        console.log("add() callback");
+        return callback();
+       
+    });
+    return;
+    
+    console.log("checkExistence() end after ");
+    
+
 }
-
-
-
-
-
 
 
 function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {    
+    console.log("add callback()");
     var obj=new items(item_id,item_name,item_type,1,size,color,price,image,cashback,delivery_charge);
 var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type":obj.item_type,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"total":obj.total,"image":obj.image,"cashback":obj.cashback,"delivery_charge":obj.delivery_charge,"total_delivery_charge":obj.total_delivery_charge};
     
