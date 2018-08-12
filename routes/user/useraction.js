@@ -55,7 +55,10 @@ router.get('/profile',isLoggedIn,(req,res)=>{
                     userType='local';
                 }
                 console.log(res2[0]);
-                res.render('user/profile.handlebars',{user:res2[0],address:res1,msg:msg,section:section,userType:userType});
+		var q3="(SELECT order_id,items,net_amount_with_delivery_charge FROM order_table WHERE user_id="+mysql.escape(req.session.passport["user"])+" ORDER BY date) UNION ALL (SELECT order_id,items,net_amount_with_delivery_charge FROM temp_order WHERE user_id="+mysql.escape(req.session.passport["user"])+" AND ( ( order_status='conflict' AND payment_status='conflict' ) OR ( order_status='not placed' AND payment_status='failed' )) ORDER BY date)";
+		conn.query(q3,(err,result3)=>{
+			res.render('user/profile.handlebars',{user:res2[0],address:res1,msg:msg,section:section,userType:userType,orders:result3});
+		}); 
             });
             
         });
@@ -191,7 +194,14 @@ router.get('/wallet',isLoggedIn,(req,res)=>{
             if(err){
                 console.log(err);
             }
-            res.render('user/wallet',{balance:result1[0].wallet});
+	    var q2="SELECT * FROM wallet_transaction WHERE user_id="+mysql.escape(req.session.passport["user"])+" ORDER BY timestamp DESC";
+	    conn.query(q2,(err,result2)=>{
+	    	if(err){
+			console.log(err);		
+		}
+		console.log(result2);		
+		res.render('user/wallet',{balance:result1[0].wallet,transaction_list:result2});
+            });
         });
 
 
