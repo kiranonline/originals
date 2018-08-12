@@ -1425,8 +1425,8 @@ router.get('/dashboard/orders',(req,res)=>{
                 if(err){
                     console.log(err);
                 }
-                res.send(result1);
-               // res.render('admin/adminorder',{orders:result1});
+               // res.send(result1);
+               res.render('admin/adminorder',{layout:false,orders:result1});
             });
             conn.release();
         });
