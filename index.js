@@ -77,7 +77,7 @@ var address = require('./routes/website/address.js');
 var promocode=require('./routes/website/promocode.js');
 var order=require('./routes/website/order.js');
 var payment=require('./routes/website/payment.js');
-var cashback=require('./routes/website/cashback.js');
+var cashback=require('./routes/admin/cashback.js');
 
 
 
