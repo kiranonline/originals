@@ -253,12 +253,15 @@
 
 
 
-      
-      <ol class="breadcrumb">
+
+            <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="/admin/dashboard">Dashboard</a>
+          <a href="/admin/dashboard">Dashboard / </a>
         </li>
-        <li class="breadcrumb-item active">ORDERS</li>
+        <li>
+          <a href="/admin/dashboard/item/category/level1"> Item Category - Level 1 (Sizes) </a>
+        </li>
+        <li class="breadcrumb-item active"> / Create New</li>
       </ol>
         
 
@@ -266,104 +269,147 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i>
-           Orders
-           <a href="/admin/dashboard/orders/" class="btn btn-success">View All</a>
-          <a href="/admin/dashboard/orders/?type=today_placed" class="btn btn-success">Today Placed</a>
-           <a href="/admin/dashboard/orders/?type=placed" class="btn btn-success" >placed</a> 
-           <a href="/admin/dashboard/orders/?type=packed" class="btn btn-success" >packed</a> 
-          <a href="/admin/dashboard/orders/?type=shipped" class="btn btn-success" >Shipped</a>
-          <a href="/admin/dashboard/orders/?type=delivered" class="btn btn-success" >Delevered</a>
-           <a href="/admin/dashboard/orders/?type=not_delivered" class="btn btn-success" >Not Delevered</a>
+           View Order :  {{order.order_id}}
+           <a href="/admin/dashboard/orders" class="btn btn-success" style="float:right">View All Orders</a>           
         </div>
         <div class="card-body">
 
+          <div class="row">
+            <div class="col-md-6">
+              ORDERED BY : {{order.user_id}}
+            </div>
+            <div class="col-md-6">
+              ORDERED BY : {{user.name}} 
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              ORDERED ON : {{order.date}}
+            </div>
+            <div class="col-md-6">
+               TOTAL PRICE (raw, without any promo or offer): {{order.total_price}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+               PROMOCODE : {{order.promocode}}
+            </div>
+            <div class="col-md-6">
+               DISCOUNT : {{order.discount}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+               CASHBACK : {{order.cashback}}
+            </div>
+            <div class="col-md-6">
+               USED WALLET POINTS : {{order.used_wallet_point}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+               CASHBACK FOR ITEMS  : {{order.cashback_for_items}}
+            </div>
+            <div class="col-md-6">
+               NET AMOUNT(to be paid excluding delivery charge) : {{order.net_amount_with_delivery_charge}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+               ADDRESS CONTACT  : {{order.address_contact}}
+            </div>
+            <div class="col-md-6">
+               ADDRESS : {{order.address}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              ORDER STATUS  : {{order.order_status}}
+            </div>
+            <div class="col-md-6">
+               PAYMENT STATUS : {{order.payment_status}}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              AMOUNT PAID  : {{order.amount_paid}}
+            </div>
+            <div class="col-md-6">
+               INSTAMOJO FEES : {{order.instamojo_fees}}
+            </div>
+          </div>
+          <br>
+          <hr>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+                {{#each items}}
+                <p>
+                  ITEM ID : {{this.item_id}}<br>
+                  ITEM NAME : {{this.item_name}}<br>
+                  ITEM TYPE : {{this.item-type}}<br>
+                  ITEM NUMBER : {{this.no_of_items}}<br>
+                  ITEM SIZE : {{this.size}}<br>
+                  ITEM COLOR : <i class="fa fa-stop" style="color:{{this.color}}" aria-hidden="true"></i><br>
+                  ITEM PRICE : {{this.price}}<br>
+                  ITEM CASHBACK : {{this.cashback}}<br>
+                  ITEM DELIVERY CHARGE : {{this.delivery_charge}}<br>
+                </p>
+                <hr>
+            {{/each}}
+            </div>
+            
+          </div>
 
-            <div class="table-responsive">
 
-                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                     <thead>
-                        <tr>
-                            <th>ORDER ID</th>
-                            <th>USER ID</th>
-                            <th>ITEMS</th>
-                            <th>TOTAL PRICE</th>
-                            <th>PROMOCODE</th>
-                            <th>DISCOUNT</th>
-                            <th>CASHBACK</th>
-                            <th>USED WALLET POINT</th>
-                            <th>CASHBACK FOR ITEMS</th>
-	                          <th>NET AMOUNT</th>
-                            <th>DELIVERY CHARGE</th>
-                            <th>NET AMOUNT WITH DELIVERY CHARGE</th>
-                            <th>ADDRESS</th>
-                            <th>ADDRESS CONTACT</th>
-                            <th>ORDER DATE</th>
-                            <th>ORDER STATUS</th>
-                            <th>PAYMENT STATUS</th>
-                            <th>PAYMENT ID</th>
-                            <th>AMOUNT PAID IN GETWAY</th>
-                            <th>INSTAMOJO FEES</th>
-                            <th>OPERATIONS</th>	
-                        </tr>
-                    </thead>
-                    <tfoot>
-                         <tr>
-                            <th>ORDER ID</th>
-                            <th>USER ID</th>
-                            <th>ITEMS</th>
-                            <th>TOTAL PRICE</th>
-                            <th>PROMOCODE</th>
-                            <th>DISCOUNT</th>
-                            <th>CASHBACK</th>
-                            <th>USED WALLET POINT</th>
-                            <th>CASHBACK FOR ITEMS</th>
-                            <th>NET AMOUNT</th>
-                            <th>DELIVERY CHARGE</th>
-                            <th>NET AMOUNT WITH DELIVERY CHARGE</th>
-                            <th>ADDRESS</th>
-                            <th>ADDRESS CONTACT</th>
-                            <th>ORDER DATE</th>
-                            <th>ORDER STATUS</th>
-                            <th>PAYMENT STATUS</th>
-                            <th>PAYMENT ID</th>
-                            <th>AMOUNT PAID IN GETWAY</th>
-                            <th>INSTAMOJO FEES</th> 
-			                      <th>OPERATIONS</th>                       
-                        </tr>
+          <hr>
+          <div class="container">
 
-                    </tfoot>
-                    <tbody>
-                        {{#each orders}}
-                          <tr>
-                            <td>{{this.order_id}}</td>
-                            <td>{{this.user_id}}</td>
-                            <td>{{this.items}}</td>
-                            <td>{{this.total_price}}</td>
-                            <td>{{this.promocode}}</td>
-                            <td>{{this.discount}}</td>
-                            <td>{{this.cashback}}</td>
-                            <td>{{this.used_wallet_point}}</td>
-                            <td>{{this.cashback_for_items}}</td>
-                            <td>{{this.net_amount}}</td>
-                            <td>{{this.delivery_charge}}</td>
-                            <td>{{this.net_amount_with_delivery_charge}}</td>
-                            <td>{{this.address}}</td>
-                            <td>{{this.address_contact}}</td>
-                            <td>{{this.date}}</td>
-                            <td>{{this.order_status}}</td>
-                            <td>{{this.payment_status}}</td>
-			    <td>{{this.payment_id}}</td>
-			    <td>{{this.amount_paid}}</td>
-			    <td>{{this.instamojo_fees}}</td>
-                       
-			                      <th class="text-center"><button class="btn btn-info" onclick="change_status('{{this.order_id}}')"><i class="fa fa-pencil" aria-hidden="true"></i></button></th>
-                        </tr>
+            <div class="row">
+              <form method="POST" action="/admin/dashboard/order/{{order.order_id}}">
 
-                        {{/each}}
-                    </tbody>
-                 </table>
+                <div class="col-md-12">                  
+                  <div class="form-group">
+                    <label for="sel1">Change Status:</label>
+                    <select class="form-control" id="sel1 select_status" name="status">
+                      {{#each status}}
+                            <option value="{{this}}">{{this}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="sel1">Tracking Id:</label>
+                    <input type="text" name="tracking_id" class="form-control">
+                  </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <button id="status_update" class="btn btn-danger" name="update" type="submit">UPDATE STATUS</button>
+                  </div>
+                </div>
+
+              </form>
+
+              </div>
+                
 
             </div>
+          </div>
+            
+
+
 
           
 
@@ -418,25 +464,29 @@
     <script src="/js/admin/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="/js/admin/jquery.easing.min.js"></script>
-    <!--tables-->
-     <script src="/js/admin/jquery.dataTables.js"></script>
-      <script src="/js/admin/dataTables.bootstrap4.js"></script>
-    <!--alertyfy-->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
     <!-- Custom scripts for all pages-->
+        <!-- Custom scripts for all pages-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="/js/admin/adminvalidators.js"></script>
     <script src="/js/admin/sb-admin.min.js"></script>
 
     <script>
-         $(document).ready(function() {
-            $('#dataTable').DataTable();
-        });
 
-
-        function change_status(id){
-          window.location.replace("/admin/dashboard/order/"+id);
-        }
-        
+      $(document).ready(function(){
+          $('#status_update').on('click',()=>{
+              /*$.ajax({
+                      type:"POST",
+                      url:'/admin/dashboard/order/{{order.order_id}}/'+$('.')
+              });*/
+              console.log('I am alive');
+              console.log($('#select_status').html());
+          });
+      });
+      
     </script>
+
   </div>
 
   <!--messages-->

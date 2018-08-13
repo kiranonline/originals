@@ -1450,6 +1450,71 @@ router.get('/dashboard/orders',(req,res)=>{
                    res.render('admin/adminorder',{layout:false,orders:result1});
                 });
             }
+            else if(query_type=='not_delivered'){
+                var q1="SELECT * FROM order_table WHERE NOT order_status='delivered'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else if(query_type=='delivered'){
+                var q1="SELECT * FROM order_table WHERE order_status='delivered'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else if(query_type=='shipped'){
+                var q1="SELECT * FROM order_table WHERE order_status='shipped'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else if(query_type=='packed'){
+                var q1="SELECT * FROM order_table WHERE order_status='packed'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else if(query_type=='placed'){
+                var q1="SELECT * FROM order_table WHERE order_status='placed'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
             else{
                 //no parameter or invaid paramiter
                 var q1="SELECT * FROM order_table";
@@ -1503,6 +1568,114 @@ router.get('/dashboard/temporders',(req,res)=>{
 
 
 
+
+router.get('/dashboard/order/:id',(req,res)=>{
+    console.log(req.params.id);
+    var order_id=req.params.id;
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        pool.getConnection((err,conn)=>{
+            if(err){
+                console.log(err);
+            }
+            var q1="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
+            conn.query(q1,(err,result1)=>{
+                if(err){
+                    console.log(err)
+                }
+                var q2="SELECT * FROM userlist WHERE user_id="+mysql.escape(result1[0].user_id);
+                conn.query(q2,(err,result2)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    var items=JSON.parse(result1[0].items);
+                    console.log(items);
+                    var status=[];
+                    if(result1[0].order_status=="packed"){
+                        status=["packed","shipped","delivered"];
+                    }
+                    else if(result1[0].order_status=="shipped"){
+                        console.log('i am inn');
+                        status=["shipped","delivered"];
+                    }
+                    else if(result1[0].order_status=="delivered"){
+                        status=["delivered"];
+                    }
+                    else{
+                        status=["placed","packed","shipped","delivered"];
+                    }
+
+
+                    res.render('admin/order',{layout:false,order:result1[0],user:result2[0],items:items.items,status:status});
+                });
+                
+            });
+            conn.release();
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+router.post('/dashboard/order/:id',(req,res)=>{
+    var order_id=req.params.id;
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        pool.getConnection((err,conn)=>{
+            if(err){
+                console.log(err);
+            }
+
+            var status=req.body.status;
+            var tracking_id=null;
+            if(req.body.tracking_id){
+                tracking_id=req.body.tracking_id;
+            }
+            if(status=="shipped"){
+                var q1="UPDATE order_table SET tracking_id="+mysql.escape(tracking_id)+",order_status="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    res.redirect('/admin/dashboard/order/'+order_id);
+                });
+            }
+            else if(status=="packed"){
+                var q1="UPDATE order_table SET order_status="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    res.redirect('/admin/dashboard/order/'+order_id);
+                });
+            }
+            else if(status=="delivered"){
+                var q1="UPDATE order_table SET order_status="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    res.redirect('/admin/dashboard/order/'+order_id);
+                });
+            }
+            else{
+                res.redirect('/admin/dashboard/order/'+order_id);
+            }
+            
+            conn.release();
+        });
+    }
+});
 
 
 
