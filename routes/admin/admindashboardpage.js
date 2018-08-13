@@ -1424,12 +1424,22 @@ router.get('/dashboard/orders',(req,res)=>{
                 console.log(err);
             }
             if(query_type=='today_placed'){
-                
-                var q1="SELECT * FROM order_table WHERE DATE LIKE="+mysql.escape(date);
+                var date=new Date();
+                var m=String(date.getMonth());
+                if(m.length<2){
+                    m='0'+m;
+                }
+                var d=String(date.getDate());
+                if(d.length<2){
+                    d='0'+d;
+                }
+                var y=date.getFullYear();
+                var q1="SELECT * FROM order_table WHERE DATE LIKE "+mysql.escape(y+"-"+m+"-"+d+"%");
                 conn.query(q1,(err,result1)=>{
                     if(err){
                         console.log(err);
                     }
+                    console.log(result1);
                    // res.send(result1);
                    res.render('admin/adminorder',{layout:false,orders:result1});
                 });
