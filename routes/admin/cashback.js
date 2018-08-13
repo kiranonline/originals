@@ -29,7 +29,7 @@ router.post('/add/cashback',(req,res2)=>{
                         if(res3.length==1){
                             var wallet_point=res3[0].wallet;
                             wallet_point=parseFloat(wallet_point)+parseFloat(total_cashback);
-                            var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point)+" WHERE user_id"+mysql.escape(user_id);
+                            var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point)+" WHERE user_id="+mysql.escape(user_id);
                            console.log(q3);
                             conn.query(q3,(err4,res4)=>{
                                 if(err4) console.log(err4);
