@@ -1427,10 +1427,14 @@ router.get('/dashboard/orders',(req,res)=>{
                 var date=new Date();
                 var m=String(date.getMonth());
                 if(m.length<2){
+                    m=parseInt(m);
+                    m=m+1;
+                    m=String(m);
                     m='0'+m;
                 }
                 var d=String(date.getDate());
                 if(d.length<2){
+                    
                     d='0'+d;
                 }
                 var y=date.getFullYear();
