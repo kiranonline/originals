@@ -57,6 +57,7 @@ router.get('/profile',isLoggedIn,(req,res)=>{
                 console.log(res2[0]);
 		var q3="(SELECT order_id,items,net_amount_with_delivery_charge FROM order_table WHERE user_id="+mysql.escape(req.session.passport["user"])+" ORDER BY date) UNION ALL (SELECT order_id,items,net_amount_with_delivery_charge FROM temp_order WHERE user_id="+mysql.escape(req.session.passport["user"])+" AND ( ( order_status='conflict' AND payment_status='conflict' ) OR ( order_status='not placed' AND payment_status='failed' )) ORDER BY date)";
 		conn.query(q3,(err,result3)=>{
+            
 			res.render('user/profile.handlebars',{user:res2[0],address:res1,msg:msg,section:section,userType:userType,orders:result3});
 		}); 
             });
