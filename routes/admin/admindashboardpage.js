@@ -1469,49 +1469,4 @@ router.get('/dashboard/temporders',(req,res)=>{
 
 
 
-
-
-
-
-
-
-router.get('/dashboard/orders',(req,res)=>{
-
-    if(!req.session.admin){
-        res.redirect('/admin/login');
-    }
-    else{
-        pool.getConnection((err,conn)=>{
-            if(err){
-                console.log(err);
-            }
-            var q1="SELECT * FROM order_table";
-            conn.query(q1,(err,result1)=>{
-                if(err){
-                    console.log(err);
-                }
-               // res.send(result1);
-               res.render('admin/adminorder',{layout:false,orders:result1});
-            });
-            conn.release();
-        });
-
-    }
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = router;
