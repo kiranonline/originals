@@ -38,7 +38,7 @@ router.post('/add/cashback',(req,res2)=>{
                                     var transaction_id=uniqid('trans-');
                                     var type="credit";
                                     var date=new Date();
-                                    var q4="INSERT INTO wallet_transaction (transaction_id,user_id, order_id ,amount,type,timestamp) VALUES ("+mysql.escape(transaction_id)+","+mysql.escape(user_id)+","+mysql.escape(order_id)+","+mysql.escape(total_cashback)+","+mysql.escape(type)+","+mysql.escape(date);
+                                    var q4="INSERT INTO wallet_transaction (transaction_id,user_id, order_id ,amount,type,timestamp) VALUES ("+mysql.escape(transaction_id)+","+mysql.escape(user_id)+","+mysql.escape(order_id)+","+mysql.escape(total_cashback)+","+mysql.escape(type)+","+mysql.escape(date)+")";
                                     console.log(q4);
                                     conn.query(q4,(err5,res5)=>{
                                         if(err5) console.log(err5);
