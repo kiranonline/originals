@@ -16,28 +16,21 @@
                <div class="transactions">
                    <a class="btn">Your Transactions</a>
                    <ul class="collection">
-                        <li class="collection-item avatar">
-                            <!--<img src="images/yuna.jpg" alt="" class="circle">-->
-                            <span class="title">- &#8377 300</span>
-                            <p>ORDER ID : <br>
-                                DATE : 
-                            </p>
-                        </li>
-                            <li class="collection-item avatar">
-                            <!--<img src="images/yuna.jpg" alt="" class="circle">-->
-                            <span class="title">+ &#8377 300</span>
-                            <p>ORDER ID : <br>
-                                DATE : 
-                            </p>
-                        </li>
-                            <li class="collection-item avatar">
-                            <!--<img src="images/yuna.jpg" alt="" class="circle">-->
-                            <span class="title">+ &#8377 300</span>
-                            <p>ORDER ID : <br>
-                                DATE : 
-                            </p>
-                        </li>
-                    </ul>
+
+			{{#each transaction_list}} 
+                             
+                              <li class="collection-item avatar">
+                                  <img src="images/yuna.jpg" alt="" class="circle">
+                                  <span class="title"> &#8377 {{this.amount}} </span>
+                                  <p>TRANSACTION ID : {{this.transaction_id}} <br>
+                                     ORDER ID : {{this.order_id}} <br>
+                                     DATE : {{this.timestamp}}
+                                  </p>
+                              </li>
+
+			{{/each}}      
+ 
+	            </ul>
                </div>
            </div>
        </div>

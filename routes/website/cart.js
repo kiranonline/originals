@@ -127,6 +127,15 @@ else{
         
 });
 
+
+
+
+
+
+
+
+
+
 router.post('/cart/remove',isLoggedIn,(req,res)=>{
 
     pool.getConnection((err,conn)=>{
