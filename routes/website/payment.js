@@ -192,12 +192,12 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 					conn.query(q,(errqq,resqq)=>{
 						if(errqq) console.log(errqq);
 						if(resqq.length==1){
-							var user_id=res2[0].user_id;
-							var order_id=res2[0].order_id;
-							var total=res2[0].net_amount;
-							var delivery_charge=res2[0].delivery_charge;
-							var amount_paid=res2[0].amount_paid;
-							var items_all=JSON.parse(res2[0].items);
+							var user_id=resqq[0].user_id;
+							var order_id=resqq[0].order_id;
+							var total=resqq[0].net_amount;
+							var delivery_charge=resqq[0].delivery_charge;
+							var amount_paid=resqq[0].amount_paid;
+							var items_all=JSON.parse(resqq[0].items);
 							var items=items_all["items"];
 							var qq="SELECT name FROM userlist WHERE user_id="+mysql.escape(user_id);
 							conn.query(qq,function(errq,resq){
