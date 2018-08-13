@@ -29,7 +29,7 @@ router.post('/add/cashback',(req,res2)=>{
                         if(res3.length==1){
                             var wallet_point=res3[0].wallet;
                             wallet_point=parseFloat(wallet_point)+parseFloat(total_cashback);
-                            var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point)+" WHERE user_id"+myql.escape(user_id);
+                            var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point)+" WHERE user_id="+mysql.escape(user_id);
                            console.log(q3);
                             conn.query(q3,(err4,res4)=>{
                                 if(err4) console.log(err4);
@@ -38,13 +38,27 @@ router.post('/add/cashback',(req,res2)=>{
                                     var transaction_id=uniqid('trans-');
                                     var type="credit";
                                     var date=new Date();
-                                    var q4="INSERT INTO wallet_transaction (transaction_id,user_id, order_id ,amount,type,timestamp) VALUES ("+mysql.escape(transaction_id)+","+mysql.escape(user_id)+","+mysql.escape(order_id)+","+mysql.escape(total_cashback)+","+mysql.escape(type)+","+mysql.escape(date);
+                                    var q4="INSERT INTO wallet_transaction (transaction_id,user_id, order_id ,amount,type,timestamp) VALUES ("+mysql.escape(transaction_id)+","+mysql.escape(user_id)+","+mysql.escape(order_id)+","+mysql.escape(total_cashback)+","+mysql.escape(type)+","+mysql.escape(date)+")";
                                     console.log(q4);
                                     conn.query(q4,(err5,res5)=>{
                                         if(err5) console.log(err5);
                                         if(res5.affectedRows==1){
                                             console.log("Trasaction added to the table");
-                                            res2.send('Done');
+
+                                            var q5="UPDATE order_table SET cashback_received="+mysql.escape("received")+" WHERE order_id="+mysql.escape(order_id);
+                                            console.log(q5);
+                                            conn.query(q5,(err6,res6)=>{
+                                                if(err6) console.log(err6);
+                                                if(res6.affectedRows==1){
+
+                                                    console.log("Cashback given");
+                                                    res2.send('Done');
+                                                }
+
+                                            });
+                                            
+                                            
+
                                         }
                                     });
                                 }
@@ -69,7 +83,8 @@ router.post('/add/cashback',(req,res2)=>{
 router.get('/haha',(req,res)=>{
 
     console.log("haha");
-    res.render('/admin/haha',{});
+    //res.send('Haaa');
+    res.render('haha',{layout:false});
 });
 
 module.exports=router;
