@@ -155,7 +155,7 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 						});
 					}
 					else{
-						console.log("front-->Something is Wrong..failed+creadit=??");
+						console.log("front-->Something is Wrong..failed+credit=??");
 						console.log("Something is Wrong");
 						//res.redirect('/');
 						var q="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
@@ -186,12 +186,39 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 					
 				}
 				else{
-					console.log("front-->Something is Wrong.invalid order_id....or row deleted");
-					//res.redirect('/');
-					//return;
-				}
-				return callback();
-			});
+
+
+					var q="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
+					conn.query(q,(errqq,resqq)=>{
+						if(errqq) console.log(errqq);
+						if(resqq.length==1){
+							var user_id=res2[0].user_id;
+							var order_id=res2[0].order_id;
+							var total=res2[0].net_amount;
+							var delivery_charge=res2[0].delivery_charge;
+							var amount_paid=res2[0].amount_paid;
+							var items_all=JSON.parse(res2[0].items);
+							var items=items_all["items"];
+							var qq="SELECT name FROM userlist WHERE user_id="+mysql.escape(user_id);
+							conn.query(qq,function(errq,resq){
+								if(errq) console.log(errq);
+								if(resq.length==1){
+									var user_name=resq[0].name;
+									generateInvoice(user_name,order_id,items,delivery_charge,amount_paid,"Payment Failed");
+								}
+
+								});
+								
+							}
+							//console.log("front-->Something is Wrong.invalid order_id....or row deleted");
+							//res.redirect('/');
+							//return;
+						});
+						return callback();
+					}
+		
+				
+		});
 		}
 		//end if status Credit
 		else{
