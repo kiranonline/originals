@@ -24,7 +24,6 @@ class items{
 
 
 
-
 function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
     console.log("checkExistence() called");
