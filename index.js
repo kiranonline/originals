@@ -77,6 +77,7 @@ var address = require('./routes/website/address.js');
 var promocode=require('./routes/website/promocode.js');
 var order=require('./routes/website/order.js');
 var payment=require('./routes/website/payment.js');
+var cashback=require('./routes/website/cashback.js');
 
 
 
@@ -233,6 +234,7 @@ app.use('/address',address);
 app.use('/promocode',promocode);
 app.use('/',order);
 app.use('/',payment);
+app.use('/',cashback);
 
 app.get('/logout', function(req, res) {
     req.logout(); 

@@ -1399,30 +1399,59 @@ router.get('/dashboard/promocode/delete', (req,res)=>{
 
 
 
+
 router.get('/dashboard/orders',(req,res)=>{
+    console.log('i am called');
 
     if(!req.session.admin){
         res.redirect('/admin/login');
     }
     else{
+        var query_type=null;
+
+        if(req.query.type){
+            query_type=req.query.type;
+        }
+        else{
+            query_type=null;
+        }
+        console.log('jjjjjjjjjjj');
+        console.log(query_type);
+
+
         pool.getConnection((err,conn)=>{
             if(err){
                 console.log(err);
             }
-            var q1="SELECT * FROM order_table";
-            conn.query(q1,(err,result1)=>{
-                if(err){
-                    console.log(err);
-                }
-                //res.send("hello");
-                res.render('admin/adminorder',{layout:false,orders:result1});
-            });
+            if(query_type=='today_placed'){
+                
+                var q1="SELECT * FROM order_table WHERE DATE LIKE="+mysql.escape(date);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+                });
+            }
+            else{
+                //no parameter or invaid paramiter
+                var q1="SELECT * FROM order_table";
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+                });
+            }
             conn.release();
         });
 
     }
 
 });
+
 
 
 
