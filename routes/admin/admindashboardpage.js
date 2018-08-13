@@ -1434,7 +1434,9 @@ router.get('/dashboard/orders',(req,res)=>{
                     d='0'+d;
                 }
                 var y=date.getFullYear();
-                var q1="SELECT * FROM order_table WHERE DATE LIKE "+mysql.escape(y+"-"+m+"-"+d+"%");
+                
+                var q1="SELECT * FROM order_table WHERE date LIKE "+mysql.escape(y+"-"+m+"-"+d+"%");
+                console.log(q1);
                 conn.query(q1,(err,result1)=>{
                     if(err){
                         console.log(err);
