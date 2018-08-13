@@ -234,7 +234,7 @@ app.use('/address',address);
 app.use('/promocode',promocode);
 app.use('/',order);
 app.use('/',payment);
-app.use('/',cashback);
+app.use('/admin',cashback);
 
 app.get('/logout', function(req, res) {
     req.logout(); 
