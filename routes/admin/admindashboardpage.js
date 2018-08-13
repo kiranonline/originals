@@ -1514,19 +1514,4 @@ router.get('/dashboard/temporders',(req,res)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = router;
