@@ -68,7 +68,7 @@ router.post('/add/cashback',(req,res2)=>{
 
 router.get('/haha',(req,res)=>{
 
-    res.render('req.html');
+    res.render('admin/req.html');
 });
 
 module.exports=router;
