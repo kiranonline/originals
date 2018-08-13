@@ -70,7 +70,7 @@ router.get('/haha',(req,res)=>{
 
     console.log("haha");
     //res.send('Haaa');
-    res.render('haha',{});
+    res.render('haha',{layout:false});
 });
 
 module.exports=router;
