@@ -9,26 +9,6 @@ var router=express.Router();
 var request= require('request');
 
 
-
-router.get('/invoice',function(req,res){
-	console.log("invoice route");
-	generateInvoice("Rohit ","orer-2jk82bcjskjskj",[
-		  {
-			"name": "Gizmo",
-			"quantity": 10,
-			"unit_cost": 99.99,
-			"description": "The best gizmos there are around."
-		  },
-		  {
-			"name": "Gizmo v2",
-			"quantity": 5,
-			"unit_cost": 199.99
-		  }
-		]
-	  ,40,300);
-	res.send("invoice");
-});
-
 router.get('/order/payment/success/:order_id',function(req,res){
 
 	console.log('front-->Waiting for order details');
@@ -51,28 +31,23 @@ router.get('/order/payment/success/:order_id',function(req,res){
 					var status=payment_details.payment["status"];
 					console.log("front->status from api response"+status);
 					
-					payment_status_from_instamojoFunction(status,order_id,function(){
+					payment_status_from_instamojoFunction(status,order_id,payment_id,function(){
 						console.log("front--> payment_status_from_instamojoFunction() callback");
 						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
-						console.log("front--> update temp_order insta status query"+q);
 						conn.query(q,function(err2,res2){
 							if(err2) console.log(err2);
 							if(res2.affectedRows==1)
 							{
 								console.log("front-->instamojo payment status updated in temp_order table");
-								//res.send("success");
+								payment_status_from_instamojoFunction(status,order_id,payment_id);
 							}
-							/*
 							else{
-								console.log("front-->Something is Wrong.instamojo payment status not updated in temp order");
-								//res.redirect('/');
-								//return;
-							}*/
-							conn.release();
-							res.send("success");
-							
+								console.log("front-->invalid order_id");
+								res.status(404);
+								return;
+							}
+							conn.release();							
 						});
-
 					}); 					
 				}
 			});
@@ -83,7 +58,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 });
 
 
-function payment_status_from_instamojoFunction(status,order_id,callback)
+function payment_status_from_instamojoFunction(status,order_id,payment_id)
 {
 	pool.getConnection(function(errr,conn){
 		if(errr) console.log(errr);
@@ -98,135 +73,66 @@ function payment_status_from_instamojoFunction(status,order_id,callback)
 				console.log("length of payment_status from temp order"+res3.length);
 				if(res3.length==1)
 				{
-					if(res3[0].payment_status=='Credit')
+					//means order_id valid
+
+					var items_all=JSON.parse(res3[0].items);
+					var items=items_all["items"];
+					var date =res3[0].date;
+					var total=res3[0].total;
+					var delivery_charge=res3[0].delivery_charge;
+					var net_amount=res3[0].net_amount;
+					var amount_paid="??";
+					if(res3[0].payment_status=='pending')
 					{
-						console.log('front-->payment Successful');
-						var q="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
-						conn.query(q,function(err4,res2){
-							if(err4) console.log(err4);
-							if(res2.length==1)
-							{
-								var user_id=res2[0].user_id;
-								var order_id=res2[0].order_id;
-								var total=res2[0].net_amount;
-								var delivery_charge=res2[0].delivery_charge;
-								var amount_paid=res2[0].amount_paid;
-								var items_all=JSON.parse(res2[0].items);
-								var items=items_all["items"];
-								var qq="SELECT name FROM userlist WHERE user_id="+mysql.escape(user_id);
-								conn.query(qq,function(errq,resq){
-									if(errq) console.log(errq);
-									if(resq.length==1){
-										var user_name=resq[0].name;
-										generateInvoice(user_name,order_id,items,delivery_charge,amount_paid,"Order Placed");
-									}
-								});
-							}
-							else{
-								console.log("Something is Wrong");
-								//res.redirect('/');
-								return;
-							}
-						});
-					}
-					else if(res3[0].payment_status=="pending"){
-						console.log("front-->payment is processing..pending+credit=processing");
-						var q="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
-						conn.query(q,function(err4,res2){
-							if(err4) console.log(err4);
-							if(res2.length==1)
-							{
-								var user_id=res2[0].user_id;
-								var order_id=res2[0].order_id;
-								var total=res2[0].net_amount;
-								var delivery_charge=res2[0].delivery_charge;
-								var amount_paid=res2[0].amount_paid;
-								var items_all=JSON.parse(res2[0].items);
-								var items=items_all["items"];
-								var qq="SELECT name FROM userlist WHERE user_id="+mysql.escape(user_id);
-								conn.query(qq,function(errq,resq){
-									if(errq) console.log(errq);
-									if(resq.length==1){
-										var user_name=resq[0].name;
-										generateInvoice(user_name,order_id,items,delivery_charge,amount_paid,"Payment Processing");
-									}
-								});
-							}
-						});
-					}
-					else{
-						console.log("front-->Something is Wrong..failed+credit=??");
-						console.log("Something is Wrong");
-						//res.redirect('/');
-						var q="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
-						conn.query(q,function(err4,res2){
-							if(err4) console.log(err4);
-							if(res2.length==1)
-							{
-								var user_id=res2[0].user_id;
-								var order_id=res2[0].order_id;
-								var total=res2[0].net_amount;
-								var delivery_charge=res2[0].delivery_charge;
-								var amount_paid=res2[0].amount_paid;
-								var items_all=JSON.parse(res2[0].items);
-								var items=items_all["items"];
-								var qq="SELECT name FROM userlist WHERE user_id="+mysql.escape(user_id);
-								conn.query(qq,function(errq,resq){
-									if(errq) console.log(errq);
-									if(resq.length==1){
-										var user_name=resq[0].name;
-										generateInvoice(user_name,order_id,items,delivery_charge,amount_paid,"Payment Failed");
-									}
-								});
-						
-								return;
-							}
-						});
-					}
-					
-				}
-				else{
+						//payment_status from temp_order pending
 
-
+						console.log('front-->payment_status in temp_order  ->pending');
+						console.log("front--> pending +credit =processing");
+						res.render('cart/paymentsuccess',{order_status:"Waiting for payment confirmation",order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
+					}
+				}	
+				else
+				{
+					//invalid order_id or data moved to order_table
 					var q="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
 					conn.query(q,(errqq,resqq)=>{
 						if(errqq) console.log(errqq);
-						if(resqq.length==1){
+						if(resqq.length==1)
+						{
+							//valid order_id
 							var user_id=resqq[0].user_id;
 							var order_id=resqq[0].order_id;
-							var total=resqq[0].net_amount;
-							var delivery_charge=resqq[0].delivery_charge;
-							var amount_paid=resqq[0].amount_paid;
+							//payment_id
 							var items_all=JSON.parse(resqq[0].items);
 							var items=items_all["items"];
-							var qq="SELECT name FROM userlist WHERE user_id="+mysql.escape(user_id);
-							conn.query(qq,function(errq,resq){
-								if(errq) console.log(errq);
-								if(resq.length==1){
-									var user_name=resq[0].name;
-									generateInvoice(user_name,order_id,items,delivery_charge,amount_paid,"Payment Failed");
-								}
-
-								});
-								
+							var total=resqq[0].total;
+							var net_amount=resqq[0].net_amount;
+							var delivery_charge=resqq[0].delivery_charge;
+							var amount_paid=resqq[0].amount_paid;
+							var date=resqq[0].date;
+							var order_status=resqq[0].order_status;
+							var payment_status=resqq[0].payment_status;
+							if(order_status=='placed')
+							{
+								let order_status="Order Placed";	
+								res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});				
 							}
-							//console.log("front-->Something is Wrong.invalid order_id....or row deleted");
-							//res.redirect('/');
-							//return;
-						});
-						return callback();
-					}
-		
-				
-		});
+							else if(order_status=='contact')
+							{
+								let order_status="Order could not be placed due to low wallet balance.Please Contact Rk@gamil.com.";
+								res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
+							}	
+						}						
+					});
+				}		
+			});
 		}
 		//end if status Credit
-		else{
+		else
+		{
 			console.log("front-->Payment failed..api gives failed response");
-			return callback();
 		}
-	});
-	
+	});	
 }
 
 router.post('/admin/order/placed/success/:order_id',function(req,res2){
