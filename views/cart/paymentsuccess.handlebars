@@ -13,9 +13,9 @@
                 <hr>
                 <div class="body-body">
                     <p class="basic">ORDER STATUS : <span>{{this.order_status}}</span></p>
-                    <p class="basic">ORDER ID : <span>{{order_id}}</span></p>
-                    <p class="basic">PAYMENT ID : <span>{{payment_id}}</span></p>
-                    <p class="basic">TIME STAMP : <span>{{timestamp}}</span></p>
+                    <p class="basic">ORDER ID : <span>{{this.order_id}}</span></p>
+                    <p class="basic">PAYMENT ID : <span>{{this.payment_id}}</span></p>
+                    <p class="basic">TIME STAMP : <span>{{this.date}}</span></p>
                     <p>ITEMS</p>
                     <table class="striped centered table">
                         <thead>
@@ -28,8 +28,8 @@
                         <tbody>
                             {{#each this.items}}
                             <tr>
-                                <td>this.item_name</td>
-                                <td>this.price</td>
+                                <td>{{this.item_name}}</td>
+                                <td>{{this.price}}</td>
                             </tr>
                             {{/each}}
                         </tbody>                       
