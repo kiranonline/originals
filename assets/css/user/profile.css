@@ -133,6 +133,9 @@ p {
 form .error {
   color: #ff0000;
 }
+.order-details{
+	padding:10px 30px 10px 30px !important;
+}
 
 
 
@@ -241,6 +244,10 @@ form .error {
 	.modal { 
 		width: 100% !important ; 
 		height: 100%!important ; 
+	}
+	.ordered-img{
+		width:20%;
+		padding:10px;
 	}
   }
 

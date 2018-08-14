@@ -4,10 +4,12 @@ var router = express.Router();
 var path = require('path');
 var mysql = require('mysql');
 var pool = require(path.join(__dirname,'/../../dependencies/connection.js'));
+var cashback = require(path.join(__dirname,'/../../dependencies/cashback.js'));
 const fs =  require('fs');
 const fse = require('fs-extra');
 var uniqid = require('uniqid');
 var trim = require('trim');
+var request= require('request');
 const fileUpload = require('express-fileupload');
 
 
@@ -1665,7 +1667,16 @@ router.post('/dashboard/order/:id',(req,res)=>{
                     if(err){
                         console.log(err);
                     }
-                    res.redirect('/admin/dashboard/order/'+order_id);
+
+                    cashback(order_id,function(s){
+                        if(s=='s'){
+                            res.redirect('/admin/dashboard/order/'+order_id);
+                        }
+                        else{
+                            res.send('Unable to give cashback, check order_id='+order_id);
+                        }
+                    });              
+                    
                 });
             }
             else{
