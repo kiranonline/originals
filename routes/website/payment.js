@@ -13,7 +13,9 @@ var uniqid=require('uniqid');
 
 router.get('/order/payment/success/:order_id',function(req,res){
 
-	console.log('front-->Waiting for order details');
+	setTimeout(function(){
+
+		console.log('front-->Waiting for order details');
 		pool.getConnection(function(err,conn){
 			if(err) console.log(err);
 
@@ -50,6 +52,9 @@ router.get('/order/payment/success/:order_id',function(req,res){
 			
 		});
 
+
+	},1000);
+	
 		
 });
 
