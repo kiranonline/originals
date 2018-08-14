@@ -140,7 +140,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 			console.log("front-->Payment failed..api gives failed response");
 			var order_status_local="Order not placed due to unsuccessful payment";
 			//would be changed
-			res.send("Payment failed");
+			res.render('cart/paymentfailure');
 			callback();
 		}
 	});	
