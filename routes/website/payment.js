@@ -8,6 +8,11 @@ var generateInvoice=setFields.setFields;
 var router=express.Router();
 var request= require('request');
 
+router.get("/dummy",(req,res)=>{
+	res.render('cart/paymentsuccess');
+
+});
+
 
 router.get('/order/payment/success/:order_id',function(req,res){
 
