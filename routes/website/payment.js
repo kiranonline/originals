@@ -92,6 +92,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 				{
 					//invalid order_id or data moved to order_table
 					var q="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
+					console.log(q);
 					conn.query(q,(errqq,resqq)=>{
 						if(errqq) console.log(errqq);
 						if(resqq.length==1)
@@ -111,11 +112,13 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 							var payment_status=resqq[0].payment_status;
 							if(order_status=='placed')
 							{
+								console.log("when order placed");
 								let order_status="Order Placed";	
 								res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});				
 							}
 							else if(order_status=='contact')
 							{
+								console.log(`when order is in contact state`);
 								let order_status="Order could not be placed due to low wallet balance.Please Contact Rk@gamil.com.";
 								res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
 							}	
