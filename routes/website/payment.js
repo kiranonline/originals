@@ -131,7 +131,8 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
 		else
 		{
 			console.log("front-->Payment failed..api gives failed response");
-			res.send("Payment Failed");
+			let order_status="Order not placed due to unsuccessful payment";
+			res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
 		}
 	});	
 }
