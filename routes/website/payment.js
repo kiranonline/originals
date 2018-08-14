@@ -7,12 +7,8 @@ var setFields = require(path.join(__dirname, '/../../dependencies/invoice.js'));
 var generateInvoice=setFields.setFields;
 var router=express.Router();
 var request= require('request');
+var uniqid=require('uniqid');
 
-router.get("/dummy",(req,res)=>{
-	//res.send('h');
-	res.render('cart/paymentfailure.handlebars',{});
-
-});
 
 
 router.get('/order/payment/success/:order_id',function(req,res){
@@ -80,7 +76,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 					var items_all=JSON.parse(res3[0].items);
 					var items=items_all["items"];
 					var date =res3[0].date;
-					var total=res3[0].total;
+					var total=res3[0].total_price;
 					var delivery_charge=res3[0].delivery_charge;
 					var net_amount=res3[0].net_amount;
 					var amount_paid="??";
@@ -125,8 +121,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 							else if(order_status=='contact')
 							{
 								console.log(`when order is in contact state`);
-								var order_status_local="Order could not be placed due to low wallet balance.Please Contact Rk@gamil.com.";
-								res.render('cart/paymentsuccess',{order_status:order_status_local,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
+								res.render('cart/contactadmin');
 							}	
 							callback();
 						}						
@@ -154,8 +149,6 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 		console.log("back-->query for order details "+q);
 		conn.query(q,function(err2,res){
 			if(err2) console.log(err2);
-			//console.log("back--> temp order details "+res);
-			//console.log("back--> temp order details "+res[0]);
 			console.log("temp order details length ="+res.length);
 			if(res.length==1)
 			{
@@ -190,7 +183,6 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 				console.log("back--> from temp-->payment_status_from_instamojo= "+payment_status_from_instamojo);
 				
 				console.log(" webhook??status_var==> " +status_var);
-				console.log(" webhook??payment_id==> " +payment_id);
 				console.log(" webhook??amount_paid==> " +amount_paid);
 
 				if(payment_status_from_instamojo=="Credit")
@@ -243,8 +235,6 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 						}
 						//end if instamojo get request does not responds
 					});
-			
-
 				}
 				//end   payment_status_from_instamojo=="not_checked" case
 				else{
@@ -258,14 +248,8 @@ router.post('/admin/order/placed/success/:order_id',function(req,res2){
 
 				}
 				//end   payment_status_from_instamojo=="failed" case
-
 			}
 			//end order details found
-			else
-			{
-				res2.status(404);
-			}
-			//end order_details not found
 		});
 		//end get order details from temp_order
 		conn.release();
@@ -280,11 +264,12 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 	pool.getConnection(function(err,conn){
 		if(err) console.log(err);
 		
-		var q="SELECT wallet FROM userlist WHERE user_id="+mysql.escape(user_id);
+		var q="SELECT * FROM userlist WHERE user_id="+mysql.escape(user_id);
 		conn.query(q,function(errr,resu){
 			if(errr) console.log(errr);
 			if(resu.length==1){
 				var wallet_point_now=parseInt(resu[0].wallet);
+				var user_name=resu[0].name;
 				console.log(`wallet_point_now=${wallet_point_now}`);
 				if(wallet_point_now<parseInt(used_wallet_point))
 				{
@@ -300,52 +285,52 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 					if(err3) console.log(err3);
 					if(res3.affectedRows==1)
 					{
-						wallet_point_now=parseInt(wallet_point_now)-parseInt(used_wallet_point);
-						var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point_now)+" WHERE user_id="+mysql.escape(user_id);
-						console.log(q3);
-						conn.query(q3,function(err3,res3){
-							if(err3) console.log(err3);
-							if(res3.affectedRows==1){
-								deleteRowFromTempOrderTable(order_id,function(ans){
-									if(ans==1)
-									{
-										emptyCart(user_id,function(ans){
-											if(ans==1){
-												console.log("cart is emptied");
-											}
-											else{
-												console.log("cart was not emptied");
-											}
-											console.log("row deleted from temp_order");
-										});
-										
-									}
-									else{
-										console.log("row was not deleted from temp_order");
-									}
-									conn.release();
-									return callback(1);
-								});
-
-							}
+						var items_all=JSON.parse(items);
+						var items_array=items_all["items"];
+						generateInvoice(user_name,order_id,items_array,total_price,net_amount,delivery_charge,amount_paid,function(){
+							var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point_now)+" WHERE user_id="+mysql.escape(user_id);
+							console.log(q3);
+							conn.query(q3,function(err3,res3){
+								if(err3) console.log(err3);
+								if(res3.affectedRows==1)
+								{
+									var transaction_id=uniqid('trans-');
+									var type='Debit';
+									let date=new Date();
+									var qqq="INSERT INTO wallet_transaction (transaction_id,user_id, order_id ,amount,type,timestamp) VALUES ("+mysql.escape(transaction_id)+","+mysql.escape(user_id)+","+mysql.escape(order_id)+","+mysql.escape(used_wallet_point)+","+mysql.escape(type)+","+mysql.escape(date)+")";
+									console.log(qqq);
+									conn.query(qqq,(errqqq,resqqq)=>{
+										if(errqqq) console.log(errqqq);
+										if(resqqq.affectedRows==1){
+											console.log("Transaction add to the table");
+											deleteRowFromTempOrderTable(order_id,function(ans){
+												if(ans==1)
+												{
+													emptyCart(user_id,function(ans){
+														if(ans==1){
+															console.log("cart is emptied");
+														}
+														console.log("row deleted from temp_order");
+													});
+													
+												}
+												
+												conn.release();
+												return callback(1);
+											});
+										}
+									});
+						
+								}
+							});
+							//end  update wallet_point	
+							
 						});
-						
-						
+						//end generateInvoice()
 					}
-					else{
-						conn.release();
-						return callback(0);
-						
-					}
-					
 				});
-
-				
 			}
-			
 		});
-		
-		
 	});
 }
 
@@ -404,11 +389,7 @@ function check(status_var,order_id,user_id,items,total_price,promocode,discount,
 		insertIntoOrderTable(order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,payment_id,longurl,amount_paid,instamojo_fees,mac,function(ans){
 			if(ans==1)
 				console.log("Data inserted in order table");
-			else{
-					console.log("Something happened wrong");
-					console.log("data not updated in order table");
-				}
-				return callback();
+			return callback();
 		});
 	}
 	else{
@@ -419,10 +400,6 @@ function check(status_var,order_id,user_id,items,total_price,promocode,discount,
 		updateTempOrderTable(order_id,payment_status,order_status,function(ans){
 			if(ans==1)
 				console.log("Data updated in the temp_order");
-			else{
-					console.log("Something happened wrong");
-					console.log("data not updated in temp_order table");
-			}
 			return callback();
 		});
 

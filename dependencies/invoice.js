@@ -103,7 +103,7 @@ generateInvoice(invoice, 'originals1.pdf', function() {
 });
 */
 
-function setFields(user_name,order_id,items,delivery_charge,amount_paid,status,callback){
+function setFields(user_name,order_id,items,total,net_amount,delivery_charge,amount_paid,status,callback){
 console.log("setFields() called");
     var invoice = {
         logo:"http://the-originals.in/logos/logo2.png",
