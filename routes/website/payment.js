@@ -40,11 +40,6 @@ router.get('/order/payment/success/:order_id',function(req,res){
 								console.log("front-->instamojo payment status updated in temp_order table");
 								
 							}
-							else{
-								console.log("front-->invalid order_id");
-								res.status(404);
-								return;
-							}
 							conn.release();							
 						});
 					});				
