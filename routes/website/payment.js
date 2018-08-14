@@ -64,7 +64,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 		if(status=="Credit")
 		{
 			console.log(`status = ${status}`);
-			var  q2="SELECT payment_status FROM temp_order WHERE order_id="+mysql.escape(order_id);
+			var  q2="SELECT * FROM temp_order WHERE order_id="+mysql.escape(order_id);
 			console.log(q2);
 			conn.query(q2,function(err3,res3){
 				if(err3) console.log(err3);
@@ -124,7 +124,10 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 								res.render('cart/contactadmin');
 							}	
 							callback();
-						}						
+						}		
+						else{
+							res.status(404);
+						}				
 					});
 				}		
 			});
