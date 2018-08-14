@@ -128,13 +128,6 @@
 <script src="js/cart/cart.js"></script>
 <script>
 
-$(document).ready(function() {
-    function disableBack() { window.location.replace('') }
-
-    window.onload = disableBack();
-    window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
-});
-
 
 function orderPlace()
 {
