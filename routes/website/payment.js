@@ -9,8 +9,8 @@ var router=express.Router();
 var request= require('request');
 
 router.get("/dummy",(req,res)=>{
-	//res.send('h');
-	res.render('cart/paymentsuccess.handlebars',{});
+	res.send('h');
+	//res.render('cart/paymentfailure.handlebars',{});
 
 });
 
@@ -139,7 +139,6 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 		{
 			console.log("front-->Payment failed..api gives failed response");
 			var order_status_local="Order not placed due to unsuccessful payment";
-			//would be changed
 			res.render('cart/paymentfailure');
 			callback();
 		}
