@@ -78,6 +78,7 @@ var promocode=require('./routes/website/promocode.js');
 var order=require('./routes/website/order.js');
 var payment=require('./routes/website/payment.js');
 var cashback=require('./routes/admin/cashback.js');
+var error=require('./routes/website/error.js');
 
 
 
@@ -235,6 +236,7 @@ app.use('/promocode',promocode);
 app.use('/',order);
 app.use('/',payment);
 app.use('/admin',cashback);
+app.use('/',error);
 
 app.get('/logout', function(req, res) {
     req.logout(); 
