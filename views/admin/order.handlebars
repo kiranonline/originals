@@ -22,6 +22,14 @@
   <link href="/css/admin/sb-admin.min.css" rel="stylesheet">
 </head>
 
+
+<style>
+  object{
+    width:100%;
+    height: 100%;
+  }
+</style>
+
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -259,7 +267,7 @@
           <a href="/admin/dashboard">Dashboard / </a>
         </li>
         <li>
-          <a href="/admin/dashboard/item/category/level1"> Item Category - Level 1 (Sizes) </a>
+          <a href="/admin/dashboard/item/category/level1 "> Item Category - Level 1 (Sizes) </a>
         </li>
         <li class="breadcrumb-item active"> / Create New</li>
       </ol>
@@ -270,6 +278,7 @@
         <div class="card-header">
           <i class="fa fa-table"></i>
            View Order :  {{order.order_id}}
+           <button class="btn btn-info" data-toggle="modal" data-target="#pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
            <a href="/admin/dashboard/orders" class="btn btn-success" style="float:right">View All Orders</a>           
         </div>
         <div class="card-body">
@@ -459,12 +468,44 @@
         </div>
       </div>
     </div>
+
+
+
+
+
+
+
+<!-- Modal -->
+<div id="pdf" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Header</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" id="modal_pdf">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
         <!-- Bootstrap core JavaScript-->
     <script src="/js/admin/jquery.min.js"></script>
     <script src="/js/admin/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="/js/admin/jquery.easing.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+    <script src="/PDFObject/pdfobject.min.js"></script>
     <!-- Custom scripts for all pages-->
         <!-- Custom scripts for all pages-->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
@@ -484,6 +525,16 @@
               console.log($('#select_status').html());
           });
       });
+
+
+
+    var options = {
+      width:"100%",
+      height: "1000px",
+      pdfOpenParams: { view: 'FitV', page: '2' }
+    };
+
+    PDFObject.embed("/invoice/{{order.order_id}}.pdf","#modal_pdf", options); 
       
     </script>
 
