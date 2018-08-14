@@ -86,7 +86,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 
 						console.log('front-->payment_status in temp_order  ->pending');
 						console.log("front--> pending +credit =processing");
-						res.render('cart/paymentsuccess',{order_status:"Waiting for payment confirmation",order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
+						res.render('cart/paymentprocessing');
 					    callback();
 					}
 				}	
