@@ -113,14 +113,14 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 							if(order_status=='placed')
 							{
 								console.log("when order placed");
-								let order_status="Order Placed";	
-								res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});				
+								var order_status_local="Order Placed";	
+								res.render('cart/paymentsuccess',{order_status:order_status_local,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});				
 							}
 							else if(order_status=='contact')
 							{
 								console.log(`when order is in contact state`);
-								let order_status="Order could not be placed due to low wallet balance.Please Contact Rk@gamil.com.";
-								res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
+								var order_status_local="Order could not be placed due to low wallet balance.Please Contact Rk@gamil.com.";
+								res.render('cart/paymentsuccess',{order_status:order_status_local,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
 							}	
 							callback();
 						}						
@@ -132,7 +132,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 		else
 		{
 			console.log("front-->Payment failed..api gives failed response");
-			let order_status="Order not placed due to unsuccessful payment";
+			var order_status_local="Order not placed due to unsuccessful payment";
 			//would be changed
 			res.send("Payment failed");
 			callback();
