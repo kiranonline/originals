@@ -31,24 +31,22 @@ router.get('/order/payment/success/:order_id',function(req,res){
 					var status=payment_details.payment["status"];
 					console.log("front->status from api response"+status);
 					
-					payment_status_from_instamojoFunction(status,order_id,payment_id,function(){
-						console.log("front--> payment_status_from_instamojoFunction() callback");
-						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
-						conn.query(q,function(err2,res2){
-							if(err2) console.log(err2);
-							if(res2.affectedRows==1)
-							{
-								console.log("front-->instamojo payment status updated in temp_order table");
-								payment_status_from_instamojoFunction(res,status,order_id,payment_id);
-							}
-							else{
-								console.log("front-->invalid order_id");
-								res.status(404);
-								return;
-							}
-							conn.release();							
-						});
-					}); 					
+					var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
+					conn.query(q,function(err2,res2){
+						if(err2) console.log(err2);
+						if(res2.affectedRows==1)
+						{
+							console.log("front-->instamojo payment status updated in temp_order table");
+							payment_status_from_instamojoFunction(res,status,order_id,payment_id);
+						}
+						else{
+							console.log("front-->invalid order_id");
+							res.status(404);
+							return;
+						}
+						conn.release();							
+					});
+										
 				}
 			});
 			
@@ -132,17 +130,10 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
 		//end if status Credit
 		else
 		{
-			console.log(`status = ${status}`);
 			console.log("front-->Payment failed..api gives failed response");
 			let order_status="Order not placed due to unsuccessful payment";
 			//would be changed
-			var date=new Date();
-			var items=[];
-			var total=0;
-			var net_amount=0;
-			var delivery_charge=0;
-			var amount_paid=0; 
-			res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
+			res.send("Payment failed");
 		}
 	});	
 }
