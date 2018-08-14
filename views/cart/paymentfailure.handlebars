@@ -4,7 +4,15 @@
         <div class="s-header">
             <i class="red-checked  material-icons z-depth-3">close</i>
             <p class="thank-you">Your payment is failed!</p>                
-            <button  class="btn">Go to cart </button>              
+            <button  onclick='goToCart()' class="btn">Go to cart </button>              
         </div>
     </div>
 </div>
+
+<script>
+    
+function goToCart(){
+    window.location.replace("/cart");
+
+}
+</script>
