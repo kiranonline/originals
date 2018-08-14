@@ -9,8 +9,8 @@ var router=express.Router();
 var request= require('request');
 
 router.get("/dummy",(req,res)=>{
-	res.send('h');
-	//res.render('cart/paymentfailure.handlebars',{});
+	//res.send('h');
+	res.render('cart/paymentfailure.handlebars',{});
 
 });
 
