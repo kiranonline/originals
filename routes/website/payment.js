@@ -60,12 +60,14 @@ router.get('/order/payment/success/:order_id',function(req,res){
 
 function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
 {
+	console.log("payment_status_from_instamojoFunction() called with status"+status);
 	pool.getConnection(function(errr,conn){
 		if(errr) console.log(errr);
 	
 		console.log("front-->payment_status_from_instamojoFunction() called");
 		if(status=="Credit")
 		{
+			console.log(`status = ${status}`);
 			var  q2="SELECT payment_status FROM temp_order WHERE order_id="+mysql.escape(order_id);
 			console.log(q2);
 			conn.query(q2,function(err3,res3){
@@ -130,6 +132,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
 		//end if status Credit
 		else
 		{
+			console.log(`status = ${status}`);
 			console.log("front-->Payment failed..api gives failed response");
 			let order_status="Order not placed due to unsuccessful payment";
 			//would be changed
