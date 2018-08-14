@@ -39,7 +39,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 							if(res2.affectedRows==1)
 							{
 								console.log("front-->instamojo payment status updated in temp_order table");
-								payment_status_from_instamojoFunction(status,order_id,payment_id);
+								payment_status_from_instamojoFunction(res,status,order_id,payment_id);
 							}
 							else{
 								console.log("front-->invalid order_id");
@@ -58,7 +58,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 });
 
 
-function payment_status_from_instamojoFunction(status,order_id,payment_id)
+function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
 {
 	pool.getConnection(function(errr,conn){
 		if(errr) console.log(errr);
@@ -131,6 +131,7 @@ function payment_status_from_instamojoFunction(status,order_id,payment_id)
 		else
 		{
 			console.log("front-->Payment failed..api gives failed response");
+			res.send("Payment Failed");
 		}
 	});	
 }
