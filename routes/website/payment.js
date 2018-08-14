@@ -110,7 +110,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 							//payment_id
 							var items_all=JSON.parse(resqq[0].items);
 							var items=items_all["items"];
-							var total=resqq[0].total;
+							var total=resqq[0].total_price;
 							var net_amount=resqq[0].net_amount;
 							var delivery_charge=resqq[0].delivery_charge;
 							var amount_paid=resqq[0].amount_paid;
