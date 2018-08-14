@@ -39,7 +39,7 @@
                     <p>DELIVERY CHARGE : <span>{{this.delivery_charge}} </span></p>
                     <p>PAID: <span>{{this.amount_paid}}</span></p>
                     <div class="download-c">
-                        <button download='../../assets/invoice/{{this.order_id}}.pdf' class="waves-effect waves-light btn download"><i class="material-icons right" >file_download</i>Download Invoice</button>
+                        <a href='../../assets/invoice/{{this.order_id}}.pdf' download="invoice.pdf" class="waves-effect waves-light btn download"><i class="material-icons right" >file_download</i>Download Invoice</a>
                     </div>
                     
                 </div>
