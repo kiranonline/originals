@@ -291,42 +291,67 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 						var items_all=JSON.parse(items);
 						var items_array=items_all["items"];
 						generateInvoice(user_name,order_id,items_array,total_price,net_amount,delivery_charge,amount_paid,order_status,function(){
-							var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point_now)+" WHERE user_id="+mysql.escape(user_id);
-							console.log(q3);
-							conn.query(q3,function(err3,res3){
-								if(err3) console.log(err3);
-								if(res3.affectedRows==1)
-								{
-									var transaction_id=uniqid('trans-');
-									var type='Debit';
-									let date=new Date();
-									var qqq="INSERT INTO wallet_transaction (transaction_id,user_id, order_id ,amount,type,timestamp) VALUES ("+mysql.escape(transaction_id)+","+mysql.escape(user_id)+","+mysql.escape(order_id)+","+mysql.escape(used_wallet_point)+","+mysql.escape(type)+","+mysql.escape(date)+")";
-									console.log(qqq);
-									conn.query(qqq,(errqqq,resqqq)=>{
-										if(errqqq) console.log(errqqq);
-										if(resqqq.affectedRows==1){
-											console.log("Transaction add to the table");
-											deleteRowFromTempOrderTable(order_id,function(ans){
-												if(ans==1)
-												{
-													emptyCart(user_id,function(ans){
-														if(ans==1){
-															console.log("cart is emptied");
-														}
-														console.log("row deleted from temp_order");
-													});
+							
+							if(used_wallet_point>0)
+							{
+								var update_wallet_point=parseFloat(wallet_point_now)-parseFloat(used_wallet_point);
+								var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point_now)+" WHERE user_id="+mysql.escape(user_id);
+								console.log(q3);
+								conn.query(q3,function(err3,res3){
+									if(err3) console.log(err3);
+									if(res3.affectedRows==1)
+									{
+										var transaction_id=uniqid('trans-');
+										var type='Debit';
+										let date=new Date();
+										var qqq="INSERT INTO wallet_transaction (transaction_id,user_id, order_id ,amount,type,timestamp) VALUES ("+mysql.escape(transaction_id)+","+mysql.escape(user_id)+","+mysql.escape(order_id)+","+mysql.escape(used_wallet_point)+","+mysql.escape(type)+","+mysql.escape(date)+")";
+										console.log(qqq);
+										conn.query(qqq,(errqqq,resqqq)=>{
+											if(errqqq) console.log(errqqq);
+											if(resqqq.affectedRows==1){
+												console.log("Transaction add to the table");
+												deleteRowFromTempOrderTable(order_id,function(ans){
+													if(ans==1)
+													{
+														emptyCart(user_id,function(ans){
+															if(ans==1){
+																console.log("cart is emptied");
+															}
+															console.log("row deleted from temp_order");
+														});
+														
+													}
 													
-												}
-												
-												conn.release();
-												return callback(1);
-											});
-										}
-									});
-						
-								}
-							});
-							//end  update wallet_point	
+													conn.release();
+													return callback(1);
+												});
+											}
+										});
+							
+									}
+								});
+								//end  update wallet_point
+							}
+							else{
+								deleteRowFromTempOrderTable(order_id,function(ans){
+									if(ans==1)
+									{
+										emptyCart(user_id,function(ans){
+											if(ans==1){
+												console.log("cart is emptied");
+											}
+											console.log("row deleted from temp_order");
+										});
+										
+									}
+									
+									conn.release();
+									return callback(1);
+								});
+
+							}
+							
+								
 							
 						});
 						//end generateInvoice()
