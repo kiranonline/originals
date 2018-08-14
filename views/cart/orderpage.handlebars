@@ -129,7 +129,7 @@
 <script>
 
 $(document).ready(function() {
-    function disableBack() { window.history.forward() }
+    function disableBack() { window.location.replace('') }
 
     window.onload = disableBack();
     window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
