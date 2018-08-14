@@ -29,24 +29,20 @@ router.get('/order/payment/success/:order_id',function(req,res){
 					console.log('api responded');
 					var payment_details=JSON.parse(response.body);
 					var status=payment_details.payment["status"];
-					console.log("front->status from api response"+status);
+					console.log("front->status from api response "+status);
 					
-					var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
-					conn.query(q,function(err2,res2){
-						if(err2) console.log(err2);
-						if(res2.affectedRows==1)
-						{
-							console.log("front-->instamojo payment status updated in temp_order table");
-							payment_status_from_instamojoFunction(res,status,order_id,payment_id);
-						}
-						else{
-							console.log("front-->invalid order_id");
-							res.status(404);
-							return;
-						}
-						conn.release();							
-					});
-										
+					payment_status_from_instamojoFunction(res,status,order_id,payment_id,function(){
+						var q="UPDATE temp_order SET payment_status_from_instamojo="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
+						conn.query(q,function(err2,res2){
+							if(err2) console.log(err2);
+							if(res2.affectedRows==1)
+							{
+								console.log("front-->instamojo payment status updated in temp_order table");
+								
+							}
+							conn.release();							
+						});
+					});				
 				}
 			});
 			
@@ -56,7 +52,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 });
 
 
-function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
+function payment_status_from_instamojoFunction(res,status,order_id,payment_id,callback)
 {
 	console.log("payment_status_from_instamojoFunction() called with status"+status);
 	pool.getConnection(function(errr,conn){
@@ -89,6 +85,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
 						console.log('front-->payment_status in temp_order  ->pending');
 						console.log("front--> pending +credit =processing");
 						res.render('cart/paymentsuccess',{order_status:"Waiting for payment confirmation",order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
+					    callback();
 					}
 				}	
 				else
@@ -122,6 +119,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
 								let order_status="Order could not be placed due to low wallet balance.Please Contact Rk@gamil.com.";
 								res.render('cart/paymentsuccess',{order_status:order_status,order_id:order_id,payment_id:payment_id,date:date,items:items,total:total,net_amount:net_amount,delivery_charge:delivery_charge,amount_paid:amount_paid});
 							}	
+							callback();
 						}						
 					});
 				}		
@@ -134,6 +132,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id)
 			let order_status="Order not placed due to unsuccessful payment";
 			//would be changed
 			res.send("Payment failed");
+			callback();
 		}
 	});	
 }
