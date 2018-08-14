@@ -290,7 +290,7 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 					{
 						var items_all=JSON.parse(items);
 						var items_array=items_all["items"];
-						generateInvoice(user_name,order_id,items_array,total_price,net_amount,delivery_charge,amount_paid,function(){
+						generateInvoice(user_name,order_id,items_array,total_price,net_amount,delivery_charge,amount_paid,order_status,function(){
 							var q3="UPDATE userlist SET wallet="+mysql.escape(wallet_point_now)+" WHERE user_id="+mysql.escape(user_id);
 							console.log(q3);
 							conn.query(q3,function(err3,res3){
