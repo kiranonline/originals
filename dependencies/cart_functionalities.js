@@ -257,10 +257,7 @@ function updateQuery(dict,req,callback)
                 console.log(dict);
                 callback();
             }
-            else{
-                console.log("Data Not updated");
-            }
-            
+           
         });
         conn.release();
 
