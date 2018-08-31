@@ -4,7 +4,7 @@ function makePayment(res,order_id,purpose,amount,phone,buyer_name,email,callback
 {  
   console.log("makePayment() called");
 
-  console.log(`res=${res} order_id =${order_id} purpose=${purpose} amount=${amount} phone=${phone} buyer_name=${buyer_name} email=${email}`);
+  console.log(`order_id =${order_id} purpose=${purpose} amount=${amount} phone=${phone} buyer_name=${buyer_name} email=${email}`);
 var headers = { 'X-Api-Key': 'test_da22573aae638ce3fcb53c15f4f', 'X-Auth-Token': 'test_a0e09af12f77bfc6acded07115c'}
 var payload = {
   purpose: purpose,

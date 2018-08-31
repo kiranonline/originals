@@ -14,7 +14,7 @@ var getTotalCashback=cart_functionalities.getTotalCashback;
 
 
 
-router.get('/order',isLoggedIn,(req,res)=>{
+router.post('/order',isLoggedIn,(req,res)=>{
 
 pool.getConnection(function(error,conn){
 if(error) console.log(error);

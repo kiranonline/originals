@@ -54,14 +54,17 @@
 
 
 $(document).ready(function(){
-
     $('#empty_cart').hide();
 });
 
 
 $('.checkoutbtn1').on('click',function(){
-    console.log("going to checkout page");
-    window.location.replace('/order');
+   // console.log("going to checkout page");
+    //window.location.replace('/order');
+
+    $('<form action="/order" method="POST"/>')
+        .appendTo($(document.body)) //it has to be added somewhere into the <body>
+        .submit();
 });
 
 
