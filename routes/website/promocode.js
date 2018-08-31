@@ -9,7 +9,6 @@ var getTotalDeliveryCharge=cart_functionalities.getTotalDeliveryCharge;
 var check = require(path.join(__dirname,'/../../dependencies/promocodelimit.js'));
 
 router.post('/check',isLoggedIn,function(req,res){
-
     var promocode=req.body.name;
     pool.getConnection(function(err,conn){
         if(err) console.log(err);
@@ -23,6 +22,16 @@ router.post('/check',isLoggedIn,function(req,res){
             var cart=JSON.parse(res2[0].cart);
             var cart_items_array=cart["items"];
 
+            var used_promocodes=JSON.parse(res2[0].used_promocodes);
+            var used_promocodes_array=used_promocodes["promocode"];
+            var limit=0;
+            for( key in used_promocodes_array)
+            {
+                if(key==promocode)
+                {
+                    limit=used_promocodes_array.key;
+                }
+            }
             var delivery_charge;
             getTotalDeliveryCharge(cart_items_array,function(sum){
                 console.log("getTotalDeliveryCharge() callback");

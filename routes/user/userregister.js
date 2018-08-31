@@ -184,7 +184,7 @@ router.get('/verify', function(req, res){
                     var cart="{\"items\":[]}";
                     var used_promocodes="{\"promocodes\":[]}";
                     console.log('i am called');
-                    var q1 = "insert userlist (user_id,name, phone, password, email, gender, age, timeofquery,cart,used_promocodes) select "+mysql.escape(user_id)+",name, phone, password, email, gender, age, current_timestamp(),"+mysql.escape(cart)+","+mysql.escape(used_promocodes)+"from tempuserlist where otp = " + mysql.escape(link);
+                    var q1 = "insert userlist (user_id,name, phone, password, email, gender, age, timeofquery,cart,used_promocodes) select "+mysql.escape(user_id)+",name, phone, password, email, gender, age, current_timestamp(),"+mysql.escape(cart)+","+mysql.escape(used_promocodes)+" from tempuserlist where otp = " + mysql.escape(link);
                     var q2 = "delete from tempuserlist where otp = " + mysql.escape(link);
                     conn.query(q1, function (err, result){
                         if (err) {
