@@ -1,29 +1,29 @@
 <link type="text/css" rel="stylesheet" href="/css/cart/cart.css">
         <div class="container">
-            <div class="row ">
+            <div class="row cart-start">
                 {{#each cart}}
                 <div class="col s12 m12 l8 xl8 no-margine no-padding {{this.id}}" id="cartitemsection">
                     <div class="card left-section">
                         <div class="row ">
                             <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
-                                <img src="/{{this.image}}" class="responsive-img cart-item-image">
+                                <a href="/item/{{this.item_id}}"><img src="/{{this.image}}" class="responsive-img cart-item-image"></a>
                             </div>
                             <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
                                 <p class="desc-item">Description of Item</p>
                                 <p><span>Item Name : </span>{{this.item_name}}</p>
                                 <p><span>Item type : </span>{{this.item_type}}</p>
                                 <p><span>Size : </span>{{this.size}}</p>
-                                <ul >
+                               <!-- <ul >
                                     <li style="display:inline-block;"><p><span>Color: &nbsp&nbsp&nbsp </span></li>
                                     <li style="display:inline-block;"><div  style="background-color:{{this.color}};width:25px;height:25px">  </div></li>
-                                </ul>
+                                </ul>-->
                                 
                                 <p>Quantity : </p>                                    
-                                <span class="btn minus" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                <span class="btn minus  light-blue darken-2" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
                                 <a class="btn {{this.id}} {{this.item_id}}" id="quantity">{{this.no_of_items}}</a>
-                                <span class="btn plus" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{this.id}}')">Remove</a>
-                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.total}}</span> </p>
+                                <span class="btn plus  light-blue darken-2" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                <a class="btn remove waves-effect waves-light round-button-corner"  onclick="removeBtn('{{this.id}}')">Remove</a>
+                                <p class="price ">Total Price: &#8377<span class="cart-item-price price{{this.id}}">{{this.total}}</span> </p>
                             </div>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                 </div>
                 {{/each}}
                 {{#btnEnable}}
-                    <button value="1" class="checkoutbtn checkoutbtn1 center-align chkbtn"><p class="checkoutbtn1">CHECKOUT</p></button>
+                    <button value="1" class="checkoutbtn checkoutbtn1 center-align chkbtn round-button-corner"><p class="checkoutbtn1">CHECKOUT</p></button>
                 {{else}}
                 <div   class="card row center-align">
                     <h5>Your cart is empty</h5>

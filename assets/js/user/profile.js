@@ -62,11 +62,19 @@ $(document).ready(function(){
                 minlength:10,
                 maxlength:10
             },
-            landmark: {
-                required: true,
+            locality:{
+                required:true
             },
-            add:{
+            city:{
+                required:true
+            },
+            state:{
+                required:true
+            },
+            pin:{
                 required: true,
+                minlength:6,
+                maxlength:6
             }
         },
         //For custom messages
@@ -76,11 +84,17 @@ $(document).ready(function(){
                 minlength: "Enter a valid phone number !",
                 maxlength: "Enter a valid phone number !"
             },
-           landmark:{
-                required: "Please enter your password !"
+            locality:{
+                required:true
             },
-            add:{
-                required:'Please enter the address !'
+            city:{
+                required:true
+            },
+            state:{
+                required:"Please enter the state"
+            },
+            pin:{
+                required:"Invalid pin code"
             }
         },
         errorElement : 'div',

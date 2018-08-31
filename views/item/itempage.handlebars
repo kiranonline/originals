@@ -4,30 +4,36 @@
 
 
 
-
-<div class="container">
-    <div class = "row">
+<div class="container cc">
+    <div class = "row cc">
 			
 			
-            <div class="col s12 m6 l5 xl5 margin-extended">
+            <div class="col s12 m6 l6 xl5 margin-extended">
 
-                <div class="card holder_1">
+                <div class=" holder_1">
 
-                    <div class="active-image-holder">
+                    <!--<div class="active-image-holder">
                         <img id="active-image" class="responsive-img active-image-cntrl">
-                    </div>
-                    
-                    <div class="item-images-slide" id="item-images-slide">
+                        <divclass="img-zoom-result"></div>
+                    </div>-->
 
+                    <div class="img-zoom-container">
+                        <img id="myimage" src="data:image/jpeg;base64,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" width="300" height="240">
+                        <div id="myresult" class="img-zoom-result"></div>
+                    </div>
+
+                    <div id="item-images-slide">
                         {{#each item.image}}
-                            <img src="/{{this}}" class="item-image" onclick="showImage('#active-image','/{{this}}')">          
+                            <img src="/{{this}}" class="item-image" onclick="showImage('#myimage','/{{this}}')">          
                         {{/each}}
-
                     </div>
+                        
+
+                    
 
                     <i id="left" class="fa fa-chevron-circle-left slide-btnn left" aria-hidden="true"></i>
                     <i id="right"  class="fa fa-chevron-circle-right slide-btnn right" aria-hidden="true"></i>	
-                </div>
+               </div>
 
 
                 	
@@ -35,16 +41,16 @@
 			
 
 
-			<div class="col s12 m6 l7 xl7 margin-extended ">
+			<div class="col s12 m6 l6 xl7 margin-extended ">
 
-                <div class="card">
+                <div class="">
                     <div class="Item-name padding_1">
                         <p>{{item.name}}</p>
                     </div>
                     <hr>
                     <div class="Item-desc padding_2">
                         <img src="/logos/logo_bottom.png" class="exclusive">
-                        <p>Originals Exclusive Collection</p>
+                        <p>Originals Exclusives</p>
                     </div>
                     <div class="stars-container padding_2">
                         <div class="item-star">
@@ -57,7 +63,8 @@
                     </div>
                     <div class="type-container padding_2">
                         <p class="type">Type : <span>{{item.type}}</span></p>
-                        <p class="type">Price : <span>{{item.price}}</span></p>
+                        <p class="type">Price : &#8377<span style="font-weight:lighter;font-size:35px">{{item.price}}</span></p>
+                        <p class="taxes">Inclusive of all taxes</p>
                         <i class="material-icons cashback-tag">local_offer</i><i class="offer">Flat &#8377 {{item.cashback}} cashback</i>
                     </div>
                     
@@ -72,14 +79,46 @@
                                 {{/each}}
                             </p>
 
-                            <p>
+                            <!--<p>
                                 {{#each item.colors}}
                                     <label>
                                         <input class="with-gap" name="color" style="color:white;" type="radio" value="{{this}}" checked/>
                                         <span style="background-color:{{this}}"></span>
                                     </label>
                                 {{/each}}
-                            </p>
+                            </p>-->
+
+                            <!--<div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
+                                <div class="row">
+                                    <div class="input-field col s8 m8 l8 xl8">
+                                        <input id="promocode" type="text" class="validate">
+                                        <label for="promocode">Use Promocode</label>
+                                    </div>
+                                    <div class="col s4 m4 l4 xl4">
+                                        <button class="btn btn-hldr round-button-corner" onclick="apply()">Apply</button>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <button class="btn btn-hldr round-button-corner  light-blue darken-2">Size Chart</button>
+                            <div class="row">
+                                <div class="col s12 m8 l6 xl6">
+                                    <div class="row">
+                                        <p class="pin-checker-heading">Check if the item is available in your area</p>
+                                        <div class="input-field col s8 m8 l8">
+                                            <i class="material-icons prefix">location_on</i>
+                                            <input id="pin" type="text" placeholder="Check pincode" class="validate">
+                                           
+                                        </div>
+                                        
+                                        <div class="s4 m4 l4">
+                                            <button class="btn btn-hldr round-button-corner  light-blue darken-2 pin" onclick="check_pin()">Check</button>
+                                        </div>
+                                    </div>
+                                    <p class="pin-valid-status" id="pin-valid-status"></p>
+                                </div>
+                            </div>
+                            
+                        
 
                             <button class="button waves-effect waves-light add-to-cart" onclick="AddTocart('{{item.id}}')">Add to Cart</button>
                     </div>
@@ -94,6 +133,12 @@
 
 
 
+<!--<div class="image-zoomable-container" id="myresult">
+</div>-->
+
+
+
+
 
 
 
@@ -102,10 +147,13 @@
 <script>
     function showImage(target,address){
         $(target).attr("src",address);
-        console.log('I');
+        $('.img-zoom-lens').remove();
+        imageZoom("myimage", "myresult");
+        
     }
+    
 
-    $('.item-image:first-child').click();
+    
 
     function AddTocart(id){
         $.ajax({
@@ -126,6 +174,104 @@
             }
         });
     }
+    
 
+
+    function check_pin(){
+        console.log('i am called');
+        var pin=$('#pin').val();
+        $.ajax({
+            method:"POST",
+            url:"/address/pin/check",
+            data:{pin:pin},
+            success:function(res){
+                $('#pin-valid-status').html('Order will be delivered');
+                $('#pin-valid-status').addClass('green-text');
+                $('#pin-valid-status').addClass('green-text');
+            },
+            error:function(err){
+                $('#pin-valid-status').html("We don't deliver here");
+                $('#pin-valid-status').removeClass('green-text');
+                $('#pin-valid-status').addClass('red-text');                 
+            }
+        });
+    }
+
+
+
+
+
+        function imageZoom(imgID, resultID) {
+            var img, lens, result, cx, cy;
+            img = document.getElementById(imgID);
+            result = document.getElementById(resultID);
+            /*create lens:*/
+            lens = document.createElement("DIV");
+            lens.setAttribute("class", "img-zoom-lens");
+            /*insert lens:*/
+            img.parentElement.insertBefore(lens, img);
+            /*calculate the ratio between result DIV and lens:*/
+            cx = result.offsetWidth / lens.offsetWidth;
+            cy = result.offsetHeight / lens.offsetHeight;
+            /*set background properties for the result DIV:*/
+            result.style.backgroundImage = "url('" + img.src + "')";
+            result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+            /*execute a function when someone moves the cursor over the image, or the lens:*/
+            lens.addEventListener("mousemove", moveLens);
+            img.addEventListener("mousemove", moveLens);
+            /*and also for touch screens:*/
+            lens.addEventListener("touchmove", moveLens);
+            img.addEventListener("touchmove", moveLens);
+            function moveLens(e) {
+                var pos, x, y;
+                /*prevent any other actions that may occur when moving over the image:*/
+                e.preventDefault();
+                /*get the cursor's x and y positions:*/
+                pos = getCursorPos(e);
+                /*calculate the position of the lens:*/
+                x = pos.x - (lens.offsetWidth / 2);
+                y = pos.y - (lens.offsetHeight / 2);
+                /*prevent the lens from being positioned outside the image:*/
+                if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+                if (x < 0) {x = 0;}
+                if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+                if (y < 0) {y = 0;}
+                /*set the position of the lens:*/
+                lens.style.left = x + "px";
+                lens.style.top = y + "px";
+                /*display what the lens "sees":*/
+                result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+            }
+            function getCursorPos(e) {
+                var a, x = 0, y = 0;
+                e = e || window.event;
+                /*get the x and y positions of the image:*/
+                a = img.getBoundingClientRect();
+                /*calculate the cursor's x and y coordinates, relative to the image:*/
+                x = e.pageX - a.left;
+                y = e.pageY - a.top;
+                /*consider any page scrolling:*/
+                x = x - window.pageXOffset;
+                y = y - window.pageYOffset;
+                return {x : x, y : y};
+            }
+        }
+
+
+        $(document).ready(function(){
+            $('.item-image:first-child').click();
+            imageZoom("myimage", "myresult");
+           $('#myimage').mouseenter(function(){
+                if($('#myresult').css("visibility")=="hidden"){
+                    $('#myresult').css("visibility","visible");
+                }
+                else{
+                    $('#myresult').css("visibility","hidden");
+                }
+            });
+
+        });
+
+        
 
 </script>
