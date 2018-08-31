@@ -1,8 +1,8 @@
 var path = require('path');
 var mysql = require('mysql');
-var pool = require(path.join(__dirname,'/../../dependencies/connection.js'));
+var pool = require(path.join(__dirname,'connection.js'));
 
-function add(name,no,callback)
+function add(req,name,no,callback)
 {
     var promocodes=[];
     var dict={'name':name,'no':no};
@@ -15,7 +15,7 @@ function add(name,no,callback)
     });
 }
 
-function check(promocode,limit,callback)
+function check(req,promocode,limit,callback)
 {
     pool.getConnection(function(err,conn){
 
@@ -29,31 +29,31 @@ function check(promocode,limit,callback)
                 var promocodes=used_promocodes['promocodes'];
                 for(var i=0;i<promocodes.length;i++)
                 {
-                    console.log(`key=${x}  value=${promocodes[x]}`);
+                    console.log(`key=${promocodes[i]['name']}  value=${promocodes[i]['no']}`);
                     if(promocode==promocodes[i]['name'])
                     {
                         if(promocodes[i]['no']<limit)
                         {
                             console.log("you can use the promocode");
-                            var no=promocodes[i][no];
-                            promocodes[i][no]=no+1; 
+                            var no=promocodes[i][1];
+                            promocodes[i][no]=parseInt(no)+1; 
                             var dict={'promocodes':promocodes};
                             updateQuery(dict,req,function(){
                                 console.log(`${promocodes[i]['name']} used one more time`);
                                 console.log("updateQuery() callback");
-                                callback();
+                                callback(1);
                             });
                         }
                         else{
                             console.log("You have already reached the limit of this promocode");
-                            callback();
+                            callback(0);
                         }
                         return;
                     }
                 }
-                add(name,no,function(){
+                add(req,promocode,1,function(){
                     console.log("add() callback");
-                    callback();
+                    callback(1);
                 });
             }
         });

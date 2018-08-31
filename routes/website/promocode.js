@@ -6,9 +6,11 @@ var pool = require(path.join(__dirname, '/../../dependencies/connection.js'));
 var mysql=require('mysql');
 var  cart_functionalities= require(path.join(__dirname,'/../../dependencies/cart_functionalities.js'));
 var getTotalDeliveryCharge=cart_functionalities.getTotalDeliveryCharge;
+var check = require(path.join(__dirname,'/../../dependencies/promocodelimit.js'));
 
 router.post('/check',isLoggedIn,function(req,res){
 
+    var promocode=req.body.name;
     pool.getConnection(function(err,conn){
         if(err) console.log(err);
         var q="SELECT * from userlist WHERE user_id="+mysql.escape(req.session.passport["user"]);
@@ -25,59 +27,65 @@ router.post('/check',isLoggedIn,function(req,res){
             getTotalDeliveryCharge(cart_items_array,function(sum){
                 console.log("getTotalDeliveryCharge() callback");
                 delivery_charge=sum;
-            });
-            var query="SELECT * FROM promocode WHERE promocode="+mysql.escape(req.body.name);
-            conn.query(query,function(err,result){
-                if(err) console.log(err);
-
-                if(result.length==1)
-                {
-                    var x=req.body.totalPrice;
-                    var TotalPrice=parseFloat(x);
-                    var percentage=parseFloat(result[0].percentage);
-                    var upto=parseFloat(result[0].upto);
-                    var type=result[0].type;
-                    var net_amount=TotalPrice;
-                    if(type=="discount")
+                check(req,promocode,limit,function(ans){
+                    if(ans==0)
                     {
-                        var discount_amount=TotalPrice*percentage/100;
-                        if(discount_amount>upto)
-                        discount_amount=upto;
-                        net_amount=TotalPrice-discount_amount;
-                        res.send({net_amount:net_amount,delivery_charge:delivery_charge,success:"discount"});
+                        res.send({success:"false"});
                         return;
-                    }
-                    else if(type=="wallet_point")
-                    {
-                        var discount_amount=TotalPrice*percentage/100;
-                        if(discount_amount>upto)
-                        discount_amount=upto;
-                        if(discount_amount>wallet_point)
-                        discount_amount=wallet_point;
-                        net_amount=TotalPrice-discount_amount;
-                        res.send({net_amount:net_amount,delivery_charge:delivery_charge,wallet_point:discount_amount,success:"wallet_point"});
-                        return ;
                     }
                     else{
-                        var discount_amount=TotalPrice*percentage/100;
-                        if(discount_amount>upto)
-                        discount_amount=upto;
-                        res.send({success:"cashback",cashback:discount_amount});
-                        return;
+                        var query="SELECT * FROM promocode WHERE promocode="+mysql.escape(promocode);
+                        conn.query(query,function(err,result){
+                            if(err) console.log(err);
+            
+                            if(result.length==1)
+                            {
+                                var x=req.body.totalPrice;
+                                var TotalPrice=parseFloat(x);
+                                var percentage=parseFloat(result[0].percentage);
+                                var upto=parseFloat(result[0].upto);
+                                var type=result[0].type;
+                                var net_amount=TotalPrice;
+                                if(type=="discount")
+                                {
+                                    var discount_amount=TotalPrice*percentage/100;
+                                    if(discount_amount>upto)
+                                    discount_amount=upto;
+                                    net_amount=TotalPrice-discount_amount;
+                                    res.send({net_amount:net_amount,delivery_charge:delivery_charge,success:"discount"});
+                                    return;
+                                }
+                                else if(type=="wallet_point")
+                                {
+                                    var discount_amount=TotalPrice*percentage/100;
+                                    if(discount_amount>upto)
+                                    discount_amount=upto;
+                                    if(discount_amount>wallet_point)
+                                    discount_amount=wallet_point;
+                                    net_amount=TotalPrice-discount_amount;
+                                    res.send({net_amount:net_amount,delivery_charge:delivery_charge,wallet_point:discount_amount,success:"wallet_point"});
+                                    return ;
+                                }
+                                else{
+                                    var discount_amount=TotalPrice*percentage/100;
+                                    if(discount_amount>upto)
+                                    discount_amount=upto;
+                                    res.send({success:"cashback",cashback:discount_amount});
+                                    return;
+                                }
+                            }
+                            else{
+                                
+                                res.send({success:"false"});
+                                return;
+                            }
+                        });
                     }
-                }
-                else{
-                    
-                    res.send({success:"false"});
-                    return;
-                }
+                
+                });
             });
+            
         }
-        else{
-            console.log("invalid user");
-            res.redirect('/');
-        }
-
         });
         conn.release();
     });
