@@ -24,7 +24,6 @@ if(!error && response.statusCode == 201){
     res.redirect(x.payment_request["longurl"]);
     return callback();
   }
- 
 });
 
 }
