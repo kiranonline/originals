@@ -223,7 +223,7 @@ function promocodeAddressValidation(req,res,user_phone,buyer_name,email,wallet_p
                         used_wallet_point=0;
                         net_amount=total_price;
                     }
-                    var address=address_id;
+                    var address;
                     var address_contact;
                     net_amount_with_delivery_charge=net_amount+delivery_charge;
                     var q3="SELECT * FROM address WHERE id="+mysql.escape(address_id)+" && user_id="+mysql.escape(user_id);
@@ -232,7 +232,7 @@ function promocodeAddressValidation(req,res,user_phone,buyer_name,email,wallet_p
 
                         if(res4.length==1)
                         {
-                            //address=res4[0].address;
+                            address=res4[0].id;
                             address_contact=res4[0].contact;
                             var q4="INSERT INTO temp_order (order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+")";
                             console.log(q4);                        
