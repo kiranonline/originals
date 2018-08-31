@@ -1037,6 +1037,7 @@ router.post('/dashboard/category1',function(req,res){
 
 //save new item
 router.post('/dashboard/item/new',function(req,res){
+    console.log(req.body);
     if(!req.session.admin){
        res.redirect('/admin/login');
    }
@@ -1044,25 +1045,29 @@ router.post('/dashboard/item/new',function(req,res){
        var name=req.body.name;
        var price=req.body.price;
        var cashback=req.body.cashback;
-       var delevery_charge=req.body.delevery_charge;
+       var delivery_charge=req.body.delevery_charge;
        var id=uniqid('item-'); 	
-       var size_id=req.body.size.split(",")[0];
-       var size_name=req.body.size.split(",")[1];
-       var color_id=req.body.color.split(",")[0];
-       var color_name=req.body.color.split(",")[1];
+       var size_id=req.body.size.split(",")[0] || "none";
+       var size_name=req.body.size.split(",")[1] || "none";
+       var color_id=req.body.color.split(",")[0] || "none";
+       var color_name=req.body.color.split(",")[1] || "none";
        var gender=req.body.gender;
-       var event_type_id=req.body.event_type.split(",")[0];
-       var event_type_name=req.body.event_type.split(",")[1];
+       var event_type_id=req.body.event_type.split(",")[0] || "none";
+       var event_type_name=req.body.event_type.split(",")[1] || "none";
        var item_type_id=req.body.item_type.split(",")[0];
        var item_type_name=req.body.item_type.split(",")[1];
        var added_by=req.session.admin.name;
        var added_on=new Date();
        var tags=req.body.tags;
-    
+       var desc = req.body.desc;
+        console.log(color_id,event_type_id,size_id);    
+       console.log('i am okk1');
     
        var str=tags.replace(/  +/g,' ');
        console.log(str);
-       pool.getConnection((err,conn)=>{
+      
+           console.log('i am okk3');
+           pool.getConnection((err,conn)=>{
             if(err){
                 console.log(err);
             }
@@ -1100,7 +1105,7 @@ router.post('/dashboard/item/new',function(req,res){
                              }
                              
                               function do_it(){
-                                 var query ="INSERT INTO items (id,name,price,cashback,delevery_charge,size_id,size_name,color_id,color_name,gender,event_id,event_name,type_id,type_name,tags,images,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(cashback)+","+mysql.escape(delevery_charge)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(color_id)+","+mysql.escape(color_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+","+mysql.escape(str)+","+mysql.escape(JSON.stringify(item_image_list))+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
+                                 var query ="INSERT INTO items (id,name,price,cashback,delivery_charge,size_id,size_name,color_id,color_name,gender,event_id,event_name,type_id,type_name,tags,images,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(cashback)+","+mysql.escape(delivery_charge)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(color_id)+","+mysql.escape(color_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+","+mysql.escape(str)+","+mysql.escape(JSON.stringify(item_image_list))+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
                                  console.log(query); 
                                  conn.query(query,function(err,result){
                                      if(err) throw err;
@@ -1146,6 +1151,9 @@ router.post('/dashboard/item/new',function(req,res){
 
 
         });
+   
+       
+       
        
       
     

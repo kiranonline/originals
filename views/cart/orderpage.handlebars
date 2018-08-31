@@ -3,23 +3,24 @@
     <div class="cartpage-wrapper">
         
 
-        <div class="row ">
+        <div class="row">
                 <div class="col s12 m12 l8 xl8 no-margine no-padding" id="cartitemsection">
                     {{#each cart}}
                     <div class="card left-section">
                         <div class="row {{this.id}}">
                             <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
-                                <img src="/{{this.image}}" class="responsive-img cart-item-image">
+                                <a href="/item/{{this.id}}"><img src="/{{this.image}}" class="responsive-img cart-item-image"></a>
                             </div>
                             <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
                                 <p class="desc-item">Description of Item</p>
                                 <p><span>Item Name : </span>{{this.item_name}}</p>
                                 <p><span>Item type : </span>{{this.item_type}}</p>
                                 <p><span>Size : </span>{{this.size}}</p>
-                                <ul >
+                                
+                                <!--<ul >
                                     <li style="display:inline-block;"><p><span>Color: &nbsp&nbsp&nbsp </span></li>
                                     <li style="display:inline-block;"><div  style="background-color:{{this.color}};width:25px;height:25px">  </div></li>
-                                </ul>
+                                </ul>-->
                                 
                                 <p>Quantity : &nbsp <a class="btn" id="quantity">{{this.no_of_items}}</a></p>                                    
                                 
@@ -34,7 +35,7 @@
 
  
             <div class="col s12 m12 l4 xl4 no-margine no-padding" >
-                <div class="card right-section" id="addresssection">
+                <div class="right-section" id="addresssection">
                     <h6 class="address-section-hdr">Choose an Address</h6>
                     <hr>
                     <div class="row  addressDiv">
@@ -56,13 +57,13 @@
 
                        
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
-                                <a class="waves-effect waves-light btn new-address" href="/profile/?&s=address"><i class="material-icons left" >add</i>New Address</a>
+                                <a class="waves-effect waves-light btn new-address round-button-corner" href="/profile/?&s=address"><i class="material-icons left" >add</i>New Address</a>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="card right-section" id="billingsection">
+                <div class="right-section" id="billingsection">
                     <h6 class="address-section-hdr">Billing</h6>
                     <hr>
                     <div class="row billing-wrapper">
@@ -86,7 +87,7 @@
                                     <label for="promocode">Use Promocode</label>
                                 </div>
                                 <div class="col s4 m4 l4 xl4">
-                                    <button class="btn btn-hldr" onclick="apply()">Apply</button>
+                                    <button class="btn btn-hldr round-button-corner" onclick="apply()">Apply</button>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +97,7 @@
 
 
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align hide-on-med-and-down">
-                            <button onclick="orderPlace()" class="waves-effect waves-light btn new-address" ><i class="material-icons left">payment</i>Proceed to pay</button>
+                            <button onclick="orderPlace()" class="waves-effect waves-light btn new-address round-button-corner" ><i class="material-icons left">payment</i>Proceed to pay</button>
                         </div>
 
                 </div>
@@ -114,10 +115,11 @@
 
 
 
-        <div class="checkout-wrapper card z-depth-5 waves-effect waves-light hide-on-large-only valign-wrapper">
-            <div class="checkout-wrapper-btn gotoaddress">
-                <h6 class="btn-inner">SELECT ADDRESS &nbsp &nbsp<span class="btn-inner-icon">>></span></h6>
+        <div class="checkout-wrapper card z-depth-5 waves-effect waves-light hide-on-large-only">
+            <div class="checkout-wrapper-btn gotoaddress m">
+                <h6 class="btn-inner">SELECT ADDRESS</h6>
             </div>
+            
         </div>
 
    

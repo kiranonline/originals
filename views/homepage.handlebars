@@ -1,7 +1,6 @@
-<link rel="stylesheet" type="text/css" href="/css/defaultpage/main.css">
 <link rel="stylesheet" type="text/css" href="/slick/slick/slick-theme.css" />
 <link rel="stylesheet" type="text/css" href="/slick/slick/slick.css" />
-
+<link rel="stylesheet" type="text/css" href="/css/defaultpage/main.css">
 
 
 
@@ -115,23 +114,23 @@
 <div class="main-item-section-wrapper">
 
 
-    <div class="card item-list-header center-align">
-        <span class="item-list-header-name">Premium Card</span>
-    </div>
+  
 
 
 
     <div class="card few_item_slider" id="few_item_slider">
-
-        <div class="item-row homepage-item-list-1" id="homepage-item-list-1">
+          <div class=" item-list-header center-align">
+        <span class="item-list-header-name">PREMIUM TEESHIRTS</span>
+    </div>
+    <div class="item-row homepage-item-list-1" id="homepage-item-list-1">
 
 
 
 
 
 {{#each tee}}
-            <div class="main-item-grid">
-                <div class="card">
+            <a href="/item/{{this.id}}"><div class="main-item-grid ">
+                <div class="cardd white">
                     <div class="row">
                         <div class="card-image-wrapper col s12 m10 offset-m1">
                             <img src="{{this.image}}" class="responsive-img item-image-primary">
@@ -150,29 +149,33 @@
                         {{this.name}}
                     </div>
 
-                    <div class="card-action center-align extra-section-in-item">
+                    <div class="card-action extra-section-in-item">
                         <div class="row">
-                            <div class="col s6 center-align">
+                            <div class="col s8 m8">
                                 <p class="price-tag">
                                     <del class="red-text">&#8377 {{this.price}}</del>
-                                    <span class="green-text">&nbsp &#8377 {{this.effective_price}}</span>
+                                    <span class=" green-text">&nbsp &#8377 {{this.effective_price}}</span>
                                 </p>
+                                <div class="cashback-section-default">
+                                    {{#if this.cashback}}
+                                        <i class="material-icons cashback-tag">local_offer</i><i class="offer">Flat &#8377 {{this.cashback}} cashback</i>
+                                    {{/if}}
+                                </div>
+                                 
                             </div>
-                            <div class="col s6">
+                            <div class="col s4 m4">
                                 <button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart" onclick="getItem('{{this.id}}')">
-                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                 </button>
                             </div>
 
-                            {{#if this.cashback}}
-                                <div class="col s12 m12 l12 ">
-                                    <i class="material-icons cashback-tag">local_offer</i><i class="offer">Flat &#8377 {{this.cashback}} cashback</i>
-                                </div>                                
-                            {{/if}}
+                                                    
+                           
                         </div>
                     </div>
                 </div>
             </div>
+            </a>
 {{/each}}
 
 
@@ -197,9 +200,6 @@
     </div>
 
 
-     <div class="card item-list-footer center-align">
-        <a class="item-list-header-name">Explore All</a>
-    </div>
 
 
 

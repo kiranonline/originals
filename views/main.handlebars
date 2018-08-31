@@ -19,10 +19,20 @@
 
             /*    Declaring theme colours   */
             :root {
-                --main-primary-1   : #4a148c  ; 
+                --main-primary-1   : #0288d1  ; 
                 --main-primary-2   : #e1bee7  ; 
-                --main-secondary-1 : #1a237e ;
+                --main-secondary-1 : #039be5 ;
                 --main-secondary-2 : #c5cae9 ;       
+            }
+            .round-button-corner{
+                border-radius: 50px !important;
+                background: var(--main-primary-1) ;
+            }
+            .round-button-corner:hover,.round-button-corner:active{
+                 background: var(--main-primary-1);
+            }
+            .collection-item{
+                color: black !important;
             }
         </style>
         <!--slick-->
@@ -42,25 +52,25 @@
                         <li><img src="/logos/logo_bottom.png" class="responsive-img main-logo"></li>
                          <li><a href="/"><span class="wesite-title">Originals</span></a></li>
                     </ul>
-                    <ul class="hide-on-med-and-down">
+                    <!--<ul class="hide-on-med-and-down">
                         <li class="input-field search-bar">
                             <input type="search" class="search-input autocomplete" id="autocomplete-input" placeholder="Search..">
                         </li>
-                    </ul>                        
+                    </ul>   -->                     
                     <ul id="nav-mobile" class="nav-item-list right main-nav-icons">
                         <li><a href="/wallet" class="waves-effect waves-light"><i class="material-icons">account_balance_wallet</i></a></li>
                         <li><a href="/cart" class="waves-effect waves-light"><i class="material-icons">shopping_cart</i></a></li>
-                        <li><a href="/profile" class="waves-effect waves-light"><i class="material-icons">face</i></a></li>
-                        <li class="hide-on-med-and-down"><a href="#" class="waves-effect waves-light"><i class="material-icons">phone_iphone</i></a></li>
+                        <li><a href="/profile" class="waves-effect waves-light"><i class="material-icons">account_circle</i></a></li>
+                        <!--<li class="hide-on-med-and-down"><a href="#" class="waves-effect waves-light"><i class="material-icons">phone_iphone</i></a></li>-->
                     </ul>
                 </div>
-                <div class="nav-content" id="mobile-search">
+                <!--<div class="nav-content" id="mobile-search">
                     <div class="search-bar-container">
                         <div class="input-field search-bar-mobile">
                             <input type="search" class="search-input autocomplete" id="autocomplete-input" placeholder="Search..">
                         </div>
                     </div>                    
-                </div>
+                </div>-->
               </nav>
             </div>
 
@@ -69,7 +79,12 @@
             <!--side nav bar-->
             <div class="menu">
                 <div class="app-menu">
-
+                    <ul class="collection category-drawer">
+                        <li class="collection-item">T-Shirts</li>
+                        <li class="collection-item">Cards</li>
+                        <li class="collection-item">Flowers</li>
+                        <li class="collection-item">Blog</li>
+                    </ul>
                 </div>
             </div>
          

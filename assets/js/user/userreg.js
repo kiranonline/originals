@@ -1,6 +1,13 @@
 $(function(){
 
 
+    //media query
+    if($(window).width()<768){
+       $('.main-holder').removeClass('z-depth-1'); 
+    }
+
+    
+
     $("#loginform").validate({
 
     rules: {

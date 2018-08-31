@@ -89,7 +89,7 @@ if($(window).width() <=600){
             {
                 breakpoint:600,
                 settings:{
-                    slidesToShow:2,
+                    slidesToShow:1,
                     slidesToScroll:1,
                     infinite:true
                 }
@@ -97,7 +97,7 @@ if($(window).width() <=600){
             {
                 breakpoint:480,
                 settings:{
-                    slidesToShow:2,
+                    slidesToShow:1,
                     slidesToScroll:1,
                     infinite:true
                 }

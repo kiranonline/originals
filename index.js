@@ -120,7 +120,7 @@ app.use(function(req, res, next) {
 
 
 //setting up server
-const port=process.env.port || 8300;
+const port=process.env.port || 8100;
 
 
 //view engine
@@ -199,7 +199,7 @@ app.use(session({
 
   }));
  
-  app.use(flash());
+  app.use(flash()); 
 
 
 

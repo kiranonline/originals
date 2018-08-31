@@ -313,13 +313,15 @@
 				  <label class="control-label col-sm-12" for="cat1">Select Size:</label>
 				  <div class="col-sm-12">
 					  <select name="size" class="form-control" id="cat1" >
-					  </select>
+               <option value="">NO SIZE</option>
+            </select>
 					</div>  
 				</div>
         <div class="form-group">
 				  <label class="control-label col-sm-12" for="cat11">Select Color:</label>
 				  <div class="col-sm-12">
 					  <select name="color" class="form-control" id="cat11" >
+                <option value="">NO COLOUR</option>
 					  </select>
 					</div>  
 				</div>  
@@ -343,14 +345,24 @@
 						{{/each}}	
 					  </select>
 					</div>  
-				</div>  
+				</div>
+
+        <br>
+        <div class="form-group">
+          <label class="control-label col-sm-12">ITEM DESCRIPTION ( Upload JSON file )</label>
+          <div  class="col-sm-12">
+            <input  name="desc" id="json-input" type="file" required/>
+          </div>
+        </div>
+        <br>
+
 				<div class="form-group">
 				  <label class="control-label col-sm-12" for="tags">Add tags (Please Use CSV)</label>
 				  <div class="col-sm-12">
 					  <textarea  rows="2" type="text" name="tags" class="form-control" id="tags">
               </textarea>
 					</div>  
-				</div>  
+				</div>   
 								
 				<div class="form-group">
           <label class="control-label col-sm-12">Add Images</label>
@@ -486,22 +498,7 @@ if($("#file-input")[0].files.length>6)
       
       //console.log(a);
       $("#preview").append("<img width='100px' height='100px' class='col-md-4 col-sm-6 col-xs-8' src='"+this.result+"'></img>");
-      //$("#preview").append("<p class='col-sm-3 class"+a+"'>"+file.name+"</p>");
-      //$("#preview").append("<p class='col-sm-3 class"+a+"' >size"+file.size+"</p>");
-      //$("#preview").append("<button  type='button' class='col-sm-3 class"+a+" btn remove-this-item'>Remove</button>");
-      //$("#preview").append("<br class='class"+a+"'/>");
-      //a++;  
-      //var name= document.createTextNode(file.name);
-      //name.className("col-sm-3");
-      //console.log(file.name);
-      //var image = new Image();
-      //image.height = 100;
-      //image.width=100
-      //image.title  = file.name;
-      //image.src    = this.result;
-
-      //preview.appendChild(image);
-      //preview.appendChild(name);
+      
     }, false);
     
     reader.readAsDataURL(file);
@@ -513,39 +510,6 @@ if($("#file-input")[0].files.length>6)
 document.querySelector('#file-input').addEventListener("change", previewImages, false);
 
 
-
-/*
- $('.remove-this-item').on('click',function(){
-    console.log("remove called");
-    var class = $(this).attr("class").split(' ')[1]);
-    console.log(class);
-    $(class).remove();
-  });
-
-
-
-
-  });
-
-*/
-
- 
-/*function remove_Image()
-{
-  console.log("remove called");
-  var class = $(this).attr("class").split(' ')[1]);
-  console.log(class);
-  $(class).remove();
-}*/
-/*
-$('#removeButton').click(function(){
-  console.log("remove called");
-  var class=$(this).attr('class').split(' ')[1]);
-  console.log(class);
-  $(class).remove();
-})*/
-</script>
-<script>
  $('#cat4').on('click', function() {
 
     $("#cat1 option").remove();

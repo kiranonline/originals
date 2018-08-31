@@ -115,7 +115,15 @@ router.get("/item/:itemId", function (req, res) {
                     console.log(result);
                     var size_id = result[0].size_id;
                     var color_id=result[0].color_id;
+                    if(color_id=='none'){
+                        color_id=null;
+                    }
+                    if(size_id=='none'){
+                        size_id=null;
+                    }
+                    console.log(color_id,size_id);
                     var q2 = "SELECT * FROM item_category_level1 WHERE id=" + mysql.escape(size_id);
+                    console.log(q2);
                     conn.query(q2, function (err, result1) {
                         if (err) {
                             console.log(err);
@@ -131,7 +139,13 @@ router.get("/item/:itemId", function (req, res) {
                                     } else {
                                         if (result1.length == 1) {
                                             var sizes = JSON.parse(result1[0].size);
-                                            var colors = JSON.parse(result2[0].color) || null;
+                                            if(sizes["cat_item_1"]=="null"){
+                                                sizes=null;
+                                            }
+                                            var colors = JSON.parse(result2[0].color);
+                                            if(colors["cat_item_1"]=="null"){
+                                                colors=null;
+                                            }
                                             console.log(colors);
                                             var gender = {};
                                             var image = JSON.parse(result[0].images);

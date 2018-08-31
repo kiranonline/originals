@@ -1,8 +1,15 @@
 /* styling the image thumbnails */
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
-	.container{
+:root{
+	
+}	
+.container{
 		width:95%;
 		margin: 2.5%;
+		
+	}
+	.cc{
+		
 	}
 	.holder_1{
 		padding:30px !important;
@@ -28,7 +35,36 @@
 		margin-left: 10%;
 		text-align: center;
 		min-height: 300px;
+		position: relative;
+		
 	}	
+#myresult{
+	z-index: 10000000 !important;
+}
+	.img-zoom-container {
+		position: relative;
+		width:80%;
+		margin-left: 10%;
+		text-align: center;
+		min-height: 300px;
+	}
+	.img-zoom-result{
+		visibility: hidden;
+		position:fixed;
+		width:60%;
+		border: 1px solid #d4d4d4;
+		height:90%;
+		top:67px;
+		right:0;
+	}
+		
+	.img-zoom-lens {
+		position: absolute;
+		border: 1px solid #d4d4d4;
+		/*set the size of the lens:*/
+		width: 70px;
+		height: 70px;
+	  }
 	.padding_1{
 		padding:1px 20px 0px 20px;
 	}
@@ -70,6 +106,7 @@
 		background: var(--main-primary-1 );
 		cursor: pointer;
 		color: aliceblue;
+		border-radius: 50px;
 	}
 	.add-to-cart:hover, .add-to-cart:focus{
 		background: var(--main-primary-1 );
@@ -83,7 +120,32 @@
 		color: green;
 		margin-top: -100px !important;
 	}
-	
+/*	.image-zoomable-container{
+		position:fixed;
+		width:60%;
+		height: 100%;
+		right:0px;
+		top:65px;
+		background: red;
+		z-index: 100;
+
+	}
+
+	*/
+	.taxes{
+		margin-top: -20px;
+	}
+	.pin{
+		margin-top: 20px;
+	}
+	.pin-checker-heading{
+		padding-left: 20px;
+		margin-bottom: -5px;
+	}
+	.pin-valid-status{
+		margin-top: -20px;
+		padding-left:10px;
+	}
 
 
 
@@ -115,6 +177,9 @@
 			height:50px;
 			bottom:0px;
 			left:0px;
+		}
+		.image-zoomable-container{
+			display:none;
 		}
 
 		

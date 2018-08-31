@@ -12,7 +12,7 @@ var uniqid = require('uniqid');
 
 //render registration form
 router.get('/register', function(req, res){
-    res.render('user/userregisterpage.handlebars',{layout:false,error: '',form:'reg'});
+    res.render('user/userregisterpage.handlebars',{error: '',form:'reg'});
 });
 
 
