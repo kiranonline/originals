@@ -291,8 +291,12 @@
     color: green;
     margin-top: -100px !important;
 }
-
-
+#item_image_zoom{
+    transition: all .2s ease-in-out;
+}
+#item_image_zoom:hover{
+    transform: scale(1.2);
+}
 
 
 

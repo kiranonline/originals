@@ -70,13 +70,12 @@ if($(window).width() <=600){
 
 
     $('#homepage-item-list-1').slick({
-        infinite:true,
-        speed:300,
-        slidesToShow:4,
-        slidesToScroll:1,
+        slide: 'a',
         autoplay:true,
-        prevArrow:$('#left-side2'),
-        nextArrow:$('#right-side2'),
+        slidesToShow:4,
+        slidesToScroll:2,
+        prevArrow:$('#ls2'),
+        nextArrow:$('#rs22'),
         responsive:[
             {
                 breakpoint:1024,
