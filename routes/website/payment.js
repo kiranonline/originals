@@ -279,10 +279,10 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 		conn.query(q,function(errr,resu){
 			if(errr) console.log(errr);
 			if(resu.length==1){
-				var wallet_point_now=parseInt(resu[0].wallet);
+				var wallet_point_now=parseFloat(resu[0].wallet);
 				var user_name=resu[0].name;
 				console.log(`wallet_point_now=${wallet_point_now}`);
-				if(wallet_point_now<parseInt(used_wallet_point))
+				if(wallet_point_now<parseFloat(used_wallet_point))
 				{
 					console.log("You don't have enough wallet balance");
 					console.log("please contact @RK");
