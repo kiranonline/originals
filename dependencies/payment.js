@@ -11,7 +11,7 @@ var payload = {
   amount: amount.toString(),
   phone: phone,
   buyer_name: buyer_name,
-  redirect_url: 'https://the-originals.in/order/payment/success/'+order_id,
+  redirect_url: 'https://www.the-originals.in/order/payment/success/'+order_id,
   send_email: true,
   webhook: 'https://www.the-originals.in/admin/order/placed/success/'+order_id,
   send_sms: true,

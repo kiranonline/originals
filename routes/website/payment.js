@@ -77,7 +77,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 				if(res3.length==1)
 				{
 					//means order_id valid
-
+					
 					var items_all=JSON.parse(res3[0].items);
 					var items=items_all["items"];
 					var date =res3[0].date;
@@ -88,7 +88,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 					if(res3[0].payment_status=='pending')
 					{
 						//payment_status from temp_order pending
-
+						
 						console.log('front-->payment_status in temp_order  ->pending');
 						console.log("front--> pending +credit =processing");
 						res.render('cart/paymentprocessing');
