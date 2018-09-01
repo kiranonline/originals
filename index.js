@@ -53,7 +53,7 @@ logging: false
   }); 
 */ var sequelize = new Sequelize('localhost', 'root', '', {                                                          host: "localhost",                                                    
     dialect: "mysql",                                                          
-logging: false                                                         
+    logging: false                                                         
   });  
 
 

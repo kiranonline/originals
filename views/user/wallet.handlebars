@@ -14,10 +14,13 @@
                    Your Wallet Points
                </div>
                <div class="transactions">
-                   <a class="btn">Your Transactions</a>
+                   <div class="your_trn">
+                       <a class="btn round-button-corner">Your Transactions</a>
+                   </div>
+                   
                    <ul class="collection">
 
-			{{#each transaction_list}} 
+			            {{#each transaction_list}} 
                              
                               <li class="collection-item avatar">
                                   <img src="images/yuna.jpg" alt="" class="circle">
@@ -28,7 +31,7 @@
                                   </p>
                               </li>
 
-			{{/each}}      
+			            {{/each}}      
  
 	            </ul>
                </div>

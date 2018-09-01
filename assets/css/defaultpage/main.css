@@ -1,5 +1,46 @@
 
+
+
 /*-----------carousel image and dots -----------------------*/
+
+/* Slideshow container */
+.slideshow-container {
+    max-width: 100%;
+    position: relative;
+    margin: auto;
+  }
+  .mySlides {display: none;}
+  .active {
+    background-color: #717171;
+  }
+  
+  /* Fading animation */
+  .fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  
+  @-webkit-keyframes fade {
+    from {opacity: .6} 
+    to {opacity: 1}
+  }
+  
+  @keyframes fade {
+    from {opacity: .6} 
+    to {opacity: 1}
+  }
+
+
+
+
+
+
+
+
+
+
 .container-fluid{
     width: 100%;
     margin-right: auto;
