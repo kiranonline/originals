@@ -355,11 +355,21 @@ router.post('/resetpassword',(req,res)=>{
 
 
 
-router.get('/terms',(req,res)=>{
+router.get('/terms-and-condition',(req,res)=>{
     res.render('others/terms');
 });
 
+router.get('/privacy-policy',(req,res)=>{
+    res.render('others/privacy');
+});
 
+router.get('/refund-policy',(req,res)=>{
+    res.render('others/refund');
+});
+
+router.get('/wallet-policy',(req,res)=>{
+    res.render('others/wallet_policy');
+});
 
 
 

@@ -1303,6 +1303,7 @@ router.post('/dashboard/promocode/new',(req,res)=>{
         var percentage =  req.body.percentage;
         var promocode = req.body.promocode;
         var upto = req.body.value_upto;
+        var limit = req.body.limit;
         var added_by=req.session.admin.name;
         var added_on=new Date();
 
@@ -1318,7 +1319,7 @@ router.post('/dashboard/promocode/new',(req,res)=>{
                     
                 }
                 if(result1.length==0){
-                    var q1="INSERT INTO promocode(id,type,promocode,percentage,upto,created_by,created_on) VALUES ("+mysql.escape(id)+","+mysql.escape(promo_type)+","+mysql.escape(promocode)+","+mysql.escape(percentage)+","+mysql.escape(upto)+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
+                    var q1="INSERT INTO promocode(id,type,promocode,percentage,upto,use_limit,created_by,created_on) VALUES ("+mysql.escape(id)+","+mysql.escape(promo_type)+","+mysql.escape(promocode)+","+mysql.escape(percentage)+","+mysql.escape(upto)+","+mysql.escape(limit)+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
                     conn.query(q1,(err,result)=>{
                         if(err){
                             console.log(err);
