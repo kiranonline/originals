@@ -42,14 +42,14 @@ router.get('/order/payment/success/:order_id',function(req,res){
 							if(res2.affectedRows==1)
 							{
 								console.log("front-->instamojo payment status updated in temp_order table");
-								
+
 							}
 							conn.release();							
 						});
 					});				
 				}
 				else{
-					res.status(404);
+					res.redirect('404page');
 				}
 			});
 			
@@ -134,7 +134,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 							callback();
 						}		
 						else{
-							res.status(404);
+							res.redirect('404page');
 						}				
 					});
 				}		
