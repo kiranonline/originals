@@ -217,7 +217,7 @@ function apply()
            else if(success=="limit")
            {
                 $('#promocode').val("");
-                M.toast({html:res["wallet_point"]+" point will be used from your wallet",classes:"rounded"});
+                M.toast({html:"You have already used the promocode.You can't use it more",classes:"rounded"});
                 $("#NetAmountDiv").css('display','none');
            }
        },

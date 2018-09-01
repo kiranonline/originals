@@ -10,8 +10,8 @@ var  cart_functionalities= require(path.join(__dirname,'/../../dependencies/cart
 var getTotalPrice=cart_functionalities.getTotalPrice;
 var getTotalDeliveryCharge=cart_functionalities.getTotalDeliveryCharge;
 var getTotalCashback=cart_functionalities.getTotalCashback;
-var check = require(path.join(__dirname,'/../../dependencies/promocodelimit.js'));
-
+var promo = require(path.join(__dirname,'/../../dependencies/promocodelimit.js'));
+var check=promo.check;
 
 
 
