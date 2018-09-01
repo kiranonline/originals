@@ -49,7 +49,7 @@ router.get('/order/payment/success/:order_id',function(req,res){
 					});				
 				}
 				else{
-					res.redirect('404page');
+					res.render('404page');
 				}
 			});
 			
@@ -134,7 +134,7 @@ function payment_status_from_instamojoFunction(res,status,order_id,payment_id,ca
 							callback();
 						}		
 						else{
-							res.redirect('404page');
+							res.render('404page');
 						}				
 					});
 				}		
