@@ -4,8 +4,10 @@ var path = require('path');
 var mysql = require('mysql');
 var pool= require(path.join(__dirname, '/../../dependencies/connection.js'));
 const fs = require('fs');
+var uniqid = require('uniqid');
 var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin.js'));
-
+var sendEmail = require(path.join(__dirname,'/../../dependencies/email.js'));
+var md5 = require('md5');
 
 //wallet,profile,
 
@@ -81,7 +83,7 @@ router.get('/profile',isLoggedIn,(req,res)=>{
 
 
 
-router.post('/profile/update',(req,res)=>{
+router.post('/profile/update',isLoggedIn,(req,res)=>{
     pool.getConnection((err,conn)=>{
         if(err){
             console.log(err);
@@ -217,6 +219,145 @@ router.get('/wallet',isLoggedIn,(req,res)=>{
 
 
 
+
+
+router.get('/forgetpassword',(req,res)=>{
+   res.render('user/putemail',{error:null});
+});
+
+
+router.post('/forgetpassword',(req,res)=>{
+    var email=req.body.email;
+    
+    pool.getConnection((err,conn)=>{
+        if(err){
+            console.log(err);
+        }
+        var q1="SELECT * FROM userlist WHERE email="+mysql.escape(email)+" AND password IS NOT NULL";
+        conn.query(q1,(err,result1)=>{
+            if(err){
+                console.log(err);
+            }
+    
+            if(result1.length==1){
+                var user_id=result1[0].user_id;
+                var otp=uniqid('reset-');
+                let link="http://"+req.get('host')+"/resetpassword?id="+otp;
+                var q2="SELECT * FROM reset_password WHERE user_id="+mysql.escape(user_id);
+                conn.query(q2,(err,result2)=>{
+                    if(err){
+                        consiole.log(err);
+                    }
+                    if(result2.length==0){
+                        var q3="INSERT INTO reset_password(user_id,email,otp,created_on) VALUES ("+mysql.escape(user_id)+","+mysql.escape(email)+","+mysql.escape(otp)+","+mysql.escape(new Date())+")";
+                        conn.query(q3,(err,resul3)=>{
+                            if(err){
+                                console.log(err);
+                            }
+                            var email_body="Click on the following link to reset your password <br> "+link;
+                            sendEmail(email,"Originsla - Reset Password",email_body);
+                            res.send('email sent');
+                            console.log('i am if');
+                        });
+                        
+                        
+                    }
+                    else{
+                        console.log('i am here');
+                        var q4="DELETE FROM reset_password WHERE user_id="+mysql.escape(user_id);
+                        conn.query(q4,(err,result4)=>{
+                            if(err){
+                                console.log(er);
+                                var q3="INSERT INTO reset_password(user_id,email,otp,created_on) VALUES ("+mysql.escape(user_id)+","+mysql.escape(email)+","+mysql.escape(otp)+","+mysql.escape(new Date())+")";
+                                conn.query(q3,(err,resul3)=>{
+                                    if(err){
+                                        console.log(err);
+                                    }
+                                    var email_body="Click on the following link to reset your password<br> "+link;
+                                    sendEmail(email,"Originsla - Reset Password",email_body);
+                                    console.log('i am else');
+                                    res.send('email sent');
+                                });
+                            }
+                        });
+                        
+                    }
+                });
+            }
+            else{
+                res.render('user/putemail',{error:"You can't change the password of this account"});
+            }
+        });
+        conn.release(); 
+    });
+});
+
+
+
+
+router.get('/resetpassword',(req,res)=>{
+    var otp=req.query.id;
+    if(otp!=null){
+        res.render('user/forgetpassword',{otp:otp})
+    }
+    else{
+        res.send('Link Expired or Invalid');
+    }
+});
+
+
+
+
+router.post('/resetpassword',(req,res)=>{
+    var otp=req.body.otp;
+    var password=md5(req.body.password1);
+    pool.getConnection((err,conn)=>{
+        if(err){
+            console.log(err);
+        }
+        var q1="SELECT * FROM reset_password WHERE otp="+mysql.escape(otp);
+        conn.query(q1,(err,result1)=>{
+            if(err){
+                console.log(err);
+            }
+            if(result1.length==1){
+                var user_id=result1[0].user_id;
+                var q2="UPDATE userlist SET password="+mysql.escape(password)+" WHERE user_id="+mysql.escape(user_id);
+                conn.query(q2,(err,result2)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    var q3="DELETE FROM reset_password WHERE otp="+mysql.escape(otp);
+                    conn.query(q3,(err,result5)=>{
+                        if(err){
+                            console.log(err);
+                        }
+                        res.redirect('/login?msg=Password Changed');
+                    });
+                    
+                });
+            }
+            else{
+                res.send('Link Expired or Invalid');
+            }
+        });
+        conn.release();
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+router.get('/terms',(req,res)=>{
+    res.render('others/terms');
+});
 
 
 

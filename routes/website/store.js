@@ -162,6 +162,7 @@ router.get("/item/:itemId", function (req, res) {
                                             var item = {
                                                 id: result[0].id,
                                                 name: result[0].name,
+                                                desc: result[0].item_desc,
                                                 price: result[0].price,
                                                 cashback:result[0].cashback,
                                                 effective_price:result[0].price-result[0].cashback,
