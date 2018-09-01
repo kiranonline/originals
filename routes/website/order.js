@@ -41,7 +41,7 @@ if(error) console.log(error);
                     TotalPrice=sum;
                     getTotalDeliveryCharge(cart_items_array,function(sum2){
                         TotalDeliveryCharge=sum2;
-                        var total_amount=parseInt(TotalPrice)+parseInt(TotalDeliveryCharge);
+                        var total_amount=parseFloat(TotalPrice)+parseFloat(TotalDeliveryCharge);
                         var q1="SELECT * FROM address WHERE user_id="+mysql.escape(req.session.passport["user"]);
                         conn.query(q1,(err2,res1)=>{
                             
