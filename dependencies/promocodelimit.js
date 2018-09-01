@@ -5,7 +5,7 @@ var pool = require(path.join(__dirname,'connection.js'));
 function add(req,name,promocodes,no,callback)
 {
     //var promocodes=[];
-    var dict={'name':name,'no':no};
+    var dict={name:no};
     promocodes.push(dict);
     var promocodesDict={"promocodes":promocodes};
     updateQuery(promocodesDict,req,function(){
