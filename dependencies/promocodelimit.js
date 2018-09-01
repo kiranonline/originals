@@ -17,6 +17,7 @@ function add(req,name,no,callback)
 
 function check(req,promocode,limit,callback)
 {
+    console.log("check() function");
     pool.getConnection(function(err,conn){
 
         if(err) console.log(err);
@@ -62,6 +63,7 @@ function check(req,promocode,limit,callback)
 
 function checkLimit(req,promocode,limit,callback)
 {
+    console.log("checkLimit() function");
     pool.getConnection(function(err,conn){
 
         if(err) console.log(err);
