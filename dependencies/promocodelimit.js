@@ -98,6 +98,44 @@ function checkLimit(req,promocode,limit,callback)
 }
 
 
+function checkLimit(req,promocode,limit,callback)
+{
+    pool.getConnection(function(err,conn){
+
+        if(err) console.log(err);
+        var q="SELECT used_promocodes FROM userlist WHERE user_id="+mysql.escape(req.session.passport['user']);
+        conn.query(q,(err2,result)=>{
+            if(err2) console.log(err2);
+            if(result.length==1)
+            {
+                var used_promocodes=JSON.parse(result[0].used_promocodes);
+                var promocodes=used_promocodes['promocodes'];
+                for(var i=0;i<promocodes.length;i++)
+                {
+                    console.log(`key=${promocodes[i]['name']}  value=${promocodes[i]['no']}`);
+                    if(promocode==promocodes[i]['name'])
+                    {
+                        if(promocodes[i]['no']<limit)
+                        {
+                            console.log("you can use the promocode");
+                            callback(1);
+                            
+                        }
+                        else{
+                            console.log("You have already reached the limit of this promocode");
+                            callback(0);
+                        }
+                        return;
+                    }
+                }
+                callback(1);
+                
+            }
+        });
+    });
+}
+
+
 function updateQuery(dict,req,callback)
 {
     console.log("updateQuery() called");
