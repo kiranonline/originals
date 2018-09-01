@@ -214,6 +214,12 @@ function apply()
                 $("#NetAmount").html(net_amount);
                 M.toast({html:res["wallet_point"]+" point will be used from your wallet",classes:"rounded"});
            }
+           else if(success=="limit")
+           {
+                $('#promocode').val("");
+                M.toast({html:res["wallet_point"]+" point will be used from your wallet",classes:"rounded"});
+                $("#NetAmountDiv").css('display','none');
+           }
        },
        error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
    });

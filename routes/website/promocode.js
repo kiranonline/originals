@@ -21,39 +21,31 @@ router.post('/check',isLoggedIn,function(req,res){
             var wallet_point=parseFloat(res2[0].wallet);
             var cart=JSON.parse(res2[0].cart);
             var cart_items_array=cart["items"];
-
-            var used_promocodes=JSON.parse(res2[0].used_promocodes);
-            var used_promocodes_array=used_promocodes["promocode"];
-            var limit=0;
-            for( key in used_promocodes_array)
-            {
-                if(key==promocode)
-                {
-                    limit=used_promocodes_array.key;
-                }
-            }
-            var delivery_charge;
-            getTotalDeliveryCharge(cart_items_array,function(sum){
-                console.log("getTotalDeliveryCharge() callback");
-                delivery_charge=sum;
-                check(req,promocode,limit,function(ans){
-                    if(ans==0)
-                    {
-                        res.send({success:"false"});
-                        return;
-                    }
-                    else{
-                        var query="SELECT * FROM promocode WHERE promocode="+mysql.escape(promocode);
-                        conn.query(query,function(err,result){
-                            if(err) console.log(err);
             
-                            if(result.length==1)
+            var delivery_charge;
+
+            var query="SELECT * FROM promocode WHERE promocode="+mysql.escape(promocode);
+            conn.query(query,function(err,result){
+                if(err) console.log(err);
+
+                if(result.length==1)
+                {
+                    var x=req.body.totalPrice;
+                    var TotalPrice=parseFloat(x);
+                    var percentage=parseFloat(result[0].percentage);
+                    var upto=parseFloat(result[0].upto);
+                    var type=result[0].type;
+                    var limit=result[0].use_limit;
+                    getTotalDeliveryCharge(cart_items_array,function(sum){
+                        console.log("getTotalDeliveryCharge() callback");
+                        delivery_charge=sum;
+                        check(req,promocode,limit,function(ans){
+                            if(ans==0)
                             {
-                                var x=req.body.totalPrice;
-                                var TotalPrice=parseFloat(x);
-                                var percentage=parseFloat(result[0].percentage);
-                                var upto=parseFloat(result[0].upto);
-                                var type=result[0].type;
+                                res.send({success:"limit"});
+                                return;
+                            }
+                            else{ 
                                 var net_amount=TotalPrice;
                                 if(type=="discount")
                                 {
@@ -81,19 +73,18 @@ router.post('/check',isLoggedIn,function(req,res){
                                     discount_amount=upto;
                                     res.send({success:"cashback",cashback:discount_amount});
                                     return;
-                                }
+                                }       
                             }
-                            else{
-                                
-                                res.send({success:"false"});
-                                return;
-                            }
+                        
                         });
-                    }
-                
-                });
+                    });
+                }
+                else{
+                    
+                    res.send({success:"false"});
+                    return;
+                }
             });
-            
         }
         });
         conn.release();
