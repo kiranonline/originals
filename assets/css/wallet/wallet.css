@@ -39,7 +39,10 @@
 .transactions{
     text-align: left !important;
 }
-
+.your_trn{
+    width:100%;
+    text-align: center;
+}
 
 
 

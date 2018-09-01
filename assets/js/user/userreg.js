@@ -8,7 +8,7 @@ $(function(){
 
     
 
-    $("#loginform").validate({
+$("#loginform").validate({
 
     rules: {
         email:{
@@ -117,7 +117,104 @@ $(function(){
 
 
 
+
+
+
+
+//gorget password
+
+$("#password_reset").validate({
+
+    rules: {
+        password1:{
+            required: true,
+            minlength: 6
+        },
+        password2: {
+            required: true,
+            minlength: 6,
+            equalTo:'#password1'
+        }
+    },
+    //For custom messages
+    messages: {
+        password1:{
+            required: "Please enter your password",
+            minlength: "Enter a valid password"
+        },
+        password2:{
+            required: "Please enter your password",
+            minlength: "Enter a valid password",
+            equalTo:"Password and confirm password are not same"
+        }
+    },
+    errorElement : 'div',
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    }
+ });
+
+
+
+
+ $("#send_reset_email").validate({
+
+    rules: {
+        email:{
+            required: true,
+            email:true,
+        }
+    },
+    //For custom messages
+    messages: {
+        email:{
+            required: "Please enter your email",
+           email:"Please enter a valid email"
+        }
+    },
+    errorElement : 'div',
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    }
+ });
+
+
+
+
+
+
+
+ 
+
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

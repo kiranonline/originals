@@ -1,0 +1,43 @@
+  <link href="/css/user/userreg.css" rel="stylesheet">
+
+    <div class="container main-holder white z-depth-1">
+        <ul class="tabs row light-blue darken-1 login-page-tabs">
+            <li class="tab col s12"><a class="white-text active" href="#login">SEND VERIFICATION EMAIL</a></li>
+        </ul>
+  
+        <div id="login" class="col s12">
+            <form class="col s12" id="send_reset_email" method="post" action="/forgetpassword">
+                               
+                <div class="form-container form-holder">
+                    <img class="responsive-img login-logo" src="/logos/logo2.png">
+                    {{#if error}}
+                        {{error}}
+                    {{/if}}
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" name="email" type="email" class="validate">
+                            <label for="email">Enter your Email : </label>
+                        </div>
+                    </div>
+                    <br>
+             
+                        <button class="btn login waves-effect waves-light  round-button-corner" type="submit" name="action">Send Verification email</button>
+                      
+
+                         
+
+                </div>
+            </form>
+            
+        </div>
+        
+        
+       
+    </div>
+
+    <script src="/js/admin/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    {{!-- <script src="/js/defaultpage/materialize.min.js"></script> --}}
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js'></script>
+<script src="/js/user/userreg.js"></script>
+

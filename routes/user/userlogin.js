@@ -21,7 +21,8 @@ router.get('/login', function(req, res){
         else{
             var message='';
         }
-        res.render('user/userlogin',{error:message})
+        var error=req.query.msg;
+        res.render('user/userlogin',{error:error})
     } else{
         res.redirect('/');
     }
@@ -44,7 +45,7 @@ router.get('/login', function(req, res){
 
 router.post("/login",passport.authenticate('local',{
 
-    failureRedirect:'/login',
+    failureRedirect:'/login/?msg=Invalid Login',
     failureFlash : true
 
 }),function(req,res,next){
@@ -78,7 +79,7 @@ router.get('/login/google',passport.authenticate('google',{
 
 router.get('/login/google/status',passport.authenticate('google',{
 
-    failureRedirect:'/login',
+    failureRedirect:'/login/?msg=Invalid Login',
     failureFlash : true
 
 }),function(req,res,next){
@@ -113,7 +114,7 @@ router.get('/login/facebook',passport.authenticate('facebook',{
 
 router.get('/login/facebook/status',passport.authenticate('facebook',{
 
-    failureRedirect:'/login',
+    failureRedirect:'/login/?msg=Invalid Login',
     failureFlash : true
 
 }),function(req,res,next){
