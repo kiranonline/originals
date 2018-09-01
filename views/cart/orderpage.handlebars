@@ -132,8 +132,6 @@
 
    
 
-          
-        
     </div>
 <script src="js/cart/cart.js"></script>
 <script>
@@ -215,6 +213,12 @@ function apply()
                 $("#NetAmountDiv").css('display','block');
                 $("#NetAmount").html(net_amount);
                 M.toast({html:res["wallet_point"]+" point will be used from your wallet",classes:"rounded"});
+           }
+           else if(success=="limit")
+           {
+                $('#promocode').val("");
+                M.toast({html:"You have already used this promocode.You cant use it more,classes:"rounded"});
+                $("#NetAmountDiv").css('display','none');
            }
        },
        error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}

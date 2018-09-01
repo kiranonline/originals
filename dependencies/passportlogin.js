@@ -106,7 +106,7 @@ passport.deserializeUser(function(user_id, done){
 passport.use(new GoogleStrategy({
     clientID:'817128327500-gs2jm34bsl848ipdt9u5thuern2mg5k0.apps.googleusercontent.com',
     clientSecret:'r7AsAR1L3-GHiVHzbXJpH-o7',
-    callbackURL:'/login/google/status'
+    callbackURL:'https://the-originals.in/login/google/status'
 },(accessToken, refreshToken, profile, done)=>{
     console.log(profile);
     pool.getConnection((err,conn)=>{
