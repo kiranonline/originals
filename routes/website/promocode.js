@@ -43,10 +43,12 @@ router.post('/check',isLoggedIn,function(req,res){
                         checkLimit(req,promocode,limit,function(ans){
                             if(ans==0)
                             {
+                                console.log("checkLimit() callback with value 0");
                                 res.send({success:"limit"});
                                 return;
                             }
                             else{ 
+                                console.log("checkLimit() callback with value 1");
                                 var net_amount=TotalPrice;
                                 if(type=="discount")
                                 {
