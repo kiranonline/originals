@@ -234,7 +234,7 @@ function promocodeAddressValidation(req,res,user_phone,buyer_name,email,wallet_p
                         {
                             
                             address=res4[0].locality+";"+res4[0].city+";"+res4[0].state+";"+res4[0].locality+";PIN-"+res4[0].pin;
-                            address_contact="res4[0].contact";
+                            address_contact=res4[0].contact;
                             var q4="INSERT INTO temp_order (order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+")";
                             console.log(q4);                        
                             conn.query(q4,function(err5,res5){
