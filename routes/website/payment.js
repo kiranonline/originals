@@ -48,6 +48,9 @@ router.get('/order/payment/success/:order_id',function(req,res){
 						});
 					});				
 				}
+				else{
+					res.status(404);
+				}
 			});
 			
 		});
