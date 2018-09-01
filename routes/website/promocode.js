@@ -6,8 +6,9 @@ var pool = require(path.join(__dirname, '/../../dependencies/connection.js'));
 var mysql=require('mysql');
 var  cart_functionalities= require(path.join(__dirname,'/../../dependencies/cart_functionalities.js'));
 var getTotalDeliveryCharge=cart_functionalities.getTotalDeliveryCharge;
-var check = require(path.join(__dirname,'/../../dependencies/promocodelimit.js'));
-
+var promo = require(path.join(__dirname,'/../../dependencies/promocodelimit.js'));
+var check=promo.check;
+var checkLimit=promo.checkLimit;
 router.post('/check',isLoggedIn,function(req,res){
     var promocode=req.body.name;
     pool.getConnection(function(err,conn){
@@ -39,7 +40,7 @@ router.post('/check',isLoggedIn,function(req,res){
                     getTotalDeliveryCharge(cart_items_array,function(sum){
                         console.log("getTotalDeliveryCharge() callback");
                         delivery_charge=sum;
-                        check(req,promocode,limit,function(ans){
+                        checkLimit(req,promocode,limit,function(ans){
                             if(ans==0)
                             {
                                 res.send({success:"limit"});
