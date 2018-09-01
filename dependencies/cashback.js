@@ -19,7 +19,7 @@ function cashback(order_id,callback){
                 var cashback_for_items=res[0].cashback_for_items;
                 var total_cashback=parseFloat(cashback)+parseFloat(cashback_for_items);
                 var user_id=res[0].user_id;
-                var cashback_received=res[0].cashback_received;
+                //var cashback_received=res[0].cashback_received;
                 if(total_cashback>0){
                     var q2="SELECT wallet FROM userlist WHERE user_id="+mysql.escape(user_id);
                     console.log(q2);
@@ -44,7 +44,7 @@ function cashback(order_id,callback){
                                         if(res5.affectedRows==1){
                                             console.log("Trasaction added to the table");
 
-                                            var q5="UPDATE order_table SET cashback_received="+mysql.escape("received")+" WHERE order_id="+mysql.escape(order_id);
+                                            var q5="UPDATE order_table SET cashback_received="+mysql.escape(total_cashback)+" WHERE order_id="+mysql.escape(order_id);
                                             console.log(q5);
                                             conn.query(q5,(err6,res6)=>{
                                                 if(err6) console.log(err6);
