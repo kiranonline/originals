@@ -2,9 +2,9 @@ var path = require('path');
 var mysql = require('mysql');
 var pool = require(path.join(__dirname,'connection.js'));
 
-function add(req,name,no,callback)
+function add(req,name,promocodes,no,callback)
 {
-    var promocodes=[];
+    //var promocodes=[];
     var dict={'name':name,'no':no};
     promocodes.push(dict);
     var promocodesDict={"promocodes":promocodes};
@@ -52,7 +52,7 @@ function check(req,promocode,limit,callback)
                         return;
                     }
                 }
-                add(req,promocode,1,function(){
+                add(req,promocode,promocodes,1,function(){
                     console.log("add() callback");
                     callback(1);
                 });
@@ -97,7 +97,7 @@ function checkLimit(req,promocode,limit,callback)
     });
 }
 
-
+/*
 function checkLimit(req,promocode,limit,callback)
 {
     pool.getConnection(function(err,conn){
@@ -134,7 +134,7 @@ function checkLimit(req,promocode,limit,callback)
         });
     });
 }
-
+*/
 
 function updateQuery(dict,req,callback)
 {
