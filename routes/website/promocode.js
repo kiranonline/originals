@@ -9,6 +9,7 @@ var getTotalDeliveryCharge=cart_functionalities.getTotalDeliveryCharge;
 var promo = require(path.join(__dirname,'/../../dependencies/promocodelimit.js'));
 var check=promo.check;
 var checkLimit=promo.checkLimit;
+
 router.post('/check',isLoggedIn,function(req,res){
     var promocode=req.body.name;
     pool.getConnection(function(err,conn){

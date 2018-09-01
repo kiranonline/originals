@@ -257,7 +257,7 @@ router.get('/products/all',(req,res)=>{
 
 
 
-
+/*
 router.post('/notification',(req,res)=>{
     console.log('i am called');
     const subscription = req.body;
@@ -272,7 +272,7 @@ router.post('/notification',(req,res)=>{
 
 
 });
-
+*/
 
 
 
