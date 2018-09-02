@@ -9,7 +9,16 @@ var getTotalDeliveryCharge=cart_functionalities.getTotalDeliveryCharge;
 var promo = require(path.join(__dirname,'/../../dependencies/promocodelimit.js'));
 var check=promo.check;
 var checkLimit=promo.checkLimit;
+var returnPromocode = require(path.join(__dirname,'/../../dependencies/promocode_return.js'));
 
+
+/*
+router.get('/dummy',function(req,res){
+
+    console.log("dummy");
+    returnPromocode();
+    res.send("done");
+});*/
 router.post('/check',isLoggedIn,function(req,res){
     var promocode=req.body.name;
     pool.getConnection(function(err,conn){
