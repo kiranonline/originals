@@ -185,6 +185,10 @@
                 if(result=='done'){
                     M.toast({html: 'Item Added to cart', classes: 'rounded'});
                 }
+                else if(result=='out_of_stock')
+                {
+                    M.toast({html: 'Item is currently out of stock', classes: 'rounded'});   
+                }
                 else{
                     window.location.replace('/login');
                 }

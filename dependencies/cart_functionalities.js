@@ -24,7 +24,7 @@ class items{
 
 
 
-function checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
+function checkExistence(req,stock,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
     console.log("checkExistence() called");
     
@@ -38,21 +38,30 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
                 {    
                     console.log("item match found");
                     var no_of_items=cart_items_array[i]["no_of_items"]+1;
-                    cart_items_array[i]["no_of_items"]=no_of_items;
-                    cart_items_array[i]["price"]=price;
-                    cart_items_array[i]["cashback"]=cashback;
-                    cart_items_array[i]["delivery_charge"]=delivery_charge;
-                    cart_items_array[i]["total"]=parseInt(no_of_items)*parseInt(price);
-                    cart_items_array[i]["total_delivery_charge"]=parseInt(no_of_items)*parseInt(delivery_charge);
-                    var dict={"items":cart_items_array};
+                    if(no_of_items>stock)
+                    {
+                        console.log("Out of stock");
+                        return callback(1);
+                    }
+                    else{
+                        cart_items_array[i]["no_of_items"]=no_of_items;
+                        cart_items_array[i]["price"]=price;
+                        cart_items_array[i]["cashback"]=cashback;
+                        cart_items_array[i]["delivery_charge"]=delivery_charge;
+                        cart_items_array[i]["total"]=parseInt(no_of_items)*parseInt(price);
+                        cart_items_array[i]["total_delivery_charge"]=parseInt(no_of_items)*parseInt(delivery_charge);
+                        var dict={"items":cart_items_array};
 
-                    updateQuery(dict,req,function(){
-                        console.log("updateQuery() callback");
-                        console.log("no of items increased");
-                        return callback();
-                        
-                    });
-                    return;
+                        updateQuery(dict,req,function(){
+                            console.log("updateQuery() callback");
+                            console.log("no of items increased");
+                            return callback(0);
+                            
+                        });
+                        return;
+
+                    }
+                    
                     
                     
                 }
@@ -60,22 +69,38 @@ function checkExistence(req,item_id,item_name,item_type,size,color,price,image,c
         }
         if(i==(cart_items_array.length-1)){
                 console.log("State -->i==cart_items_array.length-1")
-            add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
-                console.log("add() callback");
-                return callback();
-                
-            });
-            return;
+                if(stock==0)
+                {
+                    console.log("out of stock");
+                    return callback(1);
+                }
+                else{
+                    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+                        console.log("add() callback");
+                        return callback(0);
+                        
+                    });
+                    return;
+
+                }
+            
             
         }
     }
     console.log("state cart_items_array.length==0")
-    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
-        console.log("add() callback");
-        return callback();
-       
-    });
-    return;
+    if(stock==0)
+    {
+        console.log("out of stock");
+        return callback(1);
+    }
+    else{
+        add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+            console.log("add() callback");
+            return callback(0);
+        
+        });
+        return;
+    }
     
     console.log("checkExistence() end after ");
     
@@ -142,7 +167,7 @@ function remove(req,id,cart_items_array,callback)
 
 
 
-function increase_decrease(req,id,cart_items_array,value,callback)
+function increase_decrease(req,stock,id,cart_items_array,value,callback)
 {
     for(var i=0;i<cart_items_array.length;i++)
     {
@@ -153,18 +178,43 @@ function increase_decrease(req,id,cart_items_array,value,callback)
             var total_price=0;
             var total_delivery_charge=0;
             var moreThan5=0;
+            var outOfStock=0;
+            var removingDueToOutOfStock=0;
             if(total_no<=0)
             {
                 console.log("no_of_items() is less than 0.Hence removed");
                 cart_items_array.splice(i,1);
                 total_no=0;
+                total_price=0;
             }
             else if(total_no>5)
             {
+                console.log("total no >5");
                 cart_items_array[i]["no_of_items"]=no_of_items;
                 total_no=no_of_items;
                 total_price=total_no*parseInt(cart_items_array[i]["price"]);
+                total_delivery_charge=total_no*parseInt(cart_items_array[i]["delivery_charge"]);
                 moreThan5=1;
+            }
+            else if(total_no>stock)
+            {
+                console.log("total_no > stock");
+                if(stock==0)
+                {
+                    console.log("stock =0");
+                    cart_items_array.splice(i,1);
+                    removingDueToOutOfStock=1;
+                    total_no=0;
+                    total_price=0;
+                }
+                else{
+                    total_no=stock;
+                    total_price=total_no*parseInt(cart_items_array[i]["price"]);
+                    total_delivery_charge=total_no*parseInt(cart_items_array[i]["delivery_charge"]);
+                    cart_items_array[i]["total"]=total_price;
+                    cart_items_array[i]["total_delivery_charge"]=total_delivery_charge;
+                    outOfStock=1;
+                }
             }
             else{
                 cart_items_array[i]["no_of_items"]=total_no;
@@ -176,7 +226,7 @@ function increase_decrease(req,id,cart_items_array,value,callback)
             var dict={"items":cart_items_array};
             updateQuery(dict,req,function(){
                 console.log('updateQuery() callback');
-                return callback(total_price,total_no,moreThan5);
+                return callback(total_price,total_no,moreThan5,outOfStock,removingDueToOutOfStock,cart_items_array.length);
             });
                     
         }        

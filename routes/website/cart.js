@@ -91,7 +91,7 @@ else{
                 var item_type=result[0].type_name;
                 var imageJSON=JSON.parse(result[0].images);
                 var image=imageJSON["1"];
-
+                var stock=result[0].stock;
                 var cashback=result[0].cashback;
                 var delivery_charge=result[0].delivery_charge;
     
@@ -103,9 +103,12 @@ else{
                     {
                         var cart=JSON.parse(result2[0]['cart']);
                         var cart_items_array=cart["items"];
-                        checkExistence(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
-                           console.log("checkExistence() callback"); 
-                           res.send("done");
+                        checkExistence(req,stock,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(ans){
+                            console.log("checkExistence() callback"); 
+                            if(ans==1)
+                                res.send("out_of_stock");
+                            else    
+                                res.send("done");
                         });
                         
                     }
@@ -183,6 +186,7 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                 var price=res2[0].price;
                 var id=req.body.id;
                 var value=req.body.value;
+                var stock=res2[0].stock;
     
                 var q="SELECT cart FROM userlist WHERE user_id="+mysql.escape(req.session.passport["user"]);
                 conn.query(q,function(err2,result2){
@@ -194,11 +198,11 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                         var cart_items_array=cart["items"];
                         var total_price;
                         var no_of_items;
-                        increase_decrease(req,id,cart_items_array,value,function(total,no,moreThan5){
+                        increase_decrease(req,stock,id,cart_items_array,value,function(total,no,moreThan5,outOfStock,removingDueToOutOfStock,length){
                             console.log('increase_decrease() callback');
                             total_price=total;
                             no_of_items=no;
-                            res.send({done:'done',total_price:total_price,no_of_items:no_of_items,moreThan5:moreThan5});
+                            res.send({done:'done',total_price:total_price,no_of_items:no_of_items,moreThan5:moreThan5,outOfStock:outOfStock,removingDueToOutOfStock:removingDueToOutOfStock,length:length});
                         });
                         
                     }

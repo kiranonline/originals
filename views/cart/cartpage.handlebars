@@ -136,7 +136,25 @@ var x= $('#footer_').position().top;
                     x.html(res["no_of_items"]);
                     var total_price_item=res["total_price"];
                     $(price_span).html(total_price_item);
-                    if(res["moreThan5"]==1)
+                    if(res["removingDueToOutOfStock"]==1)
+                    {
+                        $('.'+y).remove();
+                        if(res["length"]==0)
+                        {
+                            $('#empty_cart').css('display','block');
+                            //$('.checkoutbtn').hide();
+                            $('.checkoutbtn').css('display','none');
+                            $('.checkoutbtn').val(0);
+                            
+                        }
+                        M.toast({html:"Items is removed from cart because it is out of stock.Please check some time later",classes:"rounded"});
+                        //window.reload(true);
+                    }
+                    else if(res["outOfStock"]==1)
+                    {
+                        M.toast({html:"Your desired no of items is not available to sell",classes:"rounded"});
+                    }
+                    else if(res["moreThan5"]==1)
                     {
                         M.toast({html:"You can't add an item more than 5 times",classes:"rounded"});
                     }
@@ -174,7 +192,27 @@ var x= $('#footer_').position().top;
                             x.html(res["no_of_items"]);
                             total_price_item=res["total_price"];
                             $(price_span).html(total_price_item);
+                            if(res["removingDueToOutOfStock"]==1)
+                            {
+                                $('.'+y).remove();
+                                if(res["length"]==0)
+                                {
+                                    $('#empty_cart').css('display','block');
+                                    //$('.checkoutbtn').hide();
+                                    $('.checkoutbtn').css('display','none');
+                                    $('.checkoutbtn').val(0);
+                                    
+                                }
+                                M.toast({html:"Items is removed from cart because it is out of stock.Please check some time later",classes:"rounded"});
+                                //window.reload(true);
+                            }
+                            else if(res["outOfStock"]==1)
+                            {
+                                M.toast({html:"Your desired no of items is not available to sell",classes:"rounded"});
+                            }
+                            else{
                             M.toast({html:"No of items decreased successfully",classes:"rounded"});
+                            }
                         }
                         else{
                             M.toast({html:"Something is wrong",classes:"rounded"});      
