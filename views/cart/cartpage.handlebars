@@ -133,10 +133,18 @@ var x= $('#footer_').position().top;
             success:function(res){
                 if(res["done"]=="done")
                 {
-                        x.html(res["no_of_items"]);
-                        var total_price_item=res["total_price"];
-                        $(price_span).html(total_price_item);
+                    x.html(res["no_of_items"]);
+                    var total_price_item=res["total_price"];
+                    $(price_span).html(total_price_item);
+                    if(res["moreThan5"]==1)
+                    {
+                        M.toast({html:"You can't add an item more than 5 times",classes:"rounded"});
+                    }
+                    else{
                         M.toast({html:"No of items increased successfully",classes:"rounded"});
+                    }
+                        
+                        
                 }
                 else{
                         M.toast({html:"Something is wrong",classes:"rounded"});

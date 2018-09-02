@@ -152,11 +152,19 @@ function increase_decrease(req,id,cart_items_array,value,callback)
             var total_no=parseInt(no_of_items)+parseInt(value);
             var total_price=0;
             var total_delivery_charge=0;
+            var moreThan5=0;
             if(total_no<=0)
             {
                 console.log("no_of_items() is less than 0.Hence removed");
                 cart_items_array.splice(i,1);
                 total_no=0;
+            }
+            else if(total_no>5)
+            {
+                cart_items_array[i]["no_of_items"]=no_of_items;
+                total_no=no_of_items;
+                total_price=total_no*parseInt(cart_items_array[i]["price"]);
+                moreThan5=1;
             }
             else{
                 cart_items_array[i]["no_of_items"]=total_no;
@@ -168,7 +176,7 @@ function increase_decrease(req,id,cart_items_array,value,callback)
             var dict={"items":cart_items_array};
             updateQuery(dict,req,function(){
                 console.log('updateQuery() callback');
-                return callback(total_price,total_no);
+                return callback(total_price,total_no,moreThan5);
             });
                     
         }        

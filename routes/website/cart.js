@@ -194,11 +194,11 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                         var cart_items_array=cart["items"];
                         var total_price;
                         var no_of_items;
-                        increase_decrease(req,id,cart_items_array,value,function(total,no){
+                        increase_decrease(req,id,cart_items_array,value,function(total,no,moreThan5){
                             console.log('increase_decrease() callback');
                             total_price=total;
                             no_of_items=no;
-                            res.send({done:'done',total_price:total_price,no_of_items:no_of_items});
+                            res.send({done:'done',total_price:total_price,no_of_items:no_of_items,moreThan5:moreThan5});
                         });
                         
                     }
