@@ -1,6 +1,8 @@
 var path = require('path');
 var mysql = require('mysql');
 var pool = require(path.join(__dirname,'connection.js'));
+var moment = require(path.join(__dirname,'moment.js'));
+
 /*
 async function returnPromocode()
 {
@@ -86,19 +88,26 @@ async function takeRecordsFromTemp_order(res,conn)
         var order_id=res[i].order_id;
         var user_id=res[i].user_id;
         var promocode=res[i].promocode;
-        console.log(`user_id =${user_id} promocode=${promocode}`);
-        var q2="SELECT * FROM userlist WHERE user_id="+mysql.escape(user_id);
-        await new Promise(next=>{
-            conn.query(q2,(err3,res2)=>{
-                if(err3) console.log(err3)
-                if(res2.length==1)
-                {
-                    takeUserDataFromUserlist(promocode,order_id,user_id,res2,conn);
-                }
-                next();
+        var thatDate=res[i].date;
+        var diff=moment(thatDate);
+        if(diff>-200)
+        {
+            continue;
+        }
+        else{
+            console.log(`user_id =${user_id} promocode=${promocode}`);
+            var q2="SELECT * FROM userlist WHERE user_id="+mysql.escape(user_id);
+            await new Promise(next=>{
+                conn.query(q2,(err3,res2)=>{
+                    if(err3) console.log(err3)
+                    if(res2.length==1)
+                    {
+                        takeUserDataFromUserlist(promocode,order_id,user_id,res2,conn);
+                    }
+                    next();
+                }); 
             });
-            
-        });
+        }
     }
 }
 async function takeUserDataFromUserlist(promocode,order_id,user_id,res2,conn)
@@ -125,7 +134,6 @@ async function takeUserDataFromUserlist(promocode,order_id,user_id,res2,conn)
                 updateQuery(order_id,user_id,dict,conn);
                 next2();
             });
-            
         }
         else{
             console.log("not matched");
