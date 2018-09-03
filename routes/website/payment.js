@@ -356,6 +356,15 @@ function insertIntoOrderTable(order_id,user_id,items,total_price,promocode,disco
 										emptyCart(user_id,function(ans){
 											if(ans==1){
 												console.log("cart is emptied");
+												var q="UPDATE promocode SET no_of_times_used=no_of_times_used+1 WHERE promocode="+mysql.escape(promocode);
+												conn.query(q,(er,re)=>{
+													if(er) console.log(er);
+													if(re.affectedRows==1)
+													{
+														console.log(`${promocode} used again`);
+													}
+
+												});
 											}
 											console.log("row deleted from temp_order");
 										});
