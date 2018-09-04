@@ -24,7 +24,7 @@ class items{
 
 
 
-function checkExistence(req,stock,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
+function checkExistence(no_of_total_items_in_cart,req,stock,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {
     console.log("checkExistence() called");
     
@@ -50,7 +50,12 @@ function checkExistence(req,stock,item_id,item_name,item_type,size,color,price,i
                         cart_items_array[i]["delivery_charge"]=delivery_charge;
                         cart_items_array[i]["total"]=parseInt(no_of_items)*parseInt(price);
                         cart_items_array[i]["total_delivery_charge"]=parseInt(no_of_items)*parseInt(delivery_charge);
-                        var dict={"items":cart_items_array};
+                        no_of_total_items_in_cart++;
+                        if(no_of_total_items_in_cart>5)
+                        {
+                            return callback(2);
+                        }
+                        var dict={"items":cart_items_array,"length":no_of_total_items_in_cart};
 
                         updateQuery(dict,req,function(){
                             console.log("updateQuery() callback");
@@ -75,9 +80,18 @@ function checkExistence(req,stock,item_id,item_name,item_type,size,color,price,i
                     return callback(1);
                 }
                 else{
-                    add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+                    add(no_of_total_items_in_cart,req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(ans){
                         console.log("add() callback");
-                        return callback(0);
+                        if(ans==2)
+                        {
+                            console.log("with value 2");
+                            return callback(2);
+                        }
+                        else{
+                            console.log("with value 0");
+                            return callback(0);
+                        }
+            
                         
                     });
                     return;
@@ -94,9 +108,18 @@ function checkExistence(req,stock,item_id,item_name,item_type,size,color,price,i
         return callback(1);
     }
     else{
-        add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(){
+        add(no_of_total_items_in_cart,req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(ans){
             console.log("add() callback");
-            return callback(0);
+            if(ans==2)
+            {
+                console.log("with value 2");
+                return callback(2);
+            }
+            else{
+                console.log("with value 0");
+                return callback(0);
+            }
+            
         
         });
         return;
@@ -111,19 +134,25 @@ function checkExistence(req,stock,item_id,item_name,item_type,size,color,price,i
 
 
 
-function  add(req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
+function  add(no_of_total_items_in_cart,req,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,callback)
 {    
     console.log("add callback()");
     var obj=new items(item_id,item_name,item_type,1,size,color,price,image,cashback,delivery_charge);
 var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type":obj.item_type,"no_of_items":obj.no_of_items,"size":obj.size,"color":obj.color,"price":obj.price,"total":obj.total,"image":obj.image,"cashback":obj.cashback,"delivery_charge":obj.delivery_charge,"total_delivery_charge":obj.total_delivery_charge};
     
-    cart_items_array.push(dict);    
-    var dict={"items":cart_items_array};
+    cart_items_array.push(dict); 
+    no_of_total_items_in_cart++;
+    if(no_of_total_items_in_cart>5)
+    {
+        console.log("cant add because already 5 item in cart");
+        return callback(2);
+    }   
+    var dict={"items":cart_items_array,"length":no_of_total_items_in_cart};
 
     updateQuery(dict,req,function(){
         console.log("new item added to cart");
         console.log("updateQuery() callback");
-        callback();
+        callback(1);
     });
                   
 }
@@ -136,21 +165,24 @@ var dict={"id":obj.id,"item_id":obj.item_id,"item_name":obj.item_name,"item_type
 
 
 
-function remove(req,id,cart_items_array,callback)
+function remove(no_of_total_items_in_cart,req,id,cart_items_array,callback)
 {
     for(var i=0;i<cart_items_array.length;i++)
     {
         if(cart_items_array[i]["id"]==id)
         {
+            var no_of_items=cart_items_array[i]["no_of_items"];
             cart_items_array.splice(i,1);                
-            var dict={"items":cart_items_array};
+            console.log(`no_of_total_items_in_cart=${no_of_total_items_in_cart}`);
+            console.log(`no_of_items=${no_of_items}`);
+            no_of_total_items_in_cart=no_of_total_items_in_cart-parseInt(no_of_items);
+            var dict={"items":cart_items_array,"length":no_of_total_items_in_cart};
             var len=cart_items_array.length;
             updateQuery(dict,req,function(){
                 console.log("item removed from cart");
                 console.log('updateQuery() callback');
                 return callback(len); 
             });
-                      
         }       
     }
 }
@@ -166,8 +198,8 @@ function remove(req,id,cart_items_array,callback)
 
 
 
-
-function increase_decrease(req,stock,id,cart_items_array,value,callback)
+//value is 1 always...do as per that
+function increase_decrease(no_of_total_items_in_cart,req,stock,id,cart_items_array,value,callback)
 {
     for(var i=0;i<cart_items_array.length;i++)
     {
@@ -180,16 +212,28 @@ function increase_decrease(req,stock,id,cart_items_array,value,callback)
             var moreThan5=0;
             var outOfStock=0;
             var removingDueToOutOfStock=0;
+            console.log(no_of_total_items_in_cart+"is greater than or equals 5 ==>"+((parseInt(no_of_total_items_in_cart)>=5)));
             if(total_no<=0)
             {
+                no_of_total_items_in_cart+=parseInt(value);   //since value is always 1 .so this case is possible when no_of_times =1  
                 console.log("no_of_items() is less than 0.Hence removed");
                 cart_items_array.splice(i,1);
                 total_no=0;
                 total_price=0;
             }
-            else if(total_no>5)
+            /*else if(total_no>5)
             {
                 console.log("total no >5");
+                cart_items_array[i]["no_of_items"]=no_of_items;
+                total_no=no_of_items;
+                total_price=total_no*parseInt(cart_items_array[i]["price"]);
+                total_delivery_charge=total_no*parseInt(cart_items_array[i]["delivery_charge"]);
+                moreThan5=1;
+            }*/
+            else if(parseInt(no_of_total_items_in_cart)>=5&&(value>0))
+            {
+                no_of_total_items_in_cart=no_of_total_items_in_cart;
+                console.log("no_of_total_items_in_cart >5");
                 cart_items_array[i]["no_of_items"]=no_of_items;
                 total_no=no_of_items;
                 total_price=total_no*parseInt(cart_items_array[i]["price"]);
@@ -201,6 +245,7 @@ function increase_decrease(req,stock,id,cart_items_array,value,callback)
                 console.log("total_no > stock");
                 if(stock==0)
                 {
+                    no_of_total_items_in_cart=no_of_total_items_in_cart-parseInt(no_of_items);
                     console.log("stock =0");
                     cart_items_array.splice(i,1);
                     removingDueToOutOfStock=1;
@@ -208,6 +253,7 @@ function increase_decrease(req,stock,id,cart_items_array,value,callback)
                     total_price=0;
                 }
                 else{
+                    no_of_total_items_in_cart=no_of_total_items_in_cart-parseInt(no_of_items)+parseInt(stock);
                     total_no=stock;
                     total_price=total_no*parseInt(cart_items_array[i]["price"]);
                     total_delivery_charge=total_no*parseInt(cart_items_array[i]["delivery_charge"]);
@@ -217,13 +263,14 @@ function increase_decrease(req,stock,id,cart_items_array,value,callback)
                 }
             }
             else{
+                no_of_total_items_in_cart=no_of_total_items_in_cart+parseInt(value);
                 cart_items_array[i]["no_of_items"]=total_no;
                 total_price=total_no*parseInt(cart_items_array[i]["price"]);
                 total_delivery_charge=total_no*parseInt(cart_items_array[i]["delivery_charge"]);
                 cart_items_array[i]["total"]=total_price;
                 cart_items_array[i]["total_delivery_charge"]=total_delivery_charge;
             }
-            var dict={"items":cart_items_array};
+            var dict={"items":cart_items_array,"length":no_of_total_items_in_cart};
             updateQuery(dict,req,function(){
                 console.log('updateQuery() callback');
                 return callback(total_price,total_no,moreThan5,outOfStock,removingDueToOutOfStock,cart_items_array.length);

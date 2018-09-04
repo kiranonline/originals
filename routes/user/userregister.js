@@ -181,7 +181,7 @@ router.get('/verify', function(req, res){
             else{
                 if (result.length>0){
                     console.log('verified');
-                    var cart="{\"items\":[]}";
+                    var cart="{\"items\":[],\"length\":0}";
                     var used_promocodes="{\"promocodes\":[]}";
                     console.log('i am called');
                     var q1 = "insert userlist (user_id,name, phone, password, email, gender, age, timeofquery,cart,used_promocodes) select "+mysql.escape(user_id)+",name, phone, password, email, gender, age, current_timestamp(),"+mysql.escape(cart)+","+mysql.escape(used_promocodes)+" from tempuserlist where otp = " + mysql.escape(link);

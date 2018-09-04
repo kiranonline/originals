@@ -103,10 +103,15 @@ else{
                     {
                         var cart=JSON.parse(result2[0]['cart']);
                         var cart_items_array=cart["items"];
-                        checkExistence(req,stock,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(ans){
+                        var no_of_total_items_in_cart=parseInt(cart["length"]);
+                        checkExistence(no_of_total_items_in_cart,req,stock,item_id,item_name,item_type,size,color,price,image,cart_items_array,cashback,delivery_charge,function(ans){
                             console.log("checkExistence() callback"); 
                             if(ans==1)
                                 res.send("out_of_stock");
+                            else if (ans==2)
+                            {
+                                res.send("more_than5");
+                            }    
                             else    
                                 res.send("done");
                         });
@@ -155,8 +160,9 @@ router.post('/cart/remove',isLoggedIn,(req,res)=>{
                 var id=req.body.id;    
                 var cart=JSON.parse(result2[0]['cart']);
                 var cart_items_array=cart["items"];
+                var no_of_total_items_in_cart=parseInt(cart["length"]);
                 var len;
-                remove(req,id,cart_items_array,function(length){
+                remove(no_of_total_items_in_cart,req,id,cart_items_array,function(length){
                     console.log("remove() callback");
                     len=length;
                     res.send({done:"done",length:len});
@@ -196,9 +202,10 @@ router.post('/cart/change',isLoggedIn,(req,res)=>{
                     {
                         var cart=JSON.parse(result2[0]['cart']);
                         var cart_items_array=cart["items"];
+                        var no_of_total_items_in_cart=parseInt(cart["length"]);
                         var total_price;
                         var no_of_items;
-                        increase_decrease(req,stock,id,cart_items_array,value,function(total,no,moreThan5,outOfStock,removingDueToOutOfStock,length){
+                        increase_decrease(no_of_total_items_in_cart,req,stock,id,cart_items_array,value,function(total,no,moreThan5,outOfStock,removingDueToOutOfStock,length){
                             console.log('increase_decrease() callback');
                             total_price=total;
                             no_of_items=no;

@@ -189,6 +189,10 @@
                 {
                     M.toast({html: 'Item is currently out of stock', classes: 'rounded'});   
                 }
+                else if(result=='more_than5')
+                { 
+                    M.toast({html: 'You can\'t add more than 5 items in cart', classes: 'rounded'});
+                }
                 else{
                     window.location.replace('/login');
                 }
