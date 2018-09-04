@@ -22,6 +22,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 // var csurf = require('csurf');
 var helmet = require('helmet');
 const csp = require('express-csp-header');
+var returnPromocode = require(path.join(__dirname, '/dependencies/promocode_return.js'));
 
 
 
@@ -221,6 +222,11 @@ app.use(express.static(path.join(__dirname,'assets'),{
 
 //CSRF 
 
+//promocode_return
+while(1)
+{
+    returnPromocode();
+}
 
 //routes url
 app.use('/admin',adminRegister);
