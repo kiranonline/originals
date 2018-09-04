@@ -126,7 +126,8 @@ passport.use(new GoogleStrategy({
                 var name=profile.displayName;
                 var email=profile.emails[0].value;
                 var gender=profile.gender;
-                var cart="{\"items\":[]}";
+                var cart="{\"items\":[],\"length\":0}";
+                var used_promocodes="{\"promocodes\":[]}";
                 var user_id=uniqid();
                 var q11="SELECT * FROM userlist WHERE email="+mysql.escape(email);
                 conn.query(q11,(err,ress)=>{
@@ -138,7 +139,7 @@ passport.use(new GoogleStrategy({
                             return done(null, false);
                         }
                         else{
-                            var q2="INSERT INTO userlist (user_id,googleid,name,email,gender,cart,timeofquery) VALUES ("+mysql.escape(user_id)+","+mysql.escape(profile.id)+","+mysql.escape(name)+","+mysql.escape(email)+","+mysql.escape(gender)+","+mysql.escape(cart)+","+mysql.escape(new Date())+")";
+                            var q2="INSERT INTO userlist (user_id,googleid,name,email,gender,cart,timeofquery,used_promocodes) VALUES ("+mysql.escape(user_id)+","+mysql.escape(profile.id)+","+mysql.escape(name)+","+mysql.escape(email)+","+mysql.escape(gender)+","+mysql.escape(cart)+","+mysql.escape(new Date())+","+mysql.escape(used_promocodes)+")";
                             conn.query(q2,(err,res2)=>{
                                 if(err){
                                     console.log(err);
