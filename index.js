@@ -223,10 +223,11 @@ app.use(express.static(path.join(__dirname,'assets'),{
 //CSRF 
 
 //promocode_return
-while(1)
-{
+
+setInterval(function(){
     returnPromocode();
-}
+},60000);
+
 
 //routes url
 app.use('/admin',adminRegister);
