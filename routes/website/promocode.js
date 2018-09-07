@@ -12,7 +12,7 @@ var checkLimit=promo.checkLimit;
 var returnPromocode = require(path.join(__dirname,'/../../dependencies/promocode_return.js'));
 
 
-router.post('/promocode/return',(req,res)=>{
+router.post('/return',(req,res)=>{
     console.log("called");
     returnPromocode();
     res.send("done");
