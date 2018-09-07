@@ -24,7 +24,7 @@ var helmet = require('helmet');
 const csp = require('express-csp-header');
 var returnPromocode = require(path.join(__dirname, '/dependencies/promocode_return.js'));
 
-
+var cron=require('node-cron');
 
 
 
@@ -223,11 +223,16 @@ app.use(express.static(path.join(__dirname,'assets'),{
 //CSRF 
 
 //promocode_return
-
+/*
 setInterval(function(){
     returnPromocode();
-},60000);
-
+},60000);*/
+console.log("before cron");
+var task = cron.schedule('59 * * * * *', function() {
+    console.log(new Date());
+    returnPromocode();
+  });
+console.log("after cron");
 
 //routes url
 app.use('/admin',adminRegister);
