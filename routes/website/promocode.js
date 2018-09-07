@@ -14,6 +14,7 @@ var returnPromocode = require(path.join(__dirname,'/../../dependencies/promocode
 
 router.post('/promocode/return',(req,res)=>{
     returnPromocode();
+    res.send("done");
 });
 /*
 router.get('/dummy',function(req,res){
