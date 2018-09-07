@@ -497,7 +497,7 @@ function failed_conflict(status_var,order_id,order_status,payment_status,callbac
 }
 function emptyCart(user_id,callback)
 {
-	var cart="{\"items\":[]}";
+	var cart="{\"items\":[],length:0}";
 	pool.getConnection(function(err,conn){
 		if(err)  console.log(err);
 		var q="UPDATE  userlist SET cart="+mysql.escape(cart)+" WHERE user_id="+mysql.escape(user_id);
