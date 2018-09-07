@@ -178,6 +178,7 @@ function promocodeAddressValidation(req,res,user_phone,buyer_name,email,wallet_p
                 var type=res3[0].type;
                 var limit=res3[0].use_limit;
                 check(req,promocode,limit,function(ans){
+                    var promocode_return="false";
 
                     if(ans==1)
                     {
@@ -218,6 +219,7 @@ function promocodeAddressValidation(req,res,user_phone,buyer_name,email,wallet_p
                     }
                     else{
                         promocode="";
+                        promocode_return="true";
                         discount=0;
                         cashback=0;
                         used_wallet_point=0;
@@ -235,7 +237,7 @@ function promocodeAddressValidation(req,res,user_phone,buyer_name,email,wallet_p
                             
                             address=res4[0].locality+";"+res4[0].city+";"+res4[0].state+";"+res4[0].landmark+";PIN-"+res4[0].pin;
                             address_contact=res4[0].contact;
-                            var q4="INSERT INTO temp_order (order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+")";
+                            var q4="INSERT INTO temp_order (order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,promocodeReturned) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+","+mysql.escape(promocode_return)+")";
                             console.log(q4);                        
                             conn.query(q4,function(err5,res5){
                                 if(err5) console.log(err5);
@@ -261,6 +263,7 @@ function promocodeAddressValidation(req,res,user_phone,buyer_name,email,wallet_p
             //end if promocode valid
             else{
                 promocode="";
+                var promocode_return="true";
                 discount=0;
                 cashback=0;
                 used_wallet_point=0;
@@ -283,7 +286,7 @@ function promocodeAddressValidation(req,res,user_phone,buyer_name,email,wallet_p
                         return;
                     }
                     //end  if address not valid
-                    var q4="INSERT INTO temp_order (order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+")";
+                    var q4="INSERT INTO temp_order (order_id,user_id,items,total_price,promocode,discount,cashback,used_wallet_point,cashback_for_items,net_amount,delivery_charge,net_amount_with_delivery_charge,address,address_contact,date,order_status,payment_status,promocodeReturned) VALUES ("+mysql.escape(order_id)+","+mysql.escape(user_id)+","+mysql.escape(items)+","+mysql.escape(total_price)+","+mysql.escape(promocode)+","+mysql.escape(discount)+","+mysql.escape(cashback)+","+mysql.escape(used_wallet_point)+","+mysql.escape(cashback_for_items)+","+mysql.escape(net_amount)+","+mysql.escape(delivery_charge)+","+mysql.escape(net_amount_with_delivery_charge)+","+mysql.escape(address)+","+mysql.escape(address_contact)+","+mysql.escape(date)+","+mysql.escape(order_status)+","+mysql.escape(payment_status)+","+mysql.escape(promocode_return)+")";
                     console.log(q4);                        
                     conn.query(q4,function(err5,res5){
                         if(err5) console.log(err5);
