@@ -13,6 +13,7 @@ var returnPromocode = require(path.join(__dirname,'/../../dependencies/promocode
 
 
 router.post('/promocode/return',(req,res)=>{
+    console.log("called");
     returnPromocode();
     res.send("done");
 });
