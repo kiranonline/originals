@@ -227,13 +227,14 @@ app.use(express.static(path.join(__dirname,'assets'),{
 setInterval(function(){
     returnPromocode();
 },60000);*/
+/*
 console.log("before cron");
 var task = cron.schedule('59 * * * * *', function() {
     console.log(new Date());
     returnPromocode();
   });
 console.log("after cron");
-
+*/
 //routes url
 app.use('/admin',adminRegister);
 app.use('/admin',adminLogin);
