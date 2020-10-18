@@ -4,10 +4,12 @@ var router = express.Router();
 var path = require('path');
 var mysql = require('mysql');
 var pool = require(path.join(__dirname,'/../../dependencies/connection.js'));
+var cashback = require(path.join(__dirname,'/../../dependencies/cashback.js'));
 const fs =  require('fs');
 const fse = require('fs-extra');
 var uniqid = require('uniqid');
 var trim = require('trim');
+var request= require('request');
 const fileUpload = require('express-fileupload');
 
 
@@ -1035,30 +1037,37 @@ router.post('/dashboard/category1',function(req,res){
 
 //save new item
 router.post('/dashboard/item/new',function(req,res){
+    console.log(req.body);
     if(!req.session.admin){
        res.redirect('/admin/login');
    }
    else{
        var name=req.body.name;
        var price=req.body.price;
+       var cashback=req.body.cashback;
+       var delivery_charge=req.body.delevery_charge;
        var id=uniqid('item-'); 	
-       var size_id=req.body.size.split(",")[0];
-       var size_name=req.body.size.split(",")[1];
-       var color_id=req.body.color.split(",")[0];
-       var color_name=req.body.color.split(",")[1];
+       var size_id=req.body.size.split(",")[0] || "none";
+       var size_name=req.body.size.split(",")[1] || "none";
+       var color_id=req.body.color.split(",")[0] || "none";
+       var color_name=req.body.color.split(",")[1] || "none";
        var gender=req.body.gender;
-       var event_type_id=req.body.event_type.split(",")[0];
-       var event_type_name=req.body.event_type.split(",")[1];
+       var event_type_id=req.body.event_type.split(",")[0] || "none";
+       var event_type_name=req.body.event_type.split(",")[1] || "none";
        var item_type_id=req.body.item_type.split(",")[0];
        var item_type_name=req.body.item_type.split(",")[1];
        var added_by=req.session.admin.name;
        var added_on=new Date();
        var tags=req.body.tags;
-    
+       var desc = req.body.desc;
+        console.log(color_id,event_type_id,size_id);    
+       console.log('i am okk1');
     
        var str=tags.replace(/  +/g,' ');
        console.log(str);
-       pool.getConnection((err,conn)=>{
+      
+           console.log('i am okk3');
+           pool.getConnection((err,conn)=>{
             if(err){
                 console.log(err);
             }
@@ -1096,7 +1105,7 @@ router.post('/dashboard/item/new',function(req,res){
                              }
                              
                               function do_it(){
-                                 var query ="INSERT INTO items (id,name,price,size_id,size_name,color_id,color_name,gender,event_id,event_name,type_id,type_name,tags,images,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(color_id)+","+mysql.escape(color_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+","+mysql.escape(str)+","+mysql.escape(JSON.stringify(item_image_list))+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
+                                 var query ="INSERT INTO items (id,name,price,cashback,delivery_charge,size_id,size_name,color_id,color_name,gender,event_id,event_name,type_id,type_name,tags,item_desc,images,added_by,added_on) VALUES ("+mysql.escape(id)+","+mysql.escape(name)+","+mysql.escape(price)+","+mysql.escape(cashback)+","+mysql.escape(delivery_charge)+","+mysql.escape(size_id)+","+mysql.escape(size_name)+","+mysql.escape(color_id)+","+mysql.escape(color_name)+","+mysql.escape(gender)+","+mysql.escape(event_type_id)+","+mysql.escape(event_type_name)+","+mysql.escape(item_type_id)+","+mysql.escape(item_type_name)+","+mysql.escape(str)+","+mysql.escape(desc)+","+mysql.escape(JSON.stringify(item_image_list))+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
                                  console.log(query); 
                                  conn.query(query,function(err,result){
                                      if(err) throw err;
@@ -1142,6 +1151,9 @@ router.post('/dashboard/item/new',function(req,res){
 
 
         });
+   
+       
+       
        
       
     
@@ -1291,6 +1303,7 @@ router.post('/dashboard/promocode/new',(req,res)=>{
         var percentage =  req.body.percentage;
         var promocode = req.body.promocode;
         var upto = req.body.value_upto;
+        var limit = req.body.limit;
         var added_by=req.session.admin.name;
         var added_on=new Date();
 
@@ -1306,7 +1319,7 @@ router.post('/dashboard/promocode/new',(req,res)=>{
                     
                 }
                 if(result1.length==0){
-                    var q1="INSERT INTO promocode(id,type,promocode,percentage,upto,created_by,created_on) VALUES ("+mysql.escape(id)+","+mysql.escape(promo_type)+","+mysql.escape(promocode)+","+mysql.escape(percentage)+","+mysql.escape(upto)+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
+                    var q1="INSERT INTO promocode(id,type,promocode,percentage,upto,use_limit,created_by,created_on) VALUES ("+mysql.escape(id)+","+mysql.escape(promo_type)+","+mysql.escape(promocode)+","+mysql.escape(percentage)+","+mysql.escape(upto)+","+mysql.escape(limit)+","+mysql.escape(added_by)+","+mysql.escape(added_on)+")";
                     conn.query(q1,(err,result)=>{
                         if(err){
                             console.log(err);
@@ -1398,6 +1411,222 @@ router.get('/dashboard/promocode/delete', (req,res)=>{
 
 
 
+router.get('/dashboard/orders',(req,res)=>{
+    console.log('i am called');
+
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        var query_type=null;
+
+        if(req.query.type){
+            query_type=req.query.type;
+        }
+        else{
+            query_type=null;
+        }
+        console.log('jjjjjjjjjjj');
+        console.log(query_type);
+
+
+        pool.getConnection((err,conn)=>{
+            if(err){
+                console.log(err);
+            }
+            if(query_type=='today_placed'){
+                var date=new Date();
+                var m=String(date.getMonth());
+                if(m.length<2){
+                    m=parseInt(m);
+                    m=m+1;
+                    m=String(m);
+                    m='0'+m;
+                }
+                var d=String(date.getDate());
+                if(d.length<2){
+                    
+                    d='0'+d;
+                }
+                var y=date.getFullYear();
+                
+                var q1="SELECT * FROM order_table WHERE date LIKE "+mysql.escape(y+"-"+m+"-"+d+"%");
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+                });
+            }
+            else if(query_type=='not_delivered'){
+                var q1="SELECT * FROM order_table WHERE NOT order_status='delivered'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else if(query_type=='delivered'){
+                var q1="SELECT * FROM order_table WHERE order_status='delivered'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else if(query_type=='shipped'){
+                var q1="SELECT * FROM order_table WHERE order_status='shipped'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else if(query_type=='packed'){
+                var q1="SELECT * FROM order_table WHERE order_status='packed'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else if(query_type=='placed'){
+                var q1="SELECT * FROM order_table WHERE order_status='placed'";
+                console.log(q1);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    console.log(result1);
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+
+                });
+            }
+            else{
+                //no parameter or invaid paramiter
+                var q1="SELECT * FROM order_table";
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                   // res.send(result1);
+                   res.render('admin/adminorder',{layout:false,orders:result1});
+                });
+            }
+            conn.release();
+        });
+
+    }
+
+});
+
+
+
+
+
+
+
+router.get('/dashboard/temporders',(req,res)=>{
+
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        pool.getConnection((err,conn)=>{
+            if(err){
+                console.log(err);
+            }
+            var q1="SELECT * FROM temp_order";
+            conn.query(q1,(err,result1)=>{
+                if(err){
+                    console.log(err);
+                }
+                //res.send("hello");
+                res.render('admin/admin_temporder',{layout:false,orders:result1});
+            });
+            conn.release();
+        });
+
+    }
+
+});
+
+
+
+
+
+
+router.get('/dashboard/order/:id',(req,res)=>{
+    console.log(req.params.id);
+    var order_id=req.params.id;
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        pool.getConnection((err,conn)=>{
+            if(err){
+                console.log(err);
+            }
+            var q1="SELECT * FROM order_table WHERE order_id="+mysql.escape(order_id);
+            conn.query(q1,(err,result1)=>{
+                if(err){
+                    console.log(err)
+                }
+                var q2="SELECT * FROM userlist WHERE user_id="+mysql.escape(result1[0].user_id);
+                conn.query(q2,(err,result2)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    var items=JSON.parse(result1[0].items);
+                    console.log(items);
+                    var status=[];
+                    if(result1[0].order_status=="packed"){
+                        status=["packed","shipped","delivered"];
+                    }
+                    else if(result1[0].order_status=="shipped"){
+                        console.log('i am inn');
+                        status=["shipped","delivered"];
+                    }
+                    else if(result1[0].order_status=="delivered"){
+                        status=["delivered"];
+                    }
+                    else{
+                        status=["placed","packed","shipped","delivered"];
+                    }
+
+
+                    res.render('admin/order',{layout:false,order:result1[0],user:result2[0],items:items.items,status:status});
+                });
+                
+            });
+            conn.release();
+        });
+    }
+});
 
 
 
@@ -1407,7 +1636,66 @@ router.get('/dashboard/promocode/delete', (req,res)=>{
 
 
 
+router.post('/dashboard/order/:id',(req,res)=>{
+    var order_id=req.params.id;
+    if(!req.session.admin){
+        res.redirect('/admin/login');
+    }
+    else{
+        pool.getConnection((err,conn)=>{
+            if(err){
+                console.log(err);
+            }
 
+            var status=req.body.status;
+            var tracking_id=null;
+            if(req.body.tracking_id){
+                tracking_id=req.body.tracking_id;
+            }
+            if(status=="shipped"){
+                var q1="UPDATE order_table SET tracking_id="+mysql.escape(tracking_id)+",order_status="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    res.redirect('/admin/dashboard/order/'+order_id);
+                });
+            }
+            else if(status=="packed"){
+                var q1="UPDATE order_table SET order_status="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                    res.redirect('/admin/dashboard/order/'+order_id);
+                });
+            }
+            else if(status=="delivered"){
+                var q1="UPDATE order_table SET order_status="+mysql.escape(status)+" WHERE order_id="+mysql.escape(order_id);
+                conn.query(q1,(err,result1)=>{
+                    if(err){
+                        console.log(err);
+                    }
+
+                    cashback(order_id,function(s){
+                        if(s=='s'){
+                            res.redirect('/admin/dashboard/order/'+order_id);
+                        }
+                        else{
+                            res.send('Unable to give cashback, check order_id='+order_id);
+                        }
+                    });              
+                    
+                });
+            }
+            else{
+                res.redirect('/admin/dashboard/order/'+order_id);
+            }
+            
+            conn.release();
+        });
+    }
+});
 
 
 

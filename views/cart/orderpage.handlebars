@@ -3,27 +3,29 @@
     <div class="cartpage-wrapper">
         
 
-        <div class="row ">
+        <div class="row">
                 <div class="col s12 m12 l8 xl8 no-margine no-padding" id="cartitemsection">
                     {{#each cart}}
                     <div class="card left-section">
                         <div class="row {{this.id}}">
                             <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
-                                <img src="/{{this.image}}" class="responsive-img cart-item-image">
+                                <a href="/item/{{this.id}}"><img src="/{{this.image}}" class="responsive-img cart-item-image"></a>
                             </div>
                             <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
                                 <p class="desc-item">Description of Item</p>
                                 <p><span>Item Name : </span>{{this.item_name}}</p>
                                 <p><span>Item type : </span>{{this.item_type}}</p>
                                 <p><span>Size : </span>{{this.size}}</p>
-                                <ul >
+                                
+                                <!--<ul >
                                     <li style="display:inline-block;"><p><span>Color: &nbsp&nbsp&nbsp </span></li>
                                     <li style="display:inline-block;"><div  style="background-color:{{this.color}};width:25px;height:25px">  </div></li>
-                                </ul>
+                                </ul>-->
                                 
                                 <p>Quantity : &nbsp <a class="btn" id="quantity">{{this.no_of_items}}</a></p>                                    
                                 
-                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.total}}</span> </p>
+                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.no_of_items}} x {{this.price}}={{this.total}}</span> </p>
+                                <p class="price ">Total Delivery Charge: <span>{{this.no_of_items}} x {{this.delivery_charge}}={{this.total_delivery_charge}}</span> </p>
                                 
                             </div>
                         </div>
@@ -33,7 +35,7 @@
 
  
             <div class="col s12 m12 l4 xl4 no-margine no-padding" >
-                <div class="card right-section" id="addresssection">
+                <div class="right-section" id="addresssection">
                     <h6 class="address-section-hdr">Choose an Address</h6>
                     <hr>
                     <div class="row  addressDiv">
@@ -43,7 +45,15 @@
                                 <label>
                                     <input class="with-gap" name="address"  value="{{this.id}}" type="radio" checked />
                                     <span>
-                                        {{this.address}}
+                                        {{this.locality}}
+                                        <br>
+                                        {{this.city}}
+                                        <br>
+                                        {{this.state}}
+                                        <br>
+                                        {{this.pin}}
+                                        <br>
+                                        {{this.landmark}}
                                         <br>
                                        {{this.contact}}
                                     
@@ -55,13 +65,13 @@
 
                        
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
-                                <a class="waves-effect waves-light btn new-address" href="/profile"><i class="material-icons left" >add</i>New Address</a>
+                                <a class="waves-effect waves-light btn new-address round-button-corner" href="/profile/?&s=address"><i class="material-icons left" >add</i>New Address</a>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="card right-section" id="billingsection">
+                <div class="right-section" id="billingsection">
                     <h6 class="address-section-hdr">Billing</h6>
                     <hr>
                     <div class="row billing-wrapper">
@@ -69,13 +79,13 @@
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address left-align">
                             <p class="billing-large-text"><span>Price : </span>
                             <span id="total">{{this.TotalPrice}}</span></p> 
-                            <p class="billing-medium-text"><span>Delivery Charge : </span>40 
+                            <p class="billing-medium-text"><span>Delivery Charge : {{this.TotalDeliveryCharge}}</span> 
                             <span style="color:red">*</span>
                             <span style="font-size:12px">(If the delivery address is in Kalyani , then you will get delivery charge as cashback)</span>
                             </p> 
                             <hr>
                             <p class="billing-large-text" ><span >Total : <span>
-                                {{this.TotalPriceWithDeliveryCharge}}</span></span></p> 
+                                {{this.total_amount}}</span></span></p> 
                         </div>
                     
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
@@ -85,7 +95,7 @@
                                     <label for="promocode">Use Promocode</label>
                                 </div>
                                 <div class="col s4 m4 l4 xl4">
-                                    <button class="btn btn-hldr" onclick="apply()">Apply</button>
+                                    <button class="btn btn-hldr round-button-corner" onclick="apply()">Apply</button>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +105,7 @@
 
 
                         <div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align hide-on-med-and-down">
-                            <button onclick="orderPlace()" class="waves-effect waves-light btn new-address" ><i class="material-icons left">payment</i>Proceed to pay</button>
+                            <button onclick="orderPlace()" class="waves-effect waves-light btn new-address round-button-corner" ><i class="material-icons left">payment</i>Proceed to pay</button>
                         </div>
 
                 </div>
@@ -113,19 +123,20 @@
 
 
 
-        <div class="checkout-wrapper card z-depth-5 waves-effect waves-light hide-on-large-only valign-wrapper">
-            <div class="checkout-wrapper-btn gotoaddress">
-                <h6 class="btn-inner">SELECT ADDRESS &nbsp &nbsp<span class="btn-inner-icon">>></span></h6>
+        <div class="checkout-wrapper card z-depth-5 waves-effect waves-light hide-on-large-only">
+            <div class="checkout-wrapper-btn gotoaddress m">
+                <h6 class="btn-inner">SELECT ADDRESS</h6>
             </div>
+            
         </div>
 
    
 
-          
-        
     </div>
 <script src="js/cart/cart.js"></script>
 <script>
+
+
 function orderPlace()
 {
 
@@ -164,7 +175,6 @@ function apply()
    var x= $('#promocode').val();
 
    var y=$("#total").html();
-   
    //console.log(y);
    $.ajax({
        method:"post",
@@ -172,17 +182,13 @@ function apply()
        data:{name:x,totalPrice:y},
        success:function(res)
        {
-
-           
            var success=res["success"];
            console.log(success);
-           if(success=="true")
+           if(success=="discount")
            {
-               var net_amount=res['net_amount'];
-               var deliveryCharge=res['deliveryCharge'];
-
-                net_amount=+net_amount+deliveryCharge;
-
+                var net_amount=res['net_amount'];
+                var delivery_charge=res["delivery_charge"];
+                net_amount=+net_amount+delivery_charge;
                 $("#NetAmountDiv").css('display','block');
                 $("#NetAmount").html(net_amount);
 
@@ -192,10 +198,30 @@ function apply()
            {
                $('#promocode').val("");
                M.toast({html:"Promocode Invalid",classes:"rounded"});
+               $("#NetAmountDiv").css('display','none');
+           }
+           else if(success=="cashback")
+           {
+                M.toast({html:"You will receive "+res["cashback"]+" cashback on successful order",classes:"rounded"});
+                $("#NetAmountDiv").css('display','none');
+           }
+           else if(success=="wallet_point")
+           {
+                var net_amount=res['net_amount'];
+                var delivery_charge=res["delivery_charge"];
+                net_amount=+net_amount+delivery_charge;
+                $("#NetAmountDiv").css('display','block');
+                $("#NetAmount").html(net_amount);
+                M.toast({html:res["wallet_point"]+" point will be used from your wallet",classes:"rounded"});
+           }
+           else if(success=="limit")
+           {
+                $('#promocode').val("");
+                M.toast({html:"You have already used this promocode.You cant use it more,classes:"rounded"});
+                $("#NetAmountDiv").css('display','none');
            }
        },
        error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
-       
    });
    
 }

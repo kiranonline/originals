@@ -1,29 +1,29 @@
 <link type="text/css" rel="stylesheet" href="/css/cart/cart.css">
         <div class="container">
-            <div class="row ">
+            <div class="row cart-start">
                 {{#each cart}}
                 <div class="col s12 m12 l8 xl8 no-margine no-padding {{this.id}}" id="cartitemsection">
                     <div class="card left-section">
                         <div class="row ">
                             <div class="col s10 m10 offset-s1 offset-m1 l4 xl4">
-                                <img src="/{{this.image}}" class="responsive-img cart-item-image">
+                                <a href="/item/{{this.item_id}}"><img src="/{{this.image}}" class="responsive-img cart-item-image"></a>
                             </div>
                             <div class="col s10 m10 offset-s1 offset-m1 l8 xl8">
                                 <p class="desc-item">Description of Item</p>
                                 <p><span>Item Name : </span>{{this.item_name}}</p>
                                 <p><span>Item type : </span>{{this.item_type}}</p>
                                 <p><span>Size : </span>{{this.size}}</p>
-                                <ul >
+                               <!-- <ul >
                                     <li style="display:inline-block;"><p><span>Color: &nbsp&nbsp&nbsp </span></li>
                                     <li style="display:inline-block;"><div  style="background-color:{{this.color}};width:25px;height:25px">  </div></li>
-                                </ul>
+                                </ul>-->
                                 
                                 <p>Quantity : </p>                                    
-                                <span class="btn minus" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                <span class="btn minus  light-blue darken-2" id="minus" ><i class="fa fa-minus" aria-hidden="true"></i></span>
                                 <a class="btn {{this.id}} {{this.item_id}}" id="quantity">{{this.no_of_items}}</a>
-                                <span class="btn plus" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                <a class="btn remove waves-effect waves-light"  onclick="removeBtn('{{this.id}}')">Remove</a>
-                                <p class="price ">Total Price: <span class="price{{this.id}}">{{this.total}}</span> </p>
+                                <span class="btn plus  light-blue darken-2" id="plus" ><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                <a class="btn remove waves-effect waves-light round-button-corner"  onclick="removeBtn('{{this.id}}')">Remove</a>
+                                <p class="price ">Total Price: &#8377<span class="cart-item-price price{{this.id}}">{{this.total}}</span> </p>
                             </div>
                         </div>
                     </div>
@@ -31,13 +31,15 @@
                 </div>
                 {{/each}}
                 {{#btnEnable}}
-                    <button class="checkoutbtn center-align chkbtn"><p>CHECKOUT</p></button>
+                    <button value="1" class="checkoutbtn checkoutbtn1 center-align chkbtn round-button-corner"><p class="checkoutbtn1">CHECKOUT</p></button>
                 {{else}}
-                <div class="card row center-align">
+                <div   class="row center-align">
                     <h5>Your cart is empty</h5>
                 </div>
-                
                 {{/btnEnable}}
+                <div  id="empty_cart" style="display:none" class="row center-align">
+                    <h5>Your cart is empty</h5>
+                </div>
 
             </div>
             
@@ -51,77 +53,95 @@
 <script>
 
 
-
-
-
-$('.checkoutbtn').on('click',function(){
-    console.log("clicked");
-    window.location.replace('/order');
+$(document).ready(function(){
+    $('#empty_cart').hide();
 });
 
 
+$('.checkoutbtn1').on('click',function(){
+   // console.log("going to checkout page");
+    //window.location.replace('/order');
 
-
-
+    $('<form action="/order" method="POST"/>')
+        .appendTo($(document.body)) //it has to be added somewhere into the <body>
+        .submit();
+});
 
 
 $(document).on('scroll', function() {
 
 var x= $('#footer_').position().top;
 
-    if( $(this).scrollTop() >=( x-100) ){
-        $('.chkbtn').fadeOut();
+    var y=$('.checkoutbtn').val();
+    console.log(y);
+    if(y==1){
+        if( $(this).scrollTop() >=( x-100) ){
+        $('.checkoutbtn').fadeOut();
+        }
+        if( $(this).scrollTop() < (x-100) ){
+            $('.checkoutbtn').fadeIn();
+        }
+
     }
-    if( $(this).scrollTop() < (x-100) ){
-        $('.chkbtn').fadeIn();
-    }
+    
 });
 
     function removeBtn(id)
     {
-        console.log("clicked");
+        console.log("item removed");
         console.log(id);
         $.ajax({
             method:"post",
             url:"/cart/remove",
             data:{id:id},
-            success:function(){
-            $('.'+id).remove();
-            M.toast({html:"item removed successfully from cart",classes:"rounded"});
+            success:function(res){
+
+                if(res["done"]=="done")
+                {
+                    $('.'+id).remove();
+                    M.toast({html:"item removed successfully from cart",classes:"rounded"});
+                    if(res["length"]==0)
+                    {
+                        $('#empty_cart').css('display','block');
+                        //$('.checkoutbtn').hide();
+                        $('.checkoutbtn').css('display','none');
+                        $('.checkoutbtn').val(0);
+                        
+                    }
+                }
+                else{
+                    M.toast({html:"Something is wrong",classes:"rounded"});
+                }
+            
             },
             error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
         });
     } 
-
-    function increase(id,value)
-    {
-        console.log(value);
-        $('.cart-i9fbl4wsjkcyfu2g #minus i').innerhtml="haha";
-    }
 
 
     $('.plus').click(function () {
         console.log("plus");
 
         var x=$(this).prev();
-
         var y=x.attr("class").split(' ')[1];
         var z=x.attr("class").split(' ')[2];
         var price_span=".price"+y;
-
-
        $.ajax({
             method:"post",
             url:"/cart/change",
             data:{id:y,item_id:z,value:1},
             success:function(res){
-                x.html(+x.html()+1);
-
-                total_price_item=res["total_price"];
-                $(price_span).html(total_price_item);
-
-            
-            M.toast({html:"No of items increased successfully",classes:"rounded"});
+                if(res["done"]=="done")
+                {
+                        x.html(res["no_of_items"]);
+                        var total_price_item=res["total_price"];
+                        $(price_span).html(total_price_item);
+                        M.toast({html:"No of items increased successfully",classes:"rounded"});
+                }
+                else{
+                        M.toast({html:"Something is wrong",classes:"rounded"});
+                }
+                
             },
             error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
 
@@ -131,30 +151,26 @@ var x= $('#footer_').position().top;
         console.log("minus");
 
         var x=$(this).next();
-
-        
-
         var y=x.attr("class").split(' ')[1];
         var z=x.attr("class").split(' ')[2];
-
-
         var price_span=".price"+y;
-        //console.log(price_span);
-        //console.log(z);
+       
         if (x.html() > 1){
                 $.ajax({
                     method:"post",
                     url:"/cart/change",
                     data:{id:y,item_id:z,value:-1},
                     success:function(res){
-
-                        x.html(+x.html() - 1);
-
-                        total_price_item=res["total_price"];
-                        $(price_span).html(total_price_item);
-
-
-                    M.toast({html:"No of items decreased successfully",classes:"rounded"});
+                        if(res["done"]=="done")
+                        {
+                            x.html(res["no_of_items"]);
+                            total_price_item=res["total_price"];
+                            $(price_span).html(total_price_item);
+                            M.toast({html:"No of items decreased successfully",classes:"rounded"});
+                        }
+                        else{
+                            M.toast({html:"Something is wrong",classes:"rounded"});      
+                        }
                     },
                     error:function(){M.toast({html:"Technical Issue",classes:"rounded"});}
 

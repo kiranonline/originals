@@ -1,0 +1,41 @@
+<link type="text/css" rel="stylesheet" href="/css/wallet/wallet.css">
+
+
+<div class="container">
+    <div class="wallet-wrapper card">
+       <div class="wallet-inner">
+           <div class="wallet-amount">
+               <div class="amount valign-wrapper">
+                   <span>&#8377 {{balance}}</span>
+               </div>
+           </div>
+           <div class="wallet-body">
+               <div class="wallet-header">
+                   Your Wallet Points
+               </div>
+               <div class="transactions">
+                   <div class="your_trn">
+                       <a class="btn round-button-corner">Your Transactions</a>
+                   </div>
+                   
+                   <ul class="collection">
+
+			            {{#each transaction_list}} 
+                             
+                              <li class="collection-item avatar">
+                                  <img src="images/yuna.jpg" alt="" class="circle">
+                                  <span class="title"> &#8377 {{this.amount}} </span>
+                                  <p>TRANSACTION ID : {{this.transaction_id}} <br>
+                                     ORDER ID : {{this.order_id}} <br>
+                                     DATE : {{this.timestamp}}
+                                  </p>
+                              </li>
+
+			            {{/each}}      
+ 
+	            </ul>
+               </div>
+           </div>
+       </div>
+    </div>
+</div>

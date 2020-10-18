@@ -7,11 +7,11 @@
 
 		<div class ="col s12 m12 x3 xl3 hide-on-med-and-down ">
 
-			<ul class="collection card my-account-left-slot">
+			<ul class="collection  my-account-left-slot">
 
 				<li class="collection-item avatar valign-wrapper">
-					<img src="logos/user.png" alt="user" class="circle my-account-icon">
-					<span class="title">Kiran Kumar Das</span>
+					<img src="/logos/user.png" alt="user" class="circle my-account-icon">
+					<span class="title">{{user.name}}</span>
 				</li>
 
 				<li href="#" class="collection-item valign-wrapper openpersonaldetails">
@@ -47,7 +47,7 @@
 
 
 				<li class="collection-item avatar valign-wrapper" onclick="GoTo('/logout')">
-						<img src="logos/log_out.png" alt="user" class="circle my-account-icon">
+						<img src="/logos/log_out.png" alt="user" class="circle my-account-icon">
 						<span class="title">Log Out</span>
 				</li>
 
@@ -70,14 +70,14 @@
 				
 				<hr>
 				
-				<form method="POST" class="my-account-form">
+				<form method="POST" class="my-account-form" action="/profile/update">
 					
 					<div class="row">
 							
 						<div class="input-field col s12 m12 l12 xl12">
 							<i class="material-icons prefix">account_circle</i>
-							<input disabled value="{{user.name}}" id="user_first_name" type="text" class="validate editable">
-							<label for="user_first_name" class="purple-text text-darken-4">Name </label>
+							<input disabled value="{{user.name}}" id="user_first_name" name="name" type="text" class="validate editable">
+							<label for="user_first_name" class="label-color">Name </label>
 						</div>
 
 					</div>
@@ -87,18 +87,18 @@
 							
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">event</i>
-							<input disabled value="{{user.age}}" id="dob" type="number" class="validate editable">
-							<label for="dob" class="purple-text text-darken-4">Age</label>
+							<input disabled value="{{user.age}}" id="dob" name="age" type="number" class="validate editable">
+							<label for="dob" class="label-color">Age</label>
 						</div>
 	
 						<div class="input-field col s12 m6 l6 xl6">
-							<i class=" prefix"><img src="logos/gender.png" width="28" height="28"></i>
-							<select id="gender" disabled class="validate editable">
-								<option disabled selected>{{user.gender}}</option>
+							<i class=" prefix"><img src="/logos/gender.png" width="28" height="28"></i>
+							<select id="gender" disabled class="validate editable" name="gender">
+								<option selected value="{{user.gender}}">{{user.gender}}</option>
 								<option value="male">male</option>
 								<option value="female">female</option>
 							</select>
-							<label class="purple-text text-darken-4">Gender</label>
+							<label class="label-color">Gender</label>
 						</div>	
 	
 					</div>
@@ -107,14 +107,14 @@
 							
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">phone</i>
-							<input disabled value="{{user.phone}}" id="user_phone_number" type="number" class="validate">
-							<label for="user_phone_number" class="purple-text text-darken-4">Phone Number </label>
+							<input disabled value="{{user.phone}}" id="user_phone_number" name="phone" type="number" class="validate" >
+							<label for="user_phone_number" class="label-color">Phone Number </label>
 						</div>
 	
 						<div class="input-field col s12 m6 l6 xl6">
 							<i class="material-icons prefix">email</i>
-							<input disabled value="{{user.email}}" id="user_email_id" type="email" class="validate">
-							<label for="user_email_id" class="purple-text text-darken-4">Email Id</label>
+							<input disabled value="{{user.email}}" id="user_email_id" name="email" type="email" class="validate">
+							<label for="user_email_id" class="label-color">Email Id</label>
 						</div>
 	
 					</div>
@@ -126,7 +126,7 @@
 					</div>
 
 					<div class="row right-align">
-						<button class="waves-effect waves-light btn submit-button modal-trigger" href="#passwordchange">Change Password
+						<button class="waves-effect waves-light btn submit-button modal-trigger changepassword" href="#passwordchange">Change Password
 							<i class="material-icons right">edit</i>
 						</button>
 					</div>
@@ -142,7 +142,7 @@
 
 			<div class="card edit-details-section" id="addresssection">
 				
-				<div class="center-align my-account-heading">Addresses <button class="waves-effect waves-light btn modal-trigger" id="add_new_address" href="#modal1"><i class="material-icons left" >control_point</i>New Address</button></div>
+				<div class="center-align my-account-heading">Addresses <button class="waves-effect waves-light btn submit-button modal-trigger" id="add_new_address" href="#modal1"><i class="material-icons left" >control_point</i>New Address</button></div>
 				
 				
 				<!-- ------------------------------- Modal Structure -------------------------------- -->
@@ -159,22 +159,41 @@
 												<label for="contact">Contact Number</label>
 											</div>
 
+											
+																				
+											<div class="input-field col s12 m6">
+												<input  value="" id="locality" name="locality" type="text" class="validate">
+												<label for="locality">Locality/House No./Street No.</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="input-field col s12 m6">
+												<input name="city" id="city" type="text" class="validate">
+												<label for="city">City/Town</label>
+											</div>
+
+											<div class="input-field col s12 m6">
+												<input name="state" id="state" type="text" class="validate">
+												<label for="state">State</label>
+											</div>
+										</div>
+										<div class="row">
 											<div class="input-field col s12 m6">
 												<input name="landmark" id="landmark" type="text" class="validate">
-												<label for="landmark">Landmark</label>
+												<label for="landmark">Landmark (optional)</label>
 											</div>
-																				
-											<div class="input-field col s12 m12">
-												<input  value="" id="add" name="add" type="text" class="validate">
-												<label for="add">Address</label>
+
+											<div class="input-field col s12 m6">
+												<input  value="" id="pin" name="pin" type="number" class="validate">
+												<label for="pin">Pin Code</label>
 											</div>
 											
 										</div>
 
 						</div>
 						<div class="modal-footer">
-							<button style="cursor:pointer" class="save waves-effect waves-light green white-text btn-flat" type="submit" value="save" name="save">Save</button>
-							<a href="#!" class="modal-close waves-effect waves-light red white-text btn-flat">Close</a>
+							<button style="cursor:pointer" class="save waves-effect waves-light green darken-1 white-text btn-flat round-button-corner" type="submit" value="save" name="save">Save</button>
+							<a href="#!" class="modal-close waves-effect waves-light deep-orange accent-4 white-text btn-flat round-button-corner">Close</a>
 						</div>
 						</form>
 					</div>
@@ -189,16 +208,20 @@
 							
 									<span>
 										<div class="row">
-											<div class="input-field col s12">
-												<p style="text-align: center;">Contact No :<span>{{this.contact}}</span></p>
-												<p style="text-align: center;">{{this.address}}</p>
+											<div class="cnttt">
+												<p>Contact No : <span>{{this.contact}}</span></p>
+												<p>Landmark : {{this.landmark}}</p>
+												<p>Locality : {{this.locality}}</p>
+												<p>City : {{this.city}}</p>
+												<p>State : {{this.state}}</p>
+												<p>Pin : {{this.pin}}</p>
 											</div>
 										</div>
 									</span>
 							
 							<div class="address-contal-btns">
 								<!--<a class="waves-effect waves-light btn" id="address_1_edit"><i class="material-icons left" >edit</i>Edit</a>-->
-								<a class="waves-effect waves-light btn" id="address_1_delete" onclick="deleteAddress('{{this.id}}')"><i class="material-icons left">delete</i>Delete</a>
+								<a class="waves-effect waves-light btn round-button-corner deep-orange accent-4" id="address_1_delete" onclick="deleteAddress('{{this.id}}')"><i class="material-icons left">delete</i>Delete</a>
 							</div>								
 							
 						</div>
@@ -281,87 +304,36 @@
 				<hr>
 					
 				<div class="my-account-form">
-							
+					
+				    {{#each orders}}		
 					<div class="card order-container">
 						<div class="order-header">
-							<p><span>ORDER ID : </span> ord-123456<br>
-							<span>STATUS : </span> Shipped</p>
+							<p><span>ORDER ID : </span> {{this.order_id}}<br>
+							<span>STATUS : </span> {{this.order_status}}</p>
+							{{#if this.tracking_id}}
+								<span>TRACKING ID : </span> {{this.tracking_id}}</p>
+							{{/if}}
 						</div>
 						<hr>
 						<div class="order-body row">
-							
-							<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
-								<img src="logos/watch.jpg" class="responsive-img ordered-img">	
-							</div>
-
-							<div class="col s12 m12 l8 xl8 left-align order-details">
+							<div class="col s12 m10 l10 xl10 left-align order-details">
 								<p>
-									<span>ITEM NAME : </span>Watch<br>
-									<span>ITEM ID : </span>ITM-123445<br>
-									<span>PRICE : </span> 200<br>
-									<span>ORDERED ON :</span>17/04/2018<br>
+									<span>PRICE : </span> {{this.net_amount_with_delivery_charge}}<br>
+									<span>ORDERED ON :</span>{{this.date}}<br>
 									<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
 								
 								
 								</p>
 							</div>
 
+							<div class="col s12 m2 l2 xl2 ordered-img-holder center-align">
+								<a href="/invoice/{{this.order_id}}.pdf" download><img src="/logos/download.png" class="responsive-img ordered-img" style="cursor:pointer"></a><br>
+								INVOICE	
+							</div>
+
 						</div>
 					</div>
-
-					<div class="card order-container">
-							<div class="order-header">
-								<p><span>ORDER ID : </span> ord-123456<br>
-								<span>STATUS : </span> Shipped</p>
-							</div>
-							<hr>
-							<div class="order-body row">
-								
-								<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
-									<img src="icons/watch.jpg" class="responsive-img ordered-img">	
-								</div>
-	
-								<div class="col s12 m12 l8 xl8 left-align order-details">
-									<p>
-										<span>ITEM NAME : </span>Watch<br>
-										<span>ITEM ID : </span>ITM-123445<br>
-										<span>PRICE : </span> 200<br>
-										<span>ORDERED ON :</span>17/04/2018<br>
-										<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
-									
-									
-									</p>
-								</div>
-	
-							</div>
-						</div>
-
-						<div class="card order-container">
-								<div class="order-header">
-									<p><span>ORDER ID : </span> ord-123456<br>
-									<span>STATUS : </span> Shipped</p>
-								</div>
-								<hr>
-								<div class="order-body row">
-									
-									<div class="col s12 m12 l4 xl4 ordered-img-holder center-align">
-										<img src="icons/watch.jpg" class="responsive-img ordered-img">	
-									</div>
-		
-									<div class="col s12 m12 l8 xl8 left-align order-details">
-										<p>
-											<span>ITEM NAME : </span>Watch<br>
-											<span>ITEM ID : </span>ITM-123445<br>
-											<span>PRICE : </span> 200<br>
-											<span>ORDERED ON :</span>17/04/2018<br>
-											<span>EXPECTED TO BE DELEVERED :</span>20/04/2018
-										
-										
-										</p>
-									</div>
-		
-								</div>
-							</div>
+				    {{/each}}
 
 				</div>
 			</div>
@@ -382,7 +354,7 @@
   	<!-- Modal Structure -->
   	<div id="passwordchange" class="modal modal-fixed-footer">
 			<div class="modal-content">
-				<h5>CHANGE PASSWORD or Details</h5>
+				<h5>CHANGE PASSWORD</h5>
 				<hr>
 				<p class="red-text">This Service is Temporarily Unavailable</p>
 			</div>
@@ -445,18 +417,114 @@
 <script src="/js/user/profile.js"></script>
 <script>
 
-
-	function GoTo(url){
-        window.location.replace(url);
-    }
-
-
 	//delete request
     function deleteAddress(id){
         window.location.replace('/address/delete/'+id);
     }
+		function GoTo(url){
+        window.location.replace(url);
+    }
 
 
+
+$(document).ready(function(){
+
+	
+
+	
+
+	$('#activate-edit').on('click',function(){
+        $('.editable').removeAttr("disabled");
+        $('.submit-button').removeClass('hide');
+        $('#gender').formSelect();
+		if($('#user_phone_number').val()==''){
+			$('#user_phone_number').removeAttr('disabled');
+		}
+		if($('#user_email_id').val()==''){
+			$('#user_email_id').removeAttr('disabled');
+		}
+	
+        //M.Modal.getInstance($('#passwordchange')).open();
+    });
+
+
+
+
+
+
+	{{#if msg}}
+		var msg='{{msg}}';
+		console.log(msg);
+		M.toast({html:msg ,classes:'rounded padding'});
+	{{/if}}
+
+
+
+
+
+
+
+    var pages = ["#personaldetails","#addresssection","#referalsection","#myordersection"]
+    var page_controllers =[".openpersonaldetails",".openaddresssection",".openreferalsection",".openmyordersection"];
+    //initiating page changing function
+    function alterpage(activebutton,activepage){
+        var array_len = pages.length;
+       for(var i=0;i<array_len;i++){
+           $(pages[i]).css('display','none');
+           $(page_controllers[i]).removeClass('active-menu');
+       }
+       $(activepage).css('display','block');
+       $(activebutton).addClass('active-menu');
+    }
+    
+
+    $(".openpersonaldetails").on("click",function(){
+        alterpage(".openpersonaldetails",'#personaldetails');
+    });
+    $(".openaddresssection").on("click",function(){
+        alterpage(".openaddresssection","#addresssection");
+    });
+    $(".openreferalsection").on("click",function(){
+        alterpage(".openreferalsection","#referalsection");
+    });
+    $(".openmyordersection").on("click",function(){
+        alterpage(".openmyordersection","#myordersection");
+    });
+
+
+
+
+	
+    console.log('{{section}}');
+	if('{{section}}'=='address'){
+		alterpage(".openaddresssection","#addresssection");
+	}
+	else if('{{section}}'=='order'){
+		alterpage(".openmyordersection","#myordersection");
+	}
+	else{
+		alterpage(".openpersonaldetails",'#personaldetails');
+	}
+
+
+
+
+
+	if('{{userType}}'=='google' || '{{userType}}'=='facebook'){
+		$('.changepassword').css('display','none');
+	}
+	else{
+		$('.changepassword').css('display','block');	
+	}
+	
+
+
+
+});
+	
+
+
+	
 
 
 </script>

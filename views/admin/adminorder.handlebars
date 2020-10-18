@@ -266,7 +266,14 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fa fa-table"></i>
-           View all Orders
+           Orders
+           <a href="/admin/dashboard/orders/" class="btn btn-success">View All</a>
+          <a href="/admin/dashboard/orders/?type=today_placed" class="btn btn-success">Today Placed</a>
+           <a href="/admin/dashboard/orders/?type=placed" class="btn btn-success" >placed</a> 
+           <a href="/admin/dashboard/orders/?type=packed" class="btn btn-success" >packed</a> 
+          <a href="/admin/dashboard/orders/?type=shipped" class="btn btn-success" >Shipped</a>
+          <a href="/admin/dashboard/orders/?type=delivered" class="btn btn-success" >Delevered</a>
+           <a href="/admin/dashboard/orders/?type=not_delivered" class="btn btn-success" >Not Delevered</a>
         </div>
         <div class="card-body">
 
@@ -276,31 +283,82 @@
                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                      <thead>
                         <tr>
-                            <th>CATEGORY ID</th>
-                            <th>CATEGORY NAME</th>
-                            <th>CREATED BY</th>
-                            <th>CREATED ON</th>
-                            <th>NUMBER</th>
+                            <th>ORDER ID</th>
+                            <th>USER ID</th>
+                            <th>ITEMS</th>
+                            <th>TOTAL PRICE</th>
+                            <th>PROMOCODE</th>
+                            <th>DISCOUNT</th>
+                            <th>CASHBACK</th>
+                            <th>USED WALLET POINT</th>
+                            <th>CASHBACK FOR ITEMS</th>
+	                          <th>NET AMOUNT</th>
+                            <th>DELIVERY CHARGE</th>
+                            <th>NET AMOUNT WITH DELIVERY CHARGE</th>
+                            <th>ADDRESS</th>
+                            <th>ADDRESS CONTACT</th>
+                            <th>ORDER DATE</th>
+                            <th>ORDER STATUS</th>
+                            <th>PAYMENT STATUS</th>
+                            <th>PAYMENT ID</th>
+                            <th>AMOUNT PAID IN GETWAY</th>
+                            <th>INSTAMOJO FEES</th>
+                            <th>OPERATIONS</th>	
                         </tr>
                     </thead>
                     <tfoot>
-                        <tr>
-                            <th>CATEGORY ID</th>
-                            <th>CATEGORY NAME</th>
-                            <th>CREATED BY</th>
-                            <th>CREATED ON</th>
-                            <th>NUMBER</th>
+                         <tr>
+                            <th>ORDER ID</th>
+                            <th>USER ID</th>
+                            <th>ITEMS</th>
+                            <th>TOTAL PRICE</th>
+                            <th>PROMOCODE</th>
+                            <th>DISCOUNT</th>
+                            <th>CASHBACK</th>
+                            <th>USED WALLET POINT</th>
+                            <th>CASHBACK FOR ITEMS</th>
+                            <th>NET AMOUNT</th>
+                            <th>DELIVERY CHARGE</th>
+                            <th>NET AMOUNT WITH DELIVERY CHARGE</th>
+                            <th>ADDRESS</th>
+                            <th>ADDRESS CONTACT</th>
+                            <th>ORDER DATE</th>
+                            <th>ORDER STATUS</th>
+                            <th>PAYMENT STATUS</th>
+                            <th>PAYMENT ID</th>
+                            <th>AMOUNT PAID IN GETWAY</th>
+                            <th>INSTAMOJO FEES</th> 
+			                      <th>OPERATIONS</th>                       
                         </tr>
+
                     </tfoot>
                     <tbody>
-                        {{#each tabledata}}
-                            <tr>
-                                <td>{{this.id}}</td>
-                                <td>{{this.name}}</td>
-                                <td>{{this.created_by}}</td>
-                                <td>{{this.created_on}}</td> 
-                                <td></td>                              
-                            </tr>
+                        {{#each orders}}
+                          <tr>
+                            <td>{{this.order_id}}</td>
+                            <td>{{this.user_id}}</td>
+                            <td>{{this.items}}</td>
+                            <td>{{this.total_price}}</td>
+                            <td>{{this.promocode}}</td>
+                            <td>{{this.discount}}</td>
+                            <td>{{this.cashback}}</td>
+                            <td>{{this.used_wallet_point}}</td>
+                            <td>{{this.cashback_for_items}}</td>
+                            <td>{{this.net_amount}}</td>
+                            <td>{{this.delivery_charge}}</td>
+                            <td>{{this.net_amount_with_delivery_charge}}</td>
+                            <td>{{this.address}}</td>
+                            <td>{{this.address_contact}}</td>
+                            <td>{{this.date}}</td>
+                            <td>{{this.order_status}}</td>
+                            <td>{{this.payment_status}}</td>
+			    <td>{{this.payment_id}}</td>
+			    <td>{{this.amount_paid}}</td>
+			    <td>{{this.instamojo_fees}}</td>
+                       
+			                      <th class="text-center"><button class="btn btn-info" onclick="change_status('{{this.order_id}}')"><i class="fa fa-pencil" aria-hidden="true"></i></button></th>
+                        </tr>
+
                         {{/each}}
                     </tbody>
                  </table>
@@ -373,6 +431,10 @@
             $('#dataTable').DataTable();
         });
 
+
+        function change_status(id){
+          window.location.replace("/admin/dashboard/order/"+id);
+        }
         
     </script>
   </div>

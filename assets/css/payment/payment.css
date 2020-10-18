@@ -10,6 +10,12 @@
     border-radius:50%;
     
 }
+.red-checked{
+    color:red;
+    font-size: 90px;
+    border-radius:50%;
+    
+}
 .thank-you{
     font-family: 'Comfortaa', cursive !important;
     font-size: 40px;

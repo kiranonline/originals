@@ -1,18 +1,17 @@
 $( document ).ready(function() {
-    
-    //search auto complete
-    $('input.autocomplete').autocomplete({
-        data: {
-          "Apple": 'Apple',
-          "Microsoft": 'Microsoft',
-          "Google": 'https://placehold.it/250x250',
-          "Yo":"yo"
-        },
-      });
-
-
-
-
+    var slideIndex = 0;
+    showSlides();
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+           slides[i].style.display = "none";  
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        slides[slideIndex-1].style.display = "block";  
+        setTimeout(showSlides, 4000); // Change image every 2 seconds
+    }
 
       //side nav bar 
       function toggleClassMenu() {
@@ -60,7 +59,7 @@ $( document ).ready(function() {
 
             //fetch image size and set the button to the middle of carousel
             $('.carousel-image').on('load',function(){
-                var slider_height = $('.carousel-image').first().height()/2;
+                var slider_height = $('.carousel-image').first().height()/2 + $('.mySlides').first().height();
                 $('.slider-button-container').css({"top":slider_height});
             });
 
@@ -68,51 +67,6 @@ $( document ).ready(function() {
         }
         
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-      //media query
-      if($(window).width() <= 992){
-          
-
-        //enable nav scroll on mobile
-        $('#nav-bar-controller').removeClass('navbar-fixed');
-
-
-        
-
-        
-
-
-
-
-
-        //scroll check and lock search bar
-        $(window).scroll(function(){
-            if( $(window).scrollTop()>53 ){
-                $('#nav-part-1').addClass('hidden');
-                $('#nav-bar-controller').addClass('navbar-fixed');
-            }
-            else{
-                $('#nav-part-1').removeClass('hidden');
-                $('#nav-bar-controller').removeClass('navbar-fixed');
-            }
-
-        });
-
-
-      }
-
 
   });
      

@@ -13,22 +13,47 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const fileUpload = require('express-fileupload');
 const fs =  require('fs');
-const flash = require('express-flash');
+var flash = require('connect-flash');
 var uniqid = require('uniqid');
 var passport = require('passport');
 var LocalStrategy  = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 // var csurf = require('csurf');
 var helmet = require('helmet');
 const csp = require('express-csp-header');
+
+
+
+
+
+
+//----------------------webpush notification-------------------
+const webpush = require('web-push');
+const publicVapidKey = 'BNSNBlyOuhqiVdXpNeykqQeuW1teX5UMtvKKmpFf3Xp5XmCKwX4o23Se9u5I2DGZImTmkxuMm-G2BLNZYdvmgoo';
+const privateVapidKey = '0PA3A5mym1C_fW62zah-8MbQ1Nm-K_CsBC5tQAypZe0';
+webpush.setVapidDetails('mailto:test@test.com',publicVapidKey,privateVapidKey);
+
+
+
+
+
+
+
+
 
 // Brute Force protection
 var ExpressBrute = require('express-brute');
 var SequelizeStore = require('express-brute-sequelize');
 var Sequelize = require('sequelize');
 
-var sequelize = new Sequelize('theoriginals_db1', 'admin_theoriginals', 'TheOriginals@13579', {                                                          host: "localhost",                                                    
+/*var sequelize = new Sequelize('theoriginals_db1', 'admin_theoriginals', 'TheOriginals@13579', {                                                          host: "localhost",                                                    
     dialect: "mysql",                                                          
 logging: false                                                         
+  }); 
+*/ var sequelize = new Sequelize('localhost', 'root', '', {                                                          host: "localhost",                                                    
+    dialect: "mysql",                                                          
+    logging: false                                                         
   });  
 
 
@@ -52,6 +77,8 @@ var address = require('./routes/website/address.js');
 var promocode=require('./routes/website/promocode.js');
 var order=require('./routes/website/order.js');
 var payment=require('./routes/website/payment.js');
+var cashback=require('./routes/admin/cashback.js');
+var error=require('./routes/website/errorpage.js');
 
 
 
@@ -74,7 +101,7 @@ app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
 
 // Feature Policy
 app.use(function(req, res, next) {
-    res.header("Feature-Policy","geolocation '*'; midi 'none'; notifications '*'; push '*'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment '*'")
+    res.header("Feature-Policy","geolocation '*'; midi 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment '*'")
     next();
 });
 
@@ -94,13 +121,18 @@ app.use(function(req, res, next) {
 
 
 //setting up server
-const port=process.env.port || 8300;
+const port=process.env.port || 8100;
 
 
 //view engine
 app.set('views',path.join(__dirname,'views'));
 app.engine('handlebars',exphbs({extname:'handlebars', defaultLayout:'../main.handlebars'}));
 app.set('view engine','handlebars');
+
+
+
+
+
 
 //for morgan
 app.use(morgan('dev'));
@@ -113,7 +145,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 //cookie parsor
 app.use(expressValidator());
-app.use(cookieParser('secret'));
+
 
 /*
 var csrf = csurf({ cookie: true });
@@ -124,11 +156,11 @@ app.use(csrf);
 app.use(fileUpload());
 
 
-
+app.use(cookieParser('secret_The_Originals'));
 //session
 app.use(session({
     key: 'session_originals',
-    secret: 'keyboard cat',
+    secret: 'secret_The_Originals',
     resave: false,
     saveUninitialized: false,
     unset: 'destroy',
@@ -137,10 +169,17 @@ app.use(session({
         httpOnly: true
     },
     store:new MySQLStore({
+    
+	host:'localhost',
+        user:'root',
+        password:'',
+        database:'originals',
+  /*
         host:'localhost',
         user:'admin_theoriginals',
         password:'TheOriginals@13579',
         database:'theoriginals_db1',
+    */    
         clearExpired: true,
         checkExpirationInterval: 6000,
         expiration: 3600000,
@@ -160,6 +199,9 @@ app.use(session({
 
 
   }));
+ 
+  app.use(flash()); 
+
 
 
   //
@@ -168,7 +210,6 @@ app.use(session({
 
 
     //flash message
-    app.use(flash());
 
 
 
@@ -194,6 +235,8 @@ app.use('/address',address);
 app.use('/promocode',promocode);
 app.use('/',order);
 app.use('/',payment);
+app.use('/admin',cashback);
+app.use('/',error);
 
 app.get('/logout', function(req, res) {
     req.logout(); 

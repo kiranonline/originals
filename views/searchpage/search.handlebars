@@ -1,10 +1,10 @@
 <link type="text/css" rel="stylesheet" href="/css/search/search.css"  media="screen,projection"/>
-
+<link rel="stylesheet" type="text/css" href="/css/defaultpage/main.css">
 
 
 <div class="container-wrapper">
 			<div class="row inner-container-wrapper">
-				<div class="col m3 hide-on-med-and-down card column-wrapper" >
+				<!--<div class="col m3 hide-on-med-and-down card column-wrapper" >
 					<div class="chip">
 						<i class="material-icons">search</i>
 						T-shirts
@@ -34,52 +34,69 @@
 					
 						   
 						   
-				</div>
-				<div class="col s12 m12 x9 xl9 card items-container-holder">
-					<nav>
+				</div>-->
+				<div class="col s12 m12 x12 xl12 card items-container-holder">
+					<!--<nav>
 						<div class="nav-wrapper">
 							<div class="col s12">
 					    		<a href="#!" class="breadcrumb">Items</a>
 								<a href="#!" class="breadcrumb">T-shirts</a>
 							</div>
 					    </div>		
-					</nav>
+					</nav>-->
 					<div class="item-holder">
 						<div class="row">
                             {{#each items}}
-                                <div class="col s12 m3 main-item-grid">
-                                    <div class="card">
-                                        <div class="row">
-                                            <div class="card-image-wrapper col s12 m10 offset-m1">
-                                                <img src="/{{this.image}}" class="responsive-img item-image-primary">
-                                            </div>
-                                            <div clas="col m1">
-                                            </div> 
-                                        </div>
-                                        <div class="item-star center-align">
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                            <span class="fa fa-star"></span>
-                                        </div>
-                                        <div class="item-name center-align">
-                                            {{this.name}}
-                                        </div>  
-                                
-                                        <div class="card-action center-align extra-section-in-item">
-                                            <div class="row">
-                                                <div class="col s6 center-align">
-                                                    <p class="price-tag"><span class="green-text">&nbsp &#8377 {{this.price}}</span></p>
-                                                </div>
-                                                <div class="col s6">
-                                                    <button class="waves-effect waves-light add-to-cart-button white-text tooltipped"  data-tooltip="Add to cart" onclick="getItem('{{this.id}}')"><i class="fa fa-shopping-basket" aria-hidden="true"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+							<div class="col s12 m3 main-item-grid">
+									<a href="/item/{{this.id}}"><div class="main-item-grid ">
+										<div class="cardd white ppp">
+											<div class="row">
+												<div class="card-image-wrapper col s12 m10 offset-m1">
+													<img src="/{{this.image}}" class="responsive-img item-image-primary" id="item_image_zoom">
+												</div>
+												<div clas="col m1">
+												</div>
+											</div>
+											<!--<div class="item-star center-align">
+												<span class="fa fa-star checked"></span>
+												<span class="fa fa-star checked"></span>
+												<span class="fa fa-star checked"></span>
+												<span class="fa fa-star checked "></span>
+												<span class="fa fa-star checked"></span>
+											</div> -->
+											<div class="item-name center-align">
+												{{this.name}}
+											</div>
 
+											<div class="card-action extra-section-in-item">
+												<div class="row">
+													<div class="col s8 m8">
+														<p class="price-tag">
+															<del class="red-text">&#8377 {{this.price}}</del>
+															<span class=" green-text">&nbsp &#8377 {{this.effective_price}}</span>
+														</p>
+														<div class="cashback-section-default">
+															{{#if this.cashback}}
+																<i class="material-icons cashback-tag">local_offer</i><i class="offer">Flat &#8377 {{this.cashback}} cashback</i>
+															{{/if}}
+														</div>
+														
+													</div>
+													<div class="col s4 m4">
+														<button class="waves-effect waves-light add-to-cart-button white-text tooltipped" data-tooltip="Add to cart" onclick="getItem('{{this.id}}')">
+															<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+														</button>
+													</div>
+
+																			
+												
+												</div>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+								
                             {{/each}}
                         </div>
 					</div>

@@ -6,12 +6,7 @@ $(document).ready(function(){
 
 
     //enable-edit
-    $('#activate-edit').on('click',function(){
-        /*$('.editable').removeAttr("disabled");
-        $('.submit-button').removeClass('hide');
-        $('#gender').formSelect();*/
-        M.Modal.getInstance($('#passwordchange')).open();
-    });
+    
 
 
     //password chnaging modal
@@ -20,37 +15,7 @@ $(document).ready(function(){
 
 
 
-    var pages = ["#personaldetails","#addresssection","#referalsection","#myordersection"]
-    var page_controllers =[".openpersonaldetails",".openaddresssection",".openreferalsection",".openmyordersection"];
-    //initiating page changing function
-    function alterpage(activebutton,activepage){
-        var array_len = pages.length;
-       for(var i=0;i<array_len;i++){
-           $(pages[i]).css('display','none');
-           $(page_controllers[i]).removeClass('active-menu');
-       }
-       $(activepage).css('display','block');
-       $(activebutton).addClass('active-menu');
-    }
     
-
-    $(".openpersonaldetails").on("click",function(){
-        alterpage(".openpersonaldetails",'#personaldetails');
-    });
-    $(".openaddresssection").on("click",function(){
-        alterpage(".openaddresssection","#addresssection");
-    });
-    $(".openreferalsection").on("click",function(){
-        alterpage(".openreferalsection","#referalsection");
-    });
-    $(".openmyordersection").on("click",function(){
-        alterpage(".openmyordersection","#myordersection");
-    });
-
-
-
-    //initial setup
-    alterpage(".openpersonaldetails","#personaldetails");
 
 
  
@@ -97,11 +62,19 @@ $(document).ready(function(){
                 minlength:10,
                 maxlength:10
             },
-            landmark: {
-                required: true,
+            locality:{
+                required:true
             },
-            add:{
+            city:{
+                required:true
+            },
+            state:{
+                required:true
+            },
+            pin:{
                 required: true,
+                minlength:6,
+                maxlength:6
             }
         },
         //For custom messages
@@ -111,11 +84,17 @@ $(document).ready(function(){
                 minlength: "Enter a valid phone number !",
                 maxlength: "Enter a valid phone number !"
             },
-           landmark:{
-                required: "Please enter your password !"
+            locality:{
+                required:true
             },
-            add:{
-                required:'Please enter the address !'
+            city:{
+                required:true
+            },
+            state:{
+                required:"Please enter the state"
+            },
+            pin:{
+                required:"Invalid pin code"
             }
         },
         errorElement : 'div',

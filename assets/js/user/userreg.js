@@ -1,14 +1,19 @@
 $(function(){
 
 
-    $("#loginform").validate({
+    //media query
+    if($(window).width()<768){
+       $('.main-holder').removeClass('z-depth-1'); 
+    }
+
+    
+
+$("#loginform").validate({
 
     rules: {
-        phone:{
+        email:{
             required: true,
-            number:true,
-            minlength:10,
-            maxlength:10
+            email:true
         },
         password: {
             required: true,
@@ -17,10 +22,9 @@ $(function(){
     },
     //For custom messages
     messages: {
-        phone:{
-            required: "Please enter your phone number",
-            minlength: "Enter a valid phone number",
-            maxlength: "Enter a valid phone number"
+        email:{
+            required: "Please enter a valid email",
+            email:"Please enter a valid email"
         },
         password:{
             required: "Please enter your password",
@@ -113,7 +117,104 @@ $(function(){
 
 
 
+
+
+
+
+//gorget password
+
+$("#password_reset").validate({
+
+    rules: {
+        password1:{
+            required: true,
+            minlength: 6
+        },
+        password2: {
+            required: true,
+            minlength: 6,
+            equalTo:'#password1'
+        }
+    },
+    //For custom messages
+    messages: {
+        password1:{
+            required: "Please enter your password",
+            minlength: "Enter a valid password"
+        },
+        password2:{
+            required: "Please enter your password",
+            minlength: "Enter a valid password",
+            equalTo:"Password and confirm password are not same"
+        }
+    },
+    errorElement : 'div',
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    }
+ });
+
+
+
+
+ $("#send_reset_email").validate({
+
+    rules: {
+        email:{
+            required: true,
+            email:true,
+        }
+    },
+    //For custom messages
+    messages: {
+        email:{
+            required: "Please enter your email",
+           email:"Please enter a valid email"
+        }
+    },
+    errorElement : 'div',
+    errorPlacement: function(error, element) {
+      var placement = $(element).data('error');
+      if (placement) {
+        $(placement).append(error)
+      } else {
+        error.insertAfter(element);
+      }
+    }
+ });
+
+
+
+
+
+
+
+ 
+
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -129,6 +230,15 @@ $(document).ready(function(){
 
 
     $('select').formSelect();
+
+
+
+    
+
+
+
+
+
 
 });
        

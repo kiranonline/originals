@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var pool = require(path.join(__dirname, '/../../dependencies/connection.js'));
 const fs = require('fs');
 var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin.js'));
+var SendPushNotification = require(path.join(__dirname, '/../../dependencies/pushnotification.js'));
 
 
 
@@ -12,6 +13,7 @@ var isLoggedIn = require(path.join(__dirname, '/../../dependencies/checkloggedin
 
 //fetching homepage
 router.get('/', function (req, res) {
+    console.log('I am');
     var q1 = "SELECT * FROM carousel_main";
     var carouseldata, card_, tee_, choco_;
     pool.getConnection((err,conn)=>{
@@ -36,6 +38,8 @@ router.get('/', function (req, res) {
                         id:result[i].id,
                         name:result[i].name,
                         price:result[i].price,
+                        cashback:result[i].cashback,
+                        effective_price:result[i].price-result[i].cashback,
                         image:JSON.parse(result[i].images)['1']
                     });
                 }
@@ -50,6 +54,8 @@ router.get('/', function (req, res) {
                             id:result[i].id,
                             name:result[i].name,
                             price:result[i].price,
+                            cashback:result[i].cashback,
+                            effective_price:result[i].price-result[i].cashback,
                             image:JSON.parse(result[i].images)['1']
                         });
                     }
@@ -65,6 +71,8 @@ router.get('/', function (req, res) {
                                 id:result[i].id,
                                 name:result[i].name,
                                 price:result[i].price,
+                                cashback:result[i].cashback,
+                                effective_price:result[i].price-result[i].cashback,
                                 image:JSON.parse(result[i].images)['1']
                             });
                         }
@@ -107,7 +115,15 @@ router.get("/item/:itemId", function (req, res) {
                     console.log(result);
                     var size_id = result[0].size_id;
                     var color_id=result[0].color_id;
+                    if(color_id=='none'){
+                        color_id=null;
+                    }
+                    if(size_id=='none'){
+                        size_id=null;
+                    }
+                    console.log(color_id,size_id);
                     var q2 = "SELECT * FROM item_category_level1 WHERE id=" + mysql.escape(size_id);
+                    console.log(q2);
                     conn.query(q2, function (err, result1) {
                         if (err) {
                             console.log(err);
@@ -123,7 +139,13 @@ router.get("/item/:itemId", function (req, res) {
                                     } else {
                                         if (result1.length == 1) {
                                             var sizes = JSON.parse(result1[0].size);
-                                            var colors = JSON.parse(result2[0].color) || null;
+                                            if(sizes["cat_item_1"]=="null"){
+                                                sizes=null;
+                                            }
+                                            var colors = JSON.parse(result2[0].color);
+                                            if(colors["cat_item_1"]=="null"){
+                                                colors=null;
+                                            }
                                             console.log(colors);
                                             var gender = {};
                                             var image = JSON.parse(result[0].images);
@@ -140,7 +162,10 @@ router.get("/item/:itemId", function (req, res) {
                                             var item = {
                                                 id: result[0].id,
                                                 name: result[0].name,
+                                                desc: result[0].item_desc,
                                                 price: result[0].price,
+                                                cashback:result[0].cashback,
+                                                effective_price:result[0].price-result[0].cashback,
                                                 sizes: sizes,
                                                 colors:colors,
                                                 gender: gender,
@@ -204,6 +229,8 @@ router.get('/products/all',(req,res)=>{
                     id:result[i].id,
                     name:result[i].name,
                     price:result[i].price,
+                    cashback:result[i].cashback,
+                    effective_price:result[i].price-result[i].cashback,
                     image:JSON.parse(result[i].images)['1']
                 });
             }
@@ -222,6 +249,31 @@ router.get('/products/all',(req,res)=>{
 
 
 
+
+
+
+
+
+
+
+
+
+/*
+router.post('/notification',(req,res)=>{
+    console.log('i am called');
+    const subscription = req.body;
+    
+    res.status(201).json({});
+
+    const payload = JSON.stringify({title:'Welcome to The Originals',body:'How my we help you?'});
+
+    SendPushNotification(subscription,payload,()=>{
+        console.log('push sent');
+    });
+
+
+});
+*/
 
 
 

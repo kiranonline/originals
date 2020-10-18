@@ -4,30 +4,36 @@
 
 
 
-
-<div class="container">
-    <div class = "row">
+<div class="container cc">
+    <div class = "row cc">
 			
 			
-            <div class="col s12 m6 l5 xl5 margin-extended">
+            <div class="col s12 m6 l6 xl5 margin-extended">
 
-                <div class="card holder_1">
+                <div class=" holder_1">
 
-                    <div class="active-image-holder">
+                    <!--<div class="active-image-holder">
                         <img id="active-image" class="responsive-img active-image-cntrl">
-                    </div>
-                    
-                    <div class="item-images-slide" id="item-images-slide">
+                        <divclass="img-zoom-result"></div>
+                    </div>-->
 
+                    <div class="img-zoom-container">
+                        <img id="myimage" src="/logos/logo_bottom.png">
+                        <div id="myresult" class="card img-zoom-result"></div>
+                    </div>
+
+                    <div id="item-images-slide">
                         {{#each item.image}}
-                            <img src="/{{this}}" class="item-image" onclick="showImage('#active-image','/{{this}}')">          
+                            <img src="/{{this}}" class="item-image" onclick="showImage('#myimage','/{{this}}')">          
                         {{/each}}
-
                     </div>
+                        
+
+                    
 
                     <i id="left" class="fa fa-chevron-circle-left slide-btnn left" aria-hidden="true"></i>
                     <i id="right"  class="fa fa-chevron-circle-right slide-btnn right" aria-hidden="true"></i>	
-                </div>
+               </div>
 
 
                 	
@@ -35,18 +41,21 @@
 			
 
 
-			<div class="col s12 m6 l7 xl7 margin-extended ">
+			<div class="col s12 m6 l6 xl7 margin-extended ">
 
-                <div class="card">
+                <div class="">
                     <div class="Item-name padding_1">
                         <p>{{item.name}}</p>
                     </div>
                     <hr>
                     <div class="Item-desc padding_2">
                         <img src="/logos/logo_bottom.png" class="exclusive">
-                        <p>Originals Exclusive Collection</p>
+                        <p>Originals Exclusives</p>
                     </div>
-                    <div class="stars-container padding_2">
+                    <div class="desc">
+                        {{item.desc}}
+                    </div>
+                    <!--<div class="stars-container padding_2">
                         <div class="item-star">
                             <span class="fa fa-star checked"></span>
                             <span class="fa fa-star checked"></span>
@@ -54,10 +63,12 @@
                             <span class="fa fa-star checked "></span>
                             <span class="fa fa-star checked"></span>
                         </div> 
-                    </div>
+                    </div>-->
                     <div class="type-container padding_2">
                         <p class="type">Type : <span>{{item.type}}</span></p>
-                        <p class="type">Price : <span>{{item.price}}</span></p>
+                        <p class="type">Price : &#8377<span style="font-weight:lighter;font-size:35px">{{item.price}}</span></p>
+                        <p class="taxes">Inclusive of all taxes</p>
+                        <i class="material-icons cashback-tag">local_offer</i><i class="offer">Flat &#8377 {{item.cashback}} cashback</i>
                     </div>
                     
 
@@ -71,14 +82,46 @@
                                 {{/each}}
                             </p>
 
-                            <p>
+                            <!--<p>
                                 {{#each item.colors}}
                                     <label>
                                         <input class="with-gap" name="color" style="color:white;" type="radio" value="{{this}}" checked/>
                                         <span style="background-color:{{this}}"></span>
                                     </label>
                                 {{/each}}
-                            </p>
+                            </p>-->
+
+                            <!--<div class="col s10 m10 l10 xl10 offset-s1 offset-m1 offset-l1 offset-xl1 new-address center-align">
+                                <div class="row">
+                                    <div class="input-field col s8 m8 l8 xl8">
+                                        <input id="promocode" type="text" class="validate">
+                                        <label for="promocode">Use Promocode</label>
+                                    </div>
+                                    <div class="col s4 m4 l4 xl4">
+                                        <button class="btn btn-hldr round-button-corner" onclick="apply()">Apply</button>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <button class="btn btn-hldr round-button-corner  light-blue darken-2 modal-trigger" data-target="modal111">Size Chart</button>
+                            <div class="row">
+                                <div class="col s12 m8 l6 xl6">
+                                    <div class="row">
+                                        <p class="pin-checker-heading">Check if the item is available in your area</p>
+                                        <div class="input-field col s8 m8 l8">
+                                            <i class="material-icons prefix">location_on</i>
+                                            <input id="pin" type="text" placeholder="Check pincode" class="validate">
+                                           
+                                        </div>
+                                        
+                                        <div class="s4 m4 l4">
+                                            <button class="btn btn-hldr round-button-corner  light-blue darken-2 pin" onclick="check_pin()">Check</button>
+                                        </div>
+                                    </div>
+                                    <p class="pin-valid-status" id="pin-valid-status"></p>
+                                </div>
+                            </div>
+                            
+                        
 
                             <button class="button waves-effect waves-light add-to-cart" onclick="AddTocart('{{item.id}}')">Add to Cart</button>
                     </div>
@@ -93,6 +136,25 @@
 
 
 
+<!--<div class="image-zoomable-container" id="myresult">
+</div>-->
+
+
+
+
+
+<div id="modal111" class="modal sz_content">
+    <div class="modal-content ">
+        <img src="/logos/size.jpg" class="size_chart">
+    </div>
+    <div class="modal-footer">
+        <button class="modal-close waves-effect waves-green btn-flat">Close</button>
+    </div>
+</div>
+
+
+
+
 
 
 
@@ -101,10 +163,18 @@
 <script>
     function showImage(target,address){
         $(target).attr("src",address);
-        console.log('I');
+        $('.img-zoom-lens').remove();
+        imageZoom("myimage", "myresult");
+        
     }
+    
 
-    $('.item-image:first-child').click();
+    if($(window).width()<600){
+        $('.img-zoom-lens').remove();   
+    }
+    
+
+    
 
     function AddTocart(id){
         $.ajax({
@@ -112,15 +182,12 @@
             url: "/cart/add",
             data: {item_id:id,size:$("input[name='size']:checked").val(),color:$("input[name='color']:checked").val()},
             success: function(result){
-                if(result=='hello'){
+                if(result=='done'){
                     M.toast({html: 'Item Added to cart', classes: 'rounded'});
                 }
-            
                 else{
-                    //console.log(result.redirect);
                     window.location.replace('/login');
                 }
-                
             },
             error: function(error){
                 M.toast({html: 'internal Server Error', classes: 'rounded'});
@@ -128,6 +195,107 @@
             }
         });
     }
+    
 
+
+    function check_pin(){
+        console.log('i am called');
+        var pin=$('#pin').val();
+        $.ajax({
+            method:"POST",
+            url:"/address/pin/check",
+            data:{pin:pin},
+            success:function(res){
+                $('#pin-valid-status').html('Order will be delivered');
+                $('#pin-valid-status').addClass('green-text');
+                $('#pin-valid-status').addClass('green-text');
+            },
+            error:function(err){
+                $('#pin-valid-status').html("We don't deliver here");
+                $('#pin-valid-status').removeClass('green-text');
+                $('#pin-valid-status').addClass('red-text');                 
+            }
+        });
+    }
+
+
+
+
+
+        function imageZoom(imgID, resultID) {
+            var img, lens, result, cx, cy;
+            img = document.getElementById(imgID);
+            result = document.getElementById(resultID);
+            /*create lens:*/
+            lens = document.createElement("DIV");
+            lens.setAttribute("class", "img-zoom-lens");
+            /*insert lens:*/
+            img.parentElement.insertBefore(lens, img);
+            /*calculate the ratio between result DIV and lens:*/
+            cx = result.offsetWidth / lens.offsetWidth;
+            cy = result.offsetHeight / lens.offsetHeight;
+            /*set background properties for the result DIV:*/
+            result.style.backgroundImage = "url('" + img.src + "')";
+            result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+            /*execute a function when someone moves the cursor over the image, or the lens:*/
+            lens.addEventListener("mousemove", moveLens);
+            img.addEventListener("mousemove", moveLens);
+            /*and also for touch screens:*/
+            lens.addEventListener("touchmove", moveLens);
+            img.addEventListener("touchmove", moveLens);
+            function moveLens(e) {
+                var pos, x, y;
+                /*prevent any other actions that may occur when moving over the image:*/
+                e.preventDefault();
+                /*get the cursor's x and y positions:*/
+                pos = getCursorPos(e);
+                /*calculate the position of the lens:*/
+                x = pos.x - (lens.offsetWidth / 2);
+                y = pos.y - (lens.offsetHeight / 2);
+                /*prevent the lens from being positioned outside the image:*/
+                if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+                if (x < 0) {x = 0;}
+                if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+                if (y < 0) {y = 0;}
+                /*set the position of the lens:*/
+                lens.style.left = x+ "px";
+                lens.style.top = y + "px";
+                /*display what the lens "sees":*/
+                result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+            }
+            function getCursorPos(e) {
+                var a, x = 0, y = 0;
+                e = e || window.event;
+                /*get the x and y positions of the image:*/
+                a = img.getBoundingClientRect();
+                /*calculate the cursor's x and y coordinates, relative to the image:*/
+                x = e.pageX - a.left;
+                y = e.pageY - a.top;
+                /*consider any page scrolling:*/
+                x = x - window.pageXOffset;
+                y = y - window.pageYOffset;
+                return {x : x, y : y};
+            }
+        }
+
+
+        $(document).ready(function(){
+            $('.modal').modal();
+            $('.item-image:first-child').click();
+            imageZoom("myimage", "myresult");
+            $('.img-zoom-lens').remove();
+           $('#myimage').mouseenter(function(){
+                    $('#myresult').css("visibility","visible");
+                    $('#myimage').css("cursor", "zoom-in");
+
+            });
+            $('#myimage').mouseleave(function(){
+                $('#myresult').css("visibility","hidden");
+                $('.img-zoom-lens').remove();
+            });
+
+        });
+
+        
 
 </script>
